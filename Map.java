@@ -23,15 +23,6 @@ public class Map {
 
     public void getImages(){
         try {
-            // mapAssets = ImageIO.read(new File(String.format("dungeon.png")));
-            // int tileSize = 32;
-
-            // tiles[0] = new Tiles();
-            // tiles[0].image = mapAssets.getSubimage(0 * tileSize, 0 * tileSize, tileSize, tileSize);
-
-            // tiles[1] = new Tiles();
-            // tiles[1].image = mapAssets.getSubimage(12 * tileSize, 0 * tileSize, tileSize, tileSize);
-
             tiles[0] = new Tiles();
             tiles[0].image = ImageIO.read(getClass().getResourceAsStream("topwall_TLedge.png"));
             
@@ -66,52 +57,52 @@ public class Map {
             tiles[10].image = ImageIO.read(getClass().getResourceAsStream("topwall_Iedge3.png"));
 
             tiles[11] = new Tiles();
-            tiles[11].image = ImageIO.read(getClass().getResourceAsStream("floor1.png"));
+            tiles[11].image = ImageIO.read(getClass().getResourceAsStream("wall.png"));
 
             tiles[12] = new Tiles();
-            tiles[12].image = ImageIO.read(getClass().getResourceAsStream("floor2.png"));
+            tiles[12].image = ImageIO.read(getClass().getResourceAsStream("wall_torch.png"));
 
             tiles[13] = new Tiles();
-            tiles[13].image = ImageIO.read(getClass().getResourceAsStream("floor3.png"));
+            tiles[13].image = ImageIO.read(getClass().getResourceAsStream("wall_Ltorch.png"));
 
             tiles[14] = new Tiles();
-            tiles[14].image = ImageIO.read(getClass().getResourceAsStream("wall.png"));
+            tiles[14].image = ImageIO.read(getClass().getResourceAsStream("wall_Rtorch.png"));
 
             tiles[15] = new Tiles();
-            tiles[15].image = ImageIO.read(getClass().getResourceAsStream("wall_torch.png"));
+            tiles[15].image = ImageIO.read(getClass().getResourceAsStream("wall_window.png"));
 
             tiles[16] = new Tiles();
-            tiles[16].image = ImageIO.read(getClass().getResourceAsStream("wall_Ltorch.png"));
+            tiles[16].image = ImageIO.read(getClass().getResourceAsStream("topwall_Iedge4.png"));
 
             tiles[17] = new Tiles();
-            tiles[17].image = ImageIO.read(getClass().getResourceAsStream("wall_Rtorch.png"));
+            tiles[17].image = ImageIO.read(getClass().getResourceAsStream("topwall_Uedge.png"));
 
             tiles[18] = new Tiles();
-            tiles[18].image = ImageIO.read(getClass().getResourceAsStream("wall_window.png"));
+            tiles[18].image = ImageIO.read(getClass().getResourceAsStream("topwall_Dedge.png"));
 
             tiles[19] = new Tiles();
-            tiles[19].image = ImageIO.read(getClass().getResourceAsStream("topwall_Iedge4.png"));
+            tiles[19].image = ImageIO.read(getClass().getResourceAsStream("topwall_MV2.png"));
 
             tiles[20] = new Tiles();
-            tiles[20].image = ImageIO.read(getClass().getResourceAsStream("topwall_Uedge.png"));
+            tiles[20].image = ImageIO.read(getClass().getResourceAsStream("door_left.png"));
 
             tiles[21] = new Tiles();
-            tiles[21].image = ImageIO.read(getClass().getResourceAsStream("topwall_Dedge.png"));
+            tiles[21].image = ImageIO.read(getClass().getResourceAsStream("door_right.png"));
 
             tiles[22] = new Tiles();
-            tiles[22].image = ImageIO.read(getClass().getResourceAsStream("topwall_MV2.png"));
+            tiles[22].image = ImageIO.read(getClass().getResourceAsStream("door_tl.png"));
 
             tiles[23] = new Tiles();
-            tiles[23].image = ImageIO.read(getClass().getResourceAsStream("door_tl.png"));
+            tiles[23].image = ImageIO.read(getClass().getResourceAsStream("door_tr.png"));
 
             tiles[24] = new Tiles();
-            tiles[24].image = ImageIO.read(getClass().getResourceAsStream("door_tr.png"));
+            tiles[24].image = ImageIO.read(getClass().getResourceAsStream("floor1.png"));
 
             tiles[25] = new Tiles();
-            tiles[25].image = ImageIO.read(getClass().getResourceAsStream("door_left.png"));
+            tiles[25].image = ImageIO.read(getClass().getResourceAsStream("floor2.png"));
 
             tiles[26] = new Tiles();
-            tiles[26].image = ImageIO.read(getClass().getResourceAsStream("door_right.png"));
+            tiles[26].image = ImageIO.read(getClass().getResourceAsStream("floor3.png"));
 
 
         } catch (IOException e){

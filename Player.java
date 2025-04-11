@@ -34,17 +34,23 @@ public class Player extends Entities {
     }
 
     public boolean checkCollision(int x, int y, int[][] mapNum){
+        boolean collision = false;
         int leftEdge = x / 32;
         int rightEdge = (x + 26) / 32;
         int topEdge = y / 32;
         int bottomEdge = (y + 26) / 32;
-        
-        boolean collision = (mapNum[leftEdge][topEdge] == 30 || 
-                             mapNum[rightEdge][topEdge] == 30 ||
-                             mapNum[leftEdge][bottomEdge] == 30 || 
-                             mapNum[rightEdge][bottomEdge] == 30); 
 
-
+        for (int i = 0; i < 22; i++){
+            if (collision = mapNum[leftEdge][topEdge] == i || 
+                            mapNum[rightEdge][topEdge] == i ||
+                            mapNum[leftEdge][bottomEdge] == i || 
+                            mapNum[rightEdge][bottomEdge] == i ) {
+                collision = true;
+                break;
+            }   
+        }
+    
+    
         // System.out.println("x: " + x);
         // System.out.println("y: " + y);
         // System.out.println("Left Edge: " + leftEdge);
