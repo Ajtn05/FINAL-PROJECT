@@ -92,6 +92,7 @@ public class Player extends Entities {
             y = potentialY;
         }
     
+        //walking animation?
         spriteCounter++;
         if (spriteCounter > 10){
             spriteNum = (spriteNum == 1) ? 2 : 1;
