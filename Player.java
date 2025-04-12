@@ -9,9 +9,9 @@ public class Player extends Entities {
                    left = false, 
                    right = false;
 
-    public Player (){
-        x = 1;
-        y = 64;
+    public Player (int x, int y){
+        this.x = x; //1
+        this.y = y; //64
         speed = 4;
         direction = "down";
         getImage();
@@ -48,6 +48,11 @@ public class Player extends Entities {
                 collision = true;
                 break;
             }   
+        }
+
+        if (x == 0 || x == 1024 || y == 0 || y == 768) {
+            //basically level complete state i think
+            collision = true;
         }
     
     
@@ -94,6 +99,11 @@ public class Player extends Entities {
         }
     }
 
+    public void setPosition(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+
     public void moveUp(boolean up){
         this.up = up;
     }
@@ -110,12 +120,41 @@ public class Player extends Entities {
         this.right = right;
     }
 
+    public boolean getLeft() {
+        return left;
+    }
+
+    public boolean getRight() {
+        return right;
+    }
+
+    public boolean getUp() {
+        return up;
+    }
+
+    public boolean getDown() {
+        return down;
+    }
+
     public int getX(){
         return x;
     }
 
     public int getY(){
         return y;
+    }
+
+    public String getDirection() {
+        return direction;
+    }
+    public void setX(double x) {
+        System.out.println("player x: " + x);
+        this.x = (int) x;
+    }
+
+    public void setY(double y) {
+        System.out.println("player y: " + y);
+        this.y = (int) y;
     }
 
     public void draw(Graphics2D g){

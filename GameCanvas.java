@@ -8,16 +8,16 @@ public class GameCanvas extends JComponent {
     public final int canvasWidth = 1024;
     public final int canvasHeight = 768;
 
-    public Player player;
+    public Player player1, player2;
     private Map map;
 
     public GameCanvas(){
-        player = new Player();
-        map = new Map();
+        map = new Map("tileMap2.txt");
     }
 
-    public void setPlayer(Player player){
-        this.player = player;
+    public void setPlayer(Player player1, Player player2){
+        this.player1 = player1;
+        this.player2 = player2;
     }
 
     @Override
@@ -25,7 +25,8 @@ public class GameCanvas extends JComponent {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
         map.draw(g2d);
-        player.draw(g2d);
+        player1.draw(g2d);
+        player2.draw(g2d);
     }
 
 }

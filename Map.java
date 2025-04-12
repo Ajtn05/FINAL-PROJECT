@@ -1,21 +1,24 @@
-import javax.imageio.ImageIO;
-import java.io.*;
 import java.awt.*;
 import java.awt.image.*;
+import java.io.*;
+import javax.imageio.ImageIO;
 
 public class Map {
     private Tiles[] tiles;
+    private String level;
     int tileNum[][];
     int columns = 32;
     int rows = 24;
     //private BufferedImage mapAssets;
 
-    public Map(){
+    public Map(String level){
         tiles = new Tiles[27];
         tileNum = new int[columns][rows];
+        this.level = level;
         getImages();
         loadMap();
     }
+
 
     public int[][] getTileNum(){
         return tileNum;
@@ -112,7 +115,7 @@ public class Map {
 
     public void loadMap(){
         try {
-            InputStream is = getClass().getResourceAsStream("tileMap2.txt");
+            InputStream is = getClass().getResourceAsStream(level);
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
             int col = 0;
             int row = 0;
