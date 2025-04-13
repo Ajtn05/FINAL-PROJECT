@@ -51,13 +51,13 @@ public class Map {
             tiles[7].image = ImageIO.read(getClass().getResourceAsStream("topwall_Redge.png"));
 
             tiles[8] = new Tiles();
-            tiles[8].image = ImageIO.read(getClass().getResourceAsStream("topwall_Iedge.png"));
+            tiles[8].image = ImageIO.read(getClass().getResourceAsStream("topwall_LI.png"));
 
             tiles[9] = new Tiles();
-            tiles[9].image = ImageIO.read(getClass().getResourceAsStream("topwall_Iedge2.png"));
+            tiles[9].image = ImageIO.read(getClass().getResourceAsStream("topwall_DI.png"));
 
             tiles[10] = new Tiles();
-            tiles[10].image = ImageIO.read(getClass().getResourceAsStream("topwall_Iedge3.png"));
+            tiles[10].image = ImageIO.read(getClass().getResourceAsStream("topwall_UI.png"));
 
             tiles[11] = new Tiles();
             tiles[11].image = ImageIO.read(getClass().getResourceAsStream("wall.png"));
@@ -75,7 +75,7 @@ public class Map {
             tiles[15].image = ImageIO.read(getClass().getResourceAsStream("wall_window.png"));
 
             tiles[16] = new Tiles();
-            tiles[16].image = ImageIO.read(getClass().getResourceAsStream("topwall_Iedge4.png"));
+            tiles[16].image = ImageIO.read(getClass().getResourceAsStream("topwall_RI.png"));
 
             tiles[17] = new Tiles();
             tiles[17].image = ImageIO.read(getClass().getResourceAsStream("topwall_Uedge.png"));
@@ -84,7 +84,7 @@ public class Map {
             tiles[18].image = ImageIO.read(getClass().getResourceAsStream("topwall_Dedge.png"));
 
             tiles[19] = new Tiles();
-            tiles[19].image = ImageIO.read(getClass().getResourceAsStream("topwall_MV2.png"));
+            tiles[19].image = ImageIO.read(getClass().getResourceAsStream("topwall_MH2.png"));
 
             tiles[20] = new Tiles();
             tiles[20].image = ImageIO.read(getClass().getResourceAsStream("door_left.png"));
@@ -115,7 +115,7 @@ public class Map {
 
     public void loadMap(){
         try {
-            InputStream is = getClass().getResourceAsStream(level);
+            InputStream is = getClass().getResourceAsStream("tileMap2.txt");
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
             int col = 0;
             int row = 0;
@@ -152,8 +152,6 @@ public class Map {
 
             if (num >= 0 && num < tiles.length){
                 g.drawImage(tiles[num].image, x, y, 32,32, null);
-            } else {
-                System.out.println("Invalid tile number: " + num + " at (" + col + ", " + row + ")");
             }
             col++;
             x += 32;
@@ -166,7 +164,6 @@ public class Map {
             }
         }
     }
-
 
     class Tiles {
         public BufferedImage image;
