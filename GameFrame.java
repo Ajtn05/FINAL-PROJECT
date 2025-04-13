@@ -17,9 +17,9 @@ public class GameFrame extends JComponent {
     private WriteToServer wtsRunnable;
 
 
-    public GameFrame(){
+    public GameFrame(GameCanvas gc){
         frame = new JFrame();
-        gc = new GameCanvas();
+        this.gc = gc;
         map = new Map("tileMap2.txt");
     }
 
@@ -191,9 +191,9 @@ public class GameFrame extends JComponent {
         }
     }
 
-    public void connectToServer() {
+    public void connectToServer(String host, int port) {
         try {
-            socket = new Socket("localhost", 45371);
+            socket = new Socket(host, port);
             DataInputStream in = new DataInputStream(socket.getInputStream());
             DataOutputStream out = new DataOutputStream(socket.getOutputStream());
             playerID = in.readInt();

@@ -25,7 +25,7 @@ public class GameServer {
         numPlayers = 0;
         maxPlayers = 2;
         try {
-            this.serverSocket = new ServerSocket(45371);
+            this.serverSocket = new ServerSocket(9999);
         } catch (IOException ex) {
             System.out.println("game server container");
         }
