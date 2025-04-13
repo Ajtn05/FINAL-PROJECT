@@ -9,10 +9,17 @@ public class GameCanvas extends JComponent {
     public final int canvasHeight = 768;
 
     public Player player1, player2;
+    public String tileMap;
     private Map map;
 
-    public GameCanvas(){
-        map = new Map("tileMap2.txt");
+    public GameCanvas(int level){
+        switch(level){
+            case 1:
+                tileMap = "tileMap2.txt";
+            case 2:
+                tileMap = "tileMap1.txt";
+        }
+        map = new Map(tileMap);
     }
 
     public void setPlayer(Player player1, Player player2){

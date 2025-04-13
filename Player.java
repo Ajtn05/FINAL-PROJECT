@@ -64,7 +64,6 @@ public class Player extends Entities {
         return collision;
     }    
 
-    
     public void update(Map map){
         int potentialX = x;
         int potentialY = y;
@@ -158,6 +157,7 @@ public class Player extends Entities {
     public String getDirection() {
         return direction;
     }
+    
     public void setX(double x) {
         System.out.println("player x: " + x);
         this.x = (int) x;
