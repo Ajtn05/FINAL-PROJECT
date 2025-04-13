@@ -20,7 +20,7 @@ public class GameFrame extends JComponent {
     public GameFrame(){
         frame = new JFrame();
         gc = new GameCanvas();
-        map = new Map("tileMap2.txt");
+        map = new Map("tileMap1.txt");
     }
 
     public void createPlayers() {
