@@ -12,7 +12,7 @@ public class LevelManager {
 
     public void start() {
         gc = new GameCanvas(level);
-        GameFrame gf = new GameFrame(gc);
+        GameFrame gf = new GameFrame(gc, this);
         gf.connectToServer(host, port);
         gf.setUpGUI();
         gf.startGameTimer();

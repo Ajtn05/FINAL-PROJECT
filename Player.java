@@ -8,13 +8,15 @@ public class Player extends Entities {
                    down = false, 
                    left = false, 
                    right = false;
+    private GameFrame gf;
 
-    public Player (int x, int y, String character){
+    public Player (int x, int y, GameFrame gf, String character){
         this.x = x; //1
         this.y = y; //64
         this.character = character;
         speed = 4;
         direction = "down";
+        this.gf = gf; // like ur my gf
         getImage();
     }
 
@@ -81,7 +83,12 @@ public class Player extends Entities {
 
         if (x == 0 || x == 1024 || y == 0 || y == 768) {
             //basically level complete state i think
-            collision = true;
+            // if (x == 1024) {
+            //     gf.levelComplete();
+            // }
+            // else {
+                collision = true;
+            // }
         }
     
         // System.out.println("x: " + x);
