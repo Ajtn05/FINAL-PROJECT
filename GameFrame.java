@@ -28,12 +28,12 @@ public class GameFrame extends JComponent {
     public void createPlayers() {
     
         if (playerID == 1) {
-            player1 = new Player(1, 64, this);
-            player2 = new Player(4, 64, this);
+            player1 = new Player(1, 62, this, "boy");
+            player2 = new Player(4, 62, this, "girl");
         }
         else {
-            player1 = new Player(4, 64, this);
-            player2 = new Player(1, 64, this);
+            player1 = new Player(4, 62, this, "girl");
+            player2 = new Player(1, 62, this, "boy");
         }
     }
 

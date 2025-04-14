@@ -10,9 +10,10 @@ public class Player extends Entities {
                    right = false;
     private GameFrame gf;
 
-    public Player (int x, int y, GameFrame gf){
+    public Player (int x, int y, GameFrame gf, String character){
         this.x = x; //1
         this.y = y; //64
+        this.character = character;
         speed = 4;
         direction = "down";
         this.gf = gf; // like ur my gf
@@ -21,14 +22,42 @@ public class Player extends Entities {
 
     public void getImage(){
         try {
-            boyUp1 = ImageIO.read(getClass().getResourceAsStream("boy_up_1.png"));
-            boyUp2 = ImageIO.read(getClass().getResourceAsStream("boy_up_2.png"));
-            boyDown1 = ImageIO.read(getClass().getResourceAsStream("boy_down_1.png"));
-            boyDown2 = ImageIO.read(getClass().getResourceAsStream("boy_down_2.png"));
-            boyLeft1 = ImageIO.read(getClass().getResourceAsStream("boy_left_1.png"));
-            boyLeft2 = ImageIO.read(getClass().getResourceAsStream("boy_left_2.png"));
-            boyRight1 = ImageIO.read(getClass().getResourceAsStream("boy_right_1.png"));
-            boyRight2 = ImageIO.read(getClass().getResourceAsStream("boy_right_2.png"));
+            int width = 16;
+            int height = 32;
+
+            // boy
+            boyUp = ImageIO.read(getClass().getResourceAsStream("walk_up.png"));
+            boyUp1 = boyUp.getSubimage(17, 19, width, height);
+            boyUp2 = boyUp.getSubimage(257, 19, width, height);
+
+            boyDown = ImageIO.read(getClass().getResourceAsStream("walk_down.png"));
+            boyDown1 = boyDown.getSubimage(66, 17, width, height);
+            boyDown2 = boyDown.getSubimage(259, 17, width, height);
+
+            boyLeft = ImageIO.read(getClass().getResourceAsStream("walk_left_down.png"));
+            boyLeft1 = boyLeft.getSubimage(18, 19, width, height);
+            boyLeft2 = boyLeft.getSubimage(66, 19, width, height);
+
+            boyRight = ImageIO.read(getClass().getResourceAsStream("walk_right_down.png"));
+            boyRight1 = boyRight.getSubimage(18, 19, width, height);
+            boyRight2 = boyRight.getSubimage(65, 19, width, height);            
+
+            // girl
+            girlUp = ImageIO.read(getClass().getResourceAsStream("girl_walk_up.png"));
+            girlUp1 = girlUp.getSubimage(18, 21, width, height);
+            girlUp2 = girlUp.getSubimage(162, 21, width, height);
+
+            girlDown = ImageIO.read(getClass().getResourceAsStream("girl_walk_down.png"));
+            girlDown1 = girlDown.getSubimage(66, 20, width, height);
+            girlDown2 = girlDown.getSubimage(258, 21, width, height);
+
+            girlLeft = ImageIO.read(getClass().getResourceAsStream("girl_walk_left_down.png"));
+            girlLeft1 = girlLeft.getSubimage(18, 18, width, height);
+            girlLeft2 = girlLeft.getSubimage(66, 18, width, height);
+
+            girlRight = ImageIO.read(getClass().getResourceAsStream("girl_walk_right_down.png"));
+            girlRight1 = girlRight.getSubimage(16, 18, width, height);
+            girlRight2 = girlRight.getSubimage(64, 19, width, height);            
 
         } catch (IOException e){
             e.printStackTrace();
@@ -37,10 +66,10 @@ public class Player extends Entities {
 
     public boolean checkCollision(int x, int y, int[][] mapNum){
         boolean collision = false;
-        int leftEdge = (x - 2) / 32;
-        int rightEdge = (x + 24) / 32;
-        int topEdge = (y + 2) / 32;
-        int bottomEdge = (y + 24) / 32;
+        int leftEdge = (x + 2) / 32;
+        int rightEdge = (x + 18) / 32;
+        int topEdge = (y + 15) / 32;
+        int bottomEdge = (y + 32) / 32;
 
         for (int i = 0; i < 22; i++){
             if (collision = mapNum[leftEdge][topEdge] == i || 
@@ -178,58 +207,114 @@ public class Player extends Entities {
     public void draw(Graphics2D g){
         BufferedImage image = null;
  
-        
-        if (spriteNum == 0){
-            switch (direction){
-                case "up":
-                    image = boyUp1;
-                    break;
-                case "down":
-                    image = boyDown1; 
-                    break;
-                case "left":
-                    image = boyLeft1; 
-                    break;
-                case "right":
-                    image = boyRight1; 
-                    break;
-            } 
-        } else {
-            switch (direction){
-                case "up": 
-                    if (spriteNum == 1){
-                        image = boyUp1; 
-                }
-                    if (spriteNum == 2) {
-                        image = boyUp2; 
-                    }
-                    break;
-                case "down": 
-                    if (spriteNum == 1){
+        if (character == "boy"){
+            if (spriteNum == 0){
+                switch (direction){
+                    case "up":
+                        image = boyUp1;
+                        break;
+                    case "down":
                         image = boyDown1; 
-                    }
-                    if (spriteNum == 2) {
-                        image = boyDown2; 
-                    }
-                    break;
-                case "left":
-                    if (spriteNum == 1){
+                        break;
+                    case "left":
                         image = boyLeft1; 
-                    }
-                    if (spriteNum == 2) {
-                        image = boyLeft2; 
-                    }
-                    break;
-                case "right":
-                    if (spriteNum == 1){
+                        break;
+                    case "right":
                         image = boyRight1; 
+                        break;
+                } 
+            } else {
+                switch (direction){
+                    case "up": 
+                        if (spriteNum == 1){
+                            image = boyUp1; 
                     }
-                    if (spriteNum == 2) {
-                        image = boyRight2; 
-                    }
-                    break;
+                        if (spriteNum == 2) {
+                            image = boyUp2; 
+                        }
+                        break;
+                    case "down": 
+                        if (spriteNum == 1){
+                            image = boyDown1; 
+                        }
+                        if (spriteNum == 2) {
+                            image = boyDown2; 
+                        }
+                        break;
+                    case "left":
+                        if (spriteNum == 1){
+                            image = boyLeft1; 
+                        }
+                        if (spriteNum == 2) {
+                            image = boyLeft2; 
+                        }
+                        break;
+                    case "right":
+                        if (spriteNum == 1){
+                            image = boyRight1; 
+                        }
+                        if (spriteNum == 2) {
+                            image = boyRight2; 
+                        }
+                        break;
+                }
             }
         }
-        g.drawImage(image, x, y, 26, 26, null);
+
+        if (character == "girl"){
+            if (spriteNum == 0){
+                switch (direction){
+                    case "up":
+                        image = girlUp1;
+                        break;
+                    case "down":
+                        image = girlDown1; 
+                        break;
+                    case "left":
+                        image = girlLeft1; 
+                        break;
+                    case "right":
+                        image = girlRight1; 
+                        break;
+                } 
+            } else {
+                switch (direction){
+                    case "up": 
+                        if (spriteNum == 1){
+                            image = girlUp1; 
+                    }
+                        if (spriteNum == 2) {
+                            image = girlUp2; 
+                        }
+                        break;
+                    case "down": 
+                        if (spriteNum == 1){
+                            image = girlDown1; 
+                        }
+                        if (spriteNum == 2) {
+                            image = girlDown2; 
+                        }
+                        break;
+                    case "left":
+                        if (spriteNum == 1){
+                            image = girlLeft1; 
+                        }
+                        if (spriteNum == 2) {
+                            image = girlLeft2; 
+                        }
+                        break;
+                    case "right":
+                        if (spriteNum == 1){
+                            image = girlRight1; 
+                        }
+                        if (spriteNum == 2) {
+                            image = girlRight2; 
+                        }
+                        break;
+                }
+            }
+        }
+        
+        g.drawImage(image, x, y, 24, 40, null);
     }
 }
