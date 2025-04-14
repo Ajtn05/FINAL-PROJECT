@@ -12,7 +12,7 @@ public class Player extends Entities {
 
     public Player (int x, int y, GameFrame gf, String character){
         this.x = x; //1
-        this.y = y; //64
+        this.y = y; //62
         this.character = character;
         speed = 4;
         direction = "down";
@@ -71,15 +71,22 @@ public class Player extends Entities {
         int topEdge = (y + 15) / 32;
         int bottomEdge = (y + 32) / 32;
 
-        for (int i = 0; i < 22; i++){
-            if (collision = mapNum[leftEdge][topEdge] == i || 
-                            mapNum[rightEdge][topEdge] == i ||
-                            mapNum[leftEdge][bottomEdge] == i || 
-                            mapNum[rightEdge][bottomEdge] == i ) {
-                collision = true;
-                break;
-            }   
+        if (leftEdge >= 0 && leftEdge < mapNum.length &&
+            rightEdge >= 0 && rightEdge < mapNum.length &&
+            topEdge >= 0 && topEdge < mapNum.length &&
+            bottomEdge >= 0 && bottomEdge < mapNum.length ){
+
+            for (int i = 0; i < 22; i++){
+                if (collision = mapNum[leftEdge][topEdge] == i || 
+                                mapNum[rightEdge][topEdge] == i ||
+                                mapNum[leftEdge][bottomEdge] == i || 
+                                mapNum[rightEdge][bottomEdge] == i ) {
+                    collision = true;
+                    break;
+                }   
+            }
         }
+        
 
         if (x == 0 || x == 1024 || y == 0 || y == 768) {
             //basically level complete state i think
