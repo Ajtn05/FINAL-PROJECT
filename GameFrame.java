@@ -15,23 +15,25 @@ public class GameFrame extends JComponent {
     private int playerID;
     private ReadFromServer rfsRunnable;
     private WriteToServer wtsRunnable;
+    private LevelManager lm;
 
 
-    public GameFrame(GameCanvas gc){
+    public GameFrame(GameCanvas gc, LevelManager lm){
         frame = new JFrame();
         this.gc = gc;
-        map = new Map("tileMap1.txt");
+        map = new Map("tileMap2.txt");
+        this.lm = lm;
     }
 
     public void createPlayers() {
     
         if (playerID == 1) {
-            player1 = new Player(1, 64);
-            player2 = new Player(4, 64);
+            player1 = new Player(1, 64, this);
+            player2 = new Player(4, 64, this);
         }
         else {
-            player1 = new Player(4, 64);
-            player2 = new Player(1, 64);
+            player1 = new Player(4, 64, this);
+            player2 = new Player(1, 64, this);
         }
     }
 
@@ -106,6 +108,12 @@ public class GameFrame extends JComponent {
         im.put(KeyStroke.getKeyStroke(key, 0, true), action + "ReleaseAction");    
     }
 
+    public void levelComplete() {
+        lm.addLevel();
+        lm.start();
+        frame.dispose();
+    }
+    
     private class ReadFromServer implements Runnable {
         private DataInputStream dataIn;
         
