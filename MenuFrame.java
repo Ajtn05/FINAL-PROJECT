@@ -5,32 +5,40 @@ import java.net.*;
 import javax.swing.*;
 public class MenuFrame {
 
-    private JFrame frame;
-    private JTextField hostInput, portInput;
+    public JFrame frame;
+    private JTextField hostInput, portInput, playerInput;
     public JLabel label, wait;
     private JButton connect;
     private int port;
-    private String host;
+    private String host, playerType, message;
     public Socket socket;
-    private int playerID;
+    private Container cp;
 
     public MenuFrame(){
-        frame = new JFrame();
-        hostInput = new JTextField(10);
-        portInput = new JTextField(10);
+        cp = null;
+        frame = null;
+        hostInput = new JTextField(8);
+        portInput = new JTextField(8);
+        playerInput = new JTextField(8);
         connect = new JButton("Connect");
-        label = new JLabel("hi bb, put localhost in the first text field and 9999 in the second!");
+        label = new JLabel(" ");
         wait = new JLabel(" ");
     }
 
-    public void setUpGUI(){
-        Container cp = frame.getContentPane();
+    public void setUpGUI(String message){
+        frame = new JFrame();
+        label = null;
+        this.message = message;
+        cp = null;
+        label = new JLabel(message);
+        this.cp = frame.getContentPane();
         FlowLayout flow = new FlowLayout();
         cp.setLayout(flow);
         frame.setPreferredSize(new Dimension(500, 140));
         frame.setTitle("Maze Game");
         cp.add(hostInput);
         cp.add(portInput);
+        cp.add(playerInput);
         cp.add(label);
         cp.add(connect);
         cp.add(wait);
@@ -45,9 +53,14 @@ public class MenuFrame {
     public void connect() {
         host = hostInput.getText();
         port = Integer.parseInt(portInput.getText());
-        LevelManager lm = new LevelManager(host, port, 1);
+        playerType = playerInput.getText();
+        LevelManager lm = new LevelManager(host, port, playerType, 1, this);
         System.out.println("yes");
         lm.start();
+    }
+
+
+    public void end() {
         frame.dispose();
     }
 
