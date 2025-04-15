@@ -10,6 +10,6 @@ public class GameStarter {
 
         MenuFrame mf = new MenuFrame();
         mf.setUpButtonListeners();
-        mf.setUpGUI();
+        mf.setUpGUI("hi bb, put localhost in the first text field and 9999 in the second!");
     }
 }

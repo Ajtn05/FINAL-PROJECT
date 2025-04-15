@@ -16,9 +16,11 @@ public class GameFrame extends JComponent {
     private ReadFromServer rfsRunnable;
     private WriteToServer wtsRunnable;
     private LevelManager lm;
+    private String playerType;
 
 
-    public GameFrame(GameCanvas gc, LevelManager lm){
+    public GameFrame(GameCanvas gc, LevelManager lm, String playerType){
+        this.playerType = playerType;
         frame = new JFrame();
         this.gc = gc;
         map = new Map("tileMap2.txt");
@@ -26,23 +28,50 @@ public class GameFrame extends JComponent {
     }
 
     public void createPlayers() {
-    
+        String p1playerType = null, p2playerType = null;
         if (playerID == 1) {
-            player1 = new Player(1, 62, this, "boy");
-            player2 = new Player(4, 62, this, "girl");
+            p1playerType = playerType;
+            if (p1playerType.equals("boy")) {
+                p1playerType = "boy";
+                p2playerType = "girl";
+            }
+            else if (p1playerType.equals("girl")) {
+                //this is so fucking stupid. i have to assign a string to
+                //p1playerType again because for some fucking reason it doesnt
+                //render when i dont. LITERALLY WHY. I SPEND AN HOUR ON THIS SHIT
+                //I HAVE PROBABLY WRITTEN DOWN "LOCALHOST 9999" 500 FUCKING TIMES
+                //STUPID ASS LANGUAGE, FUCK JAVA YOU FICSFDIFJASIJFASOJDMOAIFJ
+                p1playerType = "girl";
+                p2playerType = "boy";
+            }
+            player1 = new Player(1, 62, this, p1playerType);
+            player2 = new Player(4, 62, this, p2playerType);
+            gc.setPlayer(player1, player2);
         }
-        else {
-            player1 = new Player(4, 62, this, "girl");
-            player2 = new Player(1, 62, this, "boy");
+
+        else if (playerID == 2) {
+            p2playerType = playerType;
+            if (p2playerType.equals("boy")) {
+                p2playerType = "boy";
+                p1playerType = "girl";
+            }
+            else if (p2playerType.equals("girl")) {
+                p2playerType = "girl";
+                p1playerType = "boy";
+            }
+            player1 = new Player(4, 62, this, p2playerType);
+            player2 = new Player(1, 62, this, p1playerType);
+            gc.setPlayer(player1, player2);
         }
+
+
     }
 
     public void setUpGUI(){
         gc.setPreferredSize(new Dimension(1024, 768));
         createPlayers();
-        gc.setPlayer(player1, player2);
         frame.add(gc);
-        frame.setTitle("Maze Game - Player " + playerID);
+        frame.setTitle("Maze Game - Player " + playerID + playerType);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setFocusable(true);
@@ -199,22 +228,33 @@ public class GameFrame extends JComponent {
         }
     }
 
-    public void connectToServer(String host, int port) {
+    public boolean connectToServer(String host, int port, String playerType, MenuFrame mf) {
         try {
             socket = new Socket(host, port);
             DataInputStream in = new DataInputStream(socket.getInputStream());
             DataOutputStream out = new DataOutputStream(socket.getOutputStream());
             playerID = in.readInt();
             System.out.println("You are player#" + playerID);
-            if (playerID == 1) {
-                System.out.println("Waiting for Player #2 to connect");
+            out.writeUTF(playerType);
+            String check = in.readUTF();
+            if (check.equals("continue")) {
+                mf.end();
+                lm.setUp();
+                if (playerID == 1) {
+                    System.out.println("Waiting for Player #2 to connect");
+                }
+                rfsRunnable = new ReadFromServer(in);
+                wtsRunnable = new WriteToServer(out);
+                rfsRunnable.waitForStartMsg();
+                return true;
             }
-            rfsRunnable = new ReadFromServer(in);
-            wtsRunnable = new WriteToServer(out);
-            rfsRunnable.waitForStartMsg();
-
+            else {
+                frame.dispose();
+                return false;
+            }
         } catch (IOException ex) {
             System.out.println("IOExeption from connectToServer");
+            return false;
         }
     }  
 }

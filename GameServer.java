@@ -34,7 +34,8 @@ public class GameServer {
 
     public void acceptConnections() {
         try {
-            
+            int boy = 0;
+            int girl = 0;
             while (numPlayers < maxPlayers) {
                 Socket s = serverSocket.accept();
                 DataInputStream in = new DataInputStream(s.getInputStream());
@@ -42,30 +43,53 @@ public class GameServer {
 
                 numPlayers++;
                 out.writeInt(numPlayers);
-                System.out.println("Player #" + numPlayers + " has connected");
 
-                ReadFromClient rfc = new ReadFromClient(numPlayers, in);
-                WriteToClient wtc = new WriteToClient(numPlayers, out);
+                String test = in.readUTF();
+                if (test.equals("boy")) {
+                    boy++;
+                }
+                else if (test.equals("girl")) {
+                    girl++;
+                }
 
-                if (numPlayers == 1) {
-                    p1Socket = s;
-                    p1ReadRunnable = rfc;
-                    p1WriteRunnable = wtc;
-                } 
+                if (boy > 1 || girl > 1) {
+                    if (test.equals("boy")) {
+                        boy--;
+                    }
+                    else if (test.equals("girl")) {
+                        girl--;
+                    }
+                    out.writeUTF("end");
+                    numPlayers--;
+                    s.close();
+                }
                 else {
-                    p2Socket = s;
-                    p2ReadRunnable = rfc;
-                    p2WriteRunnable = wtc;
-                    p1WriteRunnable.sendStartMsg();
-                    p2WriteRunnable.sendStartMsg();
-                    Thread readThread1 = new Thread(p1ReadRunnable);
-                    Thread readThread2 = new Thread(p2ReadRunnable);
-                    readThread1.start();
-                    readThread2.start();
-                    Thread writeThread1 = new Thread(p1WriteRunnable);
-                    Thread writeThread2 = new Thread(p2WriteRunnable);
-                    writeThread1.start();
-                    writeThread2.start();
+                    out.writeUTF("continue");
+                    System.out.println("Player #" + numPlayers + " has connected");
+
+                    ReadFromClient rfc = new ReadFromClient(numPlayers, in);
+                    WriteToClient wtc = new WriteToClient(numPlayers, out);
+    
+                    if (numPlayers == 1) {
+                        p1Socket = s;
+                        p1ReadRunnable = rfc;
+                        p1WriteRunnable = wtc;
+                    } 
+                    else {
+                        p2Socket = s;
+                        p2ReadRunnable = rfc;
+                        p2WriteRunnable = wtc;
+                        p1WriteRunnable.sendStartMsg();
+                        p2WriteRunnable.sendStartMsg();
+                        Thread readThread1 = new Thread(p1ReadRunnable);
+                        Thread readThread2 = new Thread(p2ReadRunnable);
+                        readThread1.start();
+                        readThread2.start();
+                        Thread writeThread1 = new Thread(p1WriteRunnable);
+                        Thread writeThread2 = new Thread(p2WriteRunnable);
+                        writeThread1.start();
+                        writeThread2.start();
+                    }
                 }
             }
             System.out.println("No longer accepting connections");
