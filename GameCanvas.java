@@ -27,6 +27,10 @@ public class GameCanvas extends JComponent {
         this.player2 = player2;
     }
 
+    public Map getMap(){
+        return this.map;
+    }
+
     @Override
     public void paintComponent(Graphics g){
         super.paintComponent(g);

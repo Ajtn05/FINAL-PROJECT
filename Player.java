@@ -1,6 +1,7 @@
 import java.awt.*;
 import java.awt.image.*;
 import java.io.IOException;
+import java.util.*;
 import javax.imageio.ImageIO;
 
 public class Player extends Entities {
@@ -9,14 +10,19 @@ public class Player extends Entities {
                    left = false, 
                    right = false;
     private GameFrame gf;
+    private GameCanvas gc;
+    private ArrayList<Integer> PASSABLE_TILES;
 
-    public Player (int x, int y, GameFrame gf, String character){
+
+    public Player (int x, int y, GameFrame gf, GameCanvas gc, String character){
         this.x = x; //1
         this.y = y; //62
         this.character = character;
+        this.gf = gf; // like ur my gf
+        this.gc = gc;
         speed = 4;
         direction = "down";
-        this.gf = gf; // like ur my gf
+        PASSABLE_TILES = new ArrayList<>(Arrays.asList(22, 23, 24, 25, 26));
         getImage();
     }
 
@@ -29,15 +35,12 @@ public class Player extends Entities {
             boyUp = ImageIO.read(getClass().getResourceAsStream("walk_up.png"));
             boyUp1 = boyUp.getSubimage(17, 19, width, height);
             boyUp2 = boyUp.getSubimage(257, 19, width, height);
-
             boyDown = ImageIO.read(getClass().getResourceAsStream("walk_down.png"));
             boyDown1 = boyDown.getSubimage(66, 17, width, height);
             boyDown2 = boyDown.getSubimage(259, 17, width, height);
-
             boyLeft = ImageIO.read(getClass().getResourceAsStream("walk_left_down.png"));
             boyLeft1 = boyLeft.getSubimage(18, 19, width, height);
             boyLeft2 = boyLeft.getSubimage(66, 19, width, height);
-
             boyRight = ImageIO.read(getClass().getResourceAsStream("walk_right_down.png"));
             boyRight1 = boyRight.getSubimage(18, 19, width, height);
             boyRight2 = boyRight.getSubimage(65, 19, width, height);            
@@ -46,15 +49,12 @@ public class Player extends Entities {
             girlUp = ImageIO.read(getClass().getResourceAsStream("girl_walk_up.png"));
             girlUp1 = girlUp.getSubimage(18, 21, width, height);
             girlUp2 = girlUp.getSubimage(162, 21, width, height);
-
             girlDown = ImageIO.read(getClass().getResourceAsStream("girl_walk_down.png"));
             girlDown1 = girlDown.getSubimage(66, 20, width, height);
             girlDown2 = girlDown.getSubimage(258, 21, width, height);
-
             girlLeft = ImageIO.read(getClass().getResourceAsStream("girl_walk_left_down.png"));
             girlLeft1 = girlLeft.getSubimage(18, 18, width, height);
             girlLeft2 = girlLeft.getSubimage(66, 18, width, height);
-
             girlRight = ImageIO.read(getClass().getResourceAsStream("girl_walk_right_down.png"));
             girlRight1 = girlRight.getSubimage(16, 18, width, height);
             girlRight2 = girlRight.getSubimage(64, 19, width, height);            
@@ -76,18 +76,30 @@ public class Player extends Entities {
             topEdge >= 0 && topEdge < mapNum.length &&
             bottomEdge >= 0 && bottomEdge < mapNum.length ){
 
-            for (int i = 0; i < 22; i++){
-                if (collision = mapNum[leftEdge][topEdge] == i || 
-                                mapNum[rightEdge][topEdge] == i ||
-                                mapNum[leftEdge][bottomEdge] == i || 
-                                mapNum[rightEdge][bottomEdge] == i ) {
+            // for (int i = 0; i < 22; i++){
+            //     if (collision = mapNum[leftEdge][topEdge] == i || 
+            //                     mapNum[rightEdge][topEdge] == i ||
+            //                     mapNum[leftEdge][bottomEdge] == i || 
+            //                     mapNum[rightEdge][bottomEdge] == i ) {
+            //         collision = true;
+            //         break;
+            //     }   
+            // }
+
+            int[] checkTiles = {
+                mapNum[leftEdge][topEdge],
+                mapNum[rightEdge][topEdge], 
+                mapNum[leftEdge][bottomEdge], 
+                mapNum[rightEdge][bottomEdge],
+            };
+
+            for (int tile : checkTiles){
+                if (!PASSABLE_TILES.contains(tile)){
                     collision = true;
                     break;
-                }   
+                }
             }
         }
-        
-
         if (x == 0 || x == 1024 || y == 0 || y == 768) {
             //basically level complete state i think
             // if (x == 1024) {
@@ -107,7 +119,7 @@ public class Player extends Entities {
         return collision;
     }    
 
-    public void update(Map map){
+    public void update(Map map, TutorialPressurePlate obstacles){
         int potentialX = x;
         int potentialY = y;
 
@@ -139,7 +151,9 @@ public class Player extends Entities {
             x = potentialX;
             y = potentialY;
         }
-    
+
+        obstacles.checkPlateCollision();
+
         //walking animation?
         spriteCounter++;
         if (moving){
@@ -214,7 +228,7 @@ public class Player extends Entities {
     public void draw(Graphics2D g){
         BufferedImage image = null;
  
-        if (character == "boy"){
+        if (character.equals("boy")){
             if (spriteNum == 0){
                 switch (direction){
                     case "up":
@@ -268,7 +282,7 @@ public class Player extends Entities {
             }
         }
 
-        if (character == "girl"){
+        if (character.equals("girl")){
             if (spriteNum == 0){
                 switch (direction){
                     case "up":

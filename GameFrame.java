@@ -11,6 +11,7 @@ public class GameFrame extends JComponent {
     private Player player1, player2;
     private Timer timer;
     private Map map;
+    private TutorialPressurePlate obstacles;
     private Socket socket;
     private int playerID;
     private ReadFromServer rfsRunnable;
@@ -23,7 +24,7 @@ public class GameFrame extends JComponent {
         this.playerType = playerType;
         frame = new JFrame();
         this.gc = gc;
-        map = new Map("tileMap2.txt");
+        map = new Map("tileMap1.txt");
         this.lm = lm;
     }
 
@@ -36,16 +37,11 @@ public class GameFrame extends JComponent {
                 p2playerType = "girl";
             }
             else if (p1playerType.equals("girl")) {
-                //this is so fucking stupid. i have to assign a string to
-                //p1playerType again because for some fucking reason it doesnt
-                //render when i dont. LITERALLY WHY. I SPEND AN HOUR ON THIS SHIT
-                //I HAVE PROBABLY WRITTEN DOWN "LOCALHOST 9999" 500 FUCKING TIMES
-                //STUPID ASS LANGUAGE, FUCK JAVA YOU FICSFDIFJASIJFASOJDMOAIFJ
                 p1playerType = "girl";
                 p2playerType = "boy";
             }
-            player1 = new Player(1, 62, this, p1playerType);
-            player2 = new Player(4, 62, this, p2playerType);
+            player1 = new Player(1, 62, this, gc, p1playerType);
+            player2 = new Player(4, 62, this, gc, p2playerType);
             gc.setPlayer(player1, player2);
         }
 
@@ -59,33 +55,31 @@ public class GameFrame extends JComponent {
                 p2playerType = "girl";
                 p1playerType = "boy";
             }
-            player1 = new Player(4, 62, this, p2playerType);
-            player2 = new Player(1, 62, this, p1playerType);
+            player1 = new Player(4, 62, this, gc, p2playerType);
+            player2 = new Player(1, 62, this, gc, p1playerType);
             gc.setPlayer(player1, player2);
         }
-
-
     }
 
     public void setUpGUI(){
         gc.setPreferredSize(new Dimension(1024, 768));
         createPlayers();
         frame.add(gc);
-        frame.setTitle("Maze Game - Player " + playerID + playerType);
+        obstacles = new TutorialPressurePlate(player1, player2, gc.getMap(), gc);
+        frame.setTitle("Maze Game - Player " + playerID + " " + playerType);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setFocusable(true);
         frame.setVisible(true);
         gc.requestFocusInWindow();
-
     }
 
     public void startGameTimer(){
         timer = new Timer(16, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae){
-                player1.update(map);
-                player2.update(map);
+                player1.update(gc.getMap(), obstacles);
+                player2.update(gc.getMap(), obstacles);
                 gc.repaint();
             }
         });
