@@ -6,10 +6,9 @@ import javax.imageio.ImageIO;
 public class Map {
     private Tiles[] tiles;
     private String level;
-    int tileNum[][];
+    private int tileNum[][];
     int columns = 32;
     int rows = 24;
-    //private BufferedImage mapAssets;
 
     public Map(String level){
         tiles = new Tiles[27];
@@ -18,7 +17,6 @@ public class Map {
         getImages();
         loadMap();
     }
-
 
     public int[][] getTileNum(){
         return tileNum;
@@ -87,16 +85,16 @@ public class Map {
             tiles[19].image = ImageIO.read(getClass().getResourceAsStream("topwall_MH2.png"));
 
             tiles[20] = new Tiles();
-            tiles[20].image = ImageIO.read(getClass().getResourceAsStream("door_left.png"));
+            tiles[20].image = ImageIO.read(getClass().getResourceAsStream("door1.png"));
 
             tiles[21] = new Tiles();
-            tiles[21].image = ImageIO.read(getClass().getResourceAsStream("door_right.png"));
+            tiles[21].image = ImageIO.read(getClass().getResourceAsStream("door2.png"));
 
             tiles[22] = new Tiles();
-            tiles[22].image = ImageIO.read(getClass().getResourceAsStream("door_tl.png"));
+            tiles[22].image = ImageIO.read(getClass().getResourceAsStream("plate1.png"));
 
             tiles[23] = new Tiles();
-            tiles[23].image = ImageIO.read(getClass().getResourceAsStream("door_tr.png"));
+            tiles[23].image = ImageIO.read(getClass().getResourceAsStream("plate2.png"));
 
             tiles[24] = new Tiles();
             tiles[24].image = ImageIO.read(getClass().getResourceAsStream("floor1.png"));
@@ -115,7 +113,7 @@ public class Map {
 
     public void loadMap(){
         try {
-            InputStream is = getClass().getResourceAsStream("tileMap2.txt");
+            InputStream is = getClass().getResourceAsStream("tileMap1.txt");
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
             int col = 0;
             int row = 0;
