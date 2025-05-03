@@ -1,7 +1,9 @@
 import java.awt.*;
+import java.awt.event.*;
+import java.util.ArrayList;
 import javax.swing.*;
 
-public class GameCanvas extends JComponent {
+public class GameCanvas extends JComponent implements KeyListener{
     public final int tileSize = 32;
     public final int columns = 32;
     public final int rows = 24;
@@ -11,8 +13,10 @@ public class GameCanvas extends JComponent {
     public Player player1, player2;
     public String tileMap;
     private Map map;
+    private ArrayList<InteractableObjects> interactables;
 
-    public GameCanvas(int level){
+
+    public GameCanvas(int level, ArrayList<InteractableObjects> interactables){
         switch(level){
             case 1:
                 tileMap = "tileMap1.txt";
@@ -22,6 +26,9 @@ public class GameCanvas extends JComponent {
                 break;
         }
         map = new Map(tileMap);
+        this.interactables = interactables;
+        addKeyListener(this);
+        setFocusable(true);
     }
 
     public void setPlayer(Player player1, Player player2){
@@ -38,8 +45,35 @@ public class GameCanvas extends JComponent {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
         map.draw(g2d);
+        
+        for (InteractableObjects interactable : interactables){
+            if (interactable instanceof KeyObject keyObject){
+                    keyObject.draw(g2d);
+            }
+        }
+        
         player1.draw(g2d);
         player2.draw(g2d);
     }
 
+    @Override
+    public void keyPressed(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_E){
+            for (InteractableObjects interactable : interactables){
+                if (interactable instanceof KeyObject keyObject){
+                    keyObject.checkCollision(player1);
+                    keyObject.checkCollision(player2);
+                    if (keyObject.isInteracted()){
+                        repaint();
+                        break;
+                    }
+                }
+            }            
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {}
+    @Override
+    public void keyTyped(KeyEvent e) {}
 }
