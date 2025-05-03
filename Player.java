@@ -8,6 +8,8 @@ public class Player extends Entities {
     public boolean up = false, down = false, left = false, right = false;
     private GameFrame gf;
     private GameCanvas gc;
+    private int keysCollected = 0;
+    private boolean hasKey = false;
     private ArrayList<Integer> PASSABLE_TILES;
 
 
@@ -116,6 +118,18 @@ public class Player extends Entities {
         return collision;
     }    
 
+    public void collect(String itemType){
+        // incase we wanna collect other objects also
+        if (itemType.equals("key")){
+            keysCollected++;
+            hasKey = true;
+        }
+    }
+
+    public boolean hasKey(){
+        return hasKey;
+    }
+
     public void update(Map map){
         int potentialX = x;
         int potentialY = y;
@@ -150,6 +164,7 @@ public class Player extends Entities {
 
         updateSpriteAnimation(moving);
     }
+    
     private void updateSpriteAnimation(boolean moving){
         spriteCounter++;
         if (moving){

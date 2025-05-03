@@ -64,7 +64,6 @@ public class GameFrame extends JComponent {
         gc.setPreferredSize(new Dimension(1024, 768));
         createPlayers();
         frame.add(gc);
-        // obstacles = new PressurePlate(player1, player2, gc.getMap(), gc);
         frame.setTitle("Maze Game - Player " + playerID + " " + playerType);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
@@ -211,6 +210,7 @@ public class GameFrame extends JComponent {
                         dataOut.writeInt(player1.getX());
                         dataOut.writeInt(player1.getY());
                         dataOut.flush();
+
                     }
                     try {
                         Thread.sleep(1);

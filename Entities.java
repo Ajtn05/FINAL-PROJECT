@@ -8,6 +8,7 @@ public class Entities {
                          girlUp1, girlDown1, girlLeft1, girlRight1, 
                          girlUp2, girlDown2, girlLeft2, girlRight2;
     public BufferedImage boyUp, boyDown, boyLeft, boyRight, girlUp, girlDown, girlLeft, girlRight;
+    public BufferedImage key;
     public String direction;
 
     public int spriteCounter = 0;
