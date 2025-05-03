@@ -113,7 +113,7 @@ public class Map {
 
     public void loadMap(){
         try {
-            InputStream is = getClass().getResourceAsStream("tileMap1.txt");
+            InputStream is = getClass().getResourceAsStream(level);
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
             int col = 0;
             int row = 0;

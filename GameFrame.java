@@ -11,7 +11,6 @@ public class GameFrame extends JComponent {
     private Player player1, player2;
     private Timer timer;
     private Map map;
-    private TutorialPressurePlate obstacles;
     private Socket socket;
     private int playerID;
     private ReadFromServer rfsRunnable;
@@ -65,7 +64,7 @@ public class GameFrame extends JComponent {
         gc.setPreferredSize(new Dimension(1024, 768));
         createPlayers();
         frame.add(gc);
-        obstacles = new TutorialPressurePlate(player1, player2, gc.getMap(), gc);
+        // obstacles = new PressurePlate(player1, player2, gc.getMap(), gc);
         frame.setTitle("Maze Game - Player " + playerID + " " + playerType);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
@@ -78,8 +77,11 @@ public class GameFrame extends JComponent {
         timer = new Timer(16, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae){
-                player1.update(gc.getMap(), obstacles);
-                player2.update(gc.getMap(), obstacles);
+                for (Obstacle obstacle : lm.getObstacles()){
+                    obstacle.checkCollision(player1, player2, gc.getMap(), gc);
+                }
+                player1.update(gc.getMap());
+                player2.update(gc.getMap());
                 gc.repaint();
             }
         });

@@ -5,10 +5,7 @@ import java.util.*;
 import javax.imageio.ImageIO;
 
 public class Player extends Entities {
-    public boolean up = false, 
-                   down = false, 
-                   left = false, 
-                   right = false;
+    public boolean up = false, down = false, left = false, right = false;
     private GameFrame gf;
     private GameCanvas gc;
     private ArrayList<Integer> PASSABLE_TILES;
@@ -23,10 +20,10 @@ public class Player extends Entities {
         speed = 4;
         direction = "down";
         PASSABLE_TILES = new ArrayList<>(Arrays.asList(22, 23, 24, 25, 26));
-        getImage();
+        getImages();
     }
 
-    public void getImage(){
+    public void getImages(){
         try {
             int width = 16;
             int height = 32;
@@ -119,10 +116,9 @@ public class Player extends Entities {
         return collision;
     }    
 
-    public void update(Map map, TutorialPressurePlate obstacles){
+    public void update(Map map){
         int potentialX = x;
         int potentialY = y;
-
         boolean moving = false;
         
         if (up){
@@ -152,9 +148,9 @@ public class Player extends Entities {
             y = potentialY;
         }
 
-        obstacles.checkPlateCollision();
-
-        //walking animation?
+        updateSpriteAnimation(moving);
+    }
+    private void updateSpriteAnimation(boolean moving){
         spriteCounter++;
         if (moving){
             if (spriteCounter > 10){
@@ -164,65 +160,6 @@ public class Player extends Entities {
         } else {
             spriteNum = 0;
         }
-    }
-
-    public void setPosition(int x, int y) {
-        this.x = x;
-        this.y = y;
-    }
-
-    public void moveUp(boolean up){
-        this.up = up;
-    }
-
-    public void moveDown(boolean down){
-        this.down = down;
-    }
-
-    public void moveLeft(boolean left){
-        this.left = left;
-    }
-
-    public void moveRight(boolean right){
-        this.right = right;
-    }
-
-    public boolean getLeft() {
-        return left;
-    }
-
-    public boolean getRight() {
-        return right;
-    }
-
-    public boolean getUp() {
-        return up;
-    }
-
-    public boolean getDown() {
-        return down;
-    }
-
-    public int getX(){
-        return x;
-    }
-
-    public int getY(){
-        return y;
-    }
-
-    public String getDirection() {
-        return direction;
-    }
-    
-    public void setX(double x) {
-        System.out.println("player x: " + x);
-        this.x = (int) x;
-    }
-
-    public void setY(double y) {
-        System.out.println("player y: " + y);
-        this.y = (int) y;
     }
 
     public void draw(Graphics2D g){
@@ -337,5 +274,64 @@ public class Player extends Entities {
         }
         
         g.drawImage(image, x, y, 24, 40, null);
+    }
+  
+    public void setPosition(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    public void moveUp(boolean up){
+        this.up = up;
+    }
+
+    public void moveDown(boolean down){
+        this.down = down;
+    }
+
+    public void moveLeft(boolean left){
+        this.left = left;
+    }
+
+    public void moveRight(boolean right){
+        this.right = right;
+    }
+
+    public boolean getLeft() {
+        return left;
+    }
+
+    public boolean getRight() {
+        return right;
+    }
+
+    public boolean getUp() {
+        return up;
+    }
+
+    public boolean getDown() {
+        return down;
+    }
+
+    public int getX(){
+        return x;
+    }
+
+    public int getY(){
+        return y;
+    }
+
+    public String getDirection() {
+        return direction;
+    }
+    
+    public void setX(double x) {
+        //System.out.println("player x: " + x);
+        this.x = (int) x;
+    }
+
+    public void setY(double y) {
+        //System.out.println("player y: " + y);
+        this.y = (int) y;
     }
 }

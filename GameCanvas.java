@@ -15,9 +15,11 @@ public class GameCanvas extends JComponent {
     public GameCanvas(int level){
         switch(level){
             case 1:
-                tileMap = "tileMap2.txt";
-            case 2:
                 tileMap = "tileMap1.txt";
+                break;
+            case 2:
+                tileMap = "tileMap2.txt";
+                break;
         }
         map = new Map(tileMap);
     }
