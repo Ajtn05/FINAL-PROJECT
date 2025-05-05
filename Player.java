@@ -1,0 +1,352 @@
+import java.awt.*;
+import java.awt.image.*;
+import java.io.IOException;
+import java.util.*;
+import javax.imageio.ImageIO;
+
+public class Player extends Entities {
+    public boolean up = false, down = false, left = false, right = false;
+    private GameFrame gf;
+    private GameCanvas gc;
+    private int keysCollected = 0;
+    private boolean hasKey = false;
+    private ArrayList<Integer> PASSABLE_TILES;
+
+
+    public Player (int x, int y, GameFrame gf, GameCanvas gc, String character){
+        this.x = x; //1
+        this.y = y; //62
+        this.character = character;
+        this.gf = gf; // like ur my gf
+        this.gc = gc;
+        speed = 4;
+        direction = "down";
+        PASSABLE_TILES = new ArrayList<>(Arrays.asList(22, 23, 24, 25, 26));
+        getImages();
+    }
+
+    public void getImages(){
+        try {
+            int width = 16;
+            int height = 32;
+
+            // boy
+            boyUp = ImageIO.read(getClass().getResourceAsStream("walk_up.png"));
+            boyUp1 = boyUp.getSubimage(17, 19, width, height);
+            boyUp2 = boyUp.getSubimage(257, 19, width, height);
+            boyDown = ImageIO.read(getClass().getResourceAsStream("walk_down.png"));
+            boyDown1 = boyDown.getSubimage(66, 17, width, height);
+            boyDown2 = boyDown.getSubimage(259, 17, width, height);
+            boyLeft = ImageIO.read(getClass().getResourceAsStream("walk_left_down.png"));
+            boyLeft1 = boyLeft.getSubimage(18, 19, width, height);
+            boyLeft2 = boyLeft.getSubimage(66, 19, width, height);
+            boyRight = ImageIO.read(getClass().getResourceAsStream("walk_right_down.png"));
+            boyRight1 = boyRight.getSubimage(18, 19, width, height);
+            boyRight2 = boyRight.getSubimage(65, 19, width, height);            
+
+            // girl
+            girlUp = ImageIO.read(getClass().getResourceAsStream("girl_walk_up.png"));
+            girlUp1 = girlUp.getSubimage(18, 21, width, height);
+            girlUp2 = girlUp.getSubimage(162, 21, width, height);
+            girlDown = ImageIO.read(getClass().getResourceAsStream("girl_walk_down.png"));
+            girlDown1 = girlDown.getSubimage(66, 20, width, height);
+            girlDown2 = girlDown.getSubimage(258, 21, width, height);
+            girlLeft = ImageIO.read(getClass().getResourceAsStream("girl_walk_left_down.png"));
+            girlLeft1 = girlLeft.getSubimage(18, 18, width, height);
+            girlLeft2 = girlLeft.getSubimage(66, 18, width, height);
+            girlRight = ImageIO.read(getClass().getResourceAsStream("girl_walk_right_down.png"));
+            girlRight1 = girlRight.getSubimage(16, 18, width, height);
+            girlRight2 = girlRight.getSubimage(64, 19, width, height);            
+
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    public boolean checkCollision(int x, int y, int[][] mapNum){
+        boolean collision = false;
+        int leftEdge = (x + 2) / 32;
+        int rightEdge = (x + 18) / 32;
+        int topEdge = (y + 15) / 32;
+        int bottomEdge = (y + 32) / 32;
+
+        if (leftEdge >= 0 && leftEdge < mapNum.length &&
+            rightEdge >= 0 && rightEdge < mapNum.length &&
+            topEdge >= 0 && topEdge < mapNum.length &&
+            bottomEdge >= 0 && bottomEdge < mapNum.length ){
+
+            // for (int i = 0; i < 22; i++){
+            //     if (collision = mapNum[leftEdge][topEdge] == i || 
+            //                     mapNum[rightEdge][topEdge] == i ||
+            //                     mapNum[leftEdge][bottomEdge] == i || 
+            //                     mapNum[rightEdge][bottomEdge] == i ) {
+            //         collision = true;
+            //         break;
+            //     }   
+            // }
+
+            int[] checkTiles = {
+                mapNum[leftEdge][topEdge],
+                mapNum[rightEdge][topEdge], 
+                mapNum[leftEdge][bottomEdge], 
+                mapNum[rightEdge][bottomEdge],
+            };
+
+            for (int tile : checkTiles){
+                if (!PASSABLE_TILES.contains(tile)){
+                    collision = true;
+                    break;
+                }
+            }
+        }
+        if (x == 0 || x == 1024 || y == 0 || y == 768) {
+            //basically level complete state i think
+            // if (x == 1024) {
+            //     gf.levelComplete();
+            // }
+            // else {
+                collision = true;
+            // }
+        }
+    
+        // System.out.println("x: " + x);
+        // System.out.println("y: " + y);
+        // System.out.println("Left Edge: " + leftEdge);
+        // System.out.println("Right Edge: " + rightEdge);
+        // System.out.println("Top Edge: " + topEdge);
+        // System.out.println("Bottom Edge: " + bottomEdge);
+        return collision;
+    }    
+
+    public void collect(String itemType){
+        // incase we wanna collect other objects also
+        if (itemType.equals("key")){
+            keysCollected++;
+            hasKey = true;
+        }
+    }
+
+    public boolean hasKey(){
+        return hasKey;
+    }
+
+    public void update(Map map){
+        int potentialX = x;
+        int potentialY = y;
+        boolean moving = false;
+        
+        if (up){
+            direction = "up";
+            potentialY -= speed;
+            moving = true;
+        }
+        if (down){
+            direction = "down";
+            potentialY += speed;
+            moving = true;
+        }
+        if (left){
+            direction = "left";
+            potentialX -= speed;
+            moving = true;
+        }
+        if (right){
+            direction = "right";
+            potentialX += speed;
+            moving = true;
+
+        }
+
+        if (!checkCollision(potentialX, potentialY, map.getTileNum())){
+            x = potentialX;
+            y = potentialY;
+        }
+
+        updateSpriteAnimation(moving);
+    }
+    
+    private void updateSpriteAnimation(boolean moving){
+        spriteCounter++;
+        if (moving){
+            if (spriteCounter > 10){
+                spriteNum = (spriteNum == 1) ? 2 : 1;
+                spriteCounter = 0;
+            }
+        } else {
+            spriteNum = 0;
+        }
+    }
+
+    public void draw(Graphics2D g){
+        BufferedImage image = null;
+ 
+        if (character.equals("boy")){
+            if (spriteNum == 0){
+                switch (direction){
+                    case "up":
+                        image = boyUp1;
+                        break;
+                    case "down":
+                        image = boyDown1; 
+                        break;
+                    case "left":
+                        image = boyLeft1; 
+                        break;
+                    case "right":
+                        image = boyRight1; 
+                        break;
+                } 
+            } else {
+                switch (direction){
+                    case "up": 
+                        if (spriteNum == 1){
+                            image = boyUp1; 
+                    }
+                        if (spriteNum == 2) {
+                            image = boyUp2; 
+                        }
+                        break;
+                    case "down": 
+                        if (spriteNum == 1){
+                            image = boyDown1; 
+                        }
+                        if (spriteNum == 2) {
+                            image = boyDown2; 
+                        }
+                        break;
+                    case "left":
+                        if (spriteNum == 1){
+                            image = boyLeft1; 
+                        }
+                        if (spriteNum == 2) {
+                            image = boyLeft2; 
+                        }
+                        break;
+                    case "right":
+                        if (spriteNum == 1){
+                            image = boyRight1; 
+                        }
+                        if (spriteNum == 2) {
+                            image = boyRight2; 
+                        }
+                        break;
+                }
+            }
+        }
+
+        if (character.equals("girl")){
+            if (spriteNum == 0){
+                switch (direction){
+                    case "up":
+                        image = girlUp1;
+                        break;
+                    case "down":
+                        image = girlDown1; 
+                        break;
+                    case "left":
+                        image = girlLeft1; 
+                        break;
+                    case "right":
+                        image = girlRight1; 
+                        break;
+                } 
+            } else {
+                switch (direction){
+                    case "up": 
+                        if (spriteNum == 1){
+                            image = girlUp1; 
+                    }
+                        if (spriteNum == 2) {
+                            image = girlUp2; 
+                        }
+                        break;
+                    case "down": 
+                        if (spriteNum == 1){
+                            image = girlDown1; 
+                        }
+                        if (spriteNum == 2) {
+                            image = girlDown2; 
+                        }
+                        break;
+                    case "left":
+                        if (spriteNum == 1){
+                            image = girlLeft1; 
+                        }
+                        if (spriteNum == 2) {
+                            image = girlLeft2; 
+                        }
+                        break;
+                    case "right":
+                        if (spriteNum == 1){
+                            image = girlRight1; 
+                        }
+                        if (spriteNum == 2) {
+                            image = girlRight2; 
+                        }
+                        break;
+                }
+            }
+        }
+        
+        g.drawImage(image, x, y, 24, 40, null);
+    }
+  
+    public void setPosition(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    public void moveUp(boolean up){
+        this.up = up;
+    }
+
+    public void moveDown(boolean down){
+        this.down = down;
+    }
+
+    public void moveLeft(boolean left){
+        this.left = left;
+    }
+
+    public void moveRight(boolean right){
+        this.right = right;
+    }
+
+    public boolean getLeft() {
+        return left;
+    }
+
+    public boolean getRight() {
+        return right;
+    }
+
+    public boolean getUp() {
+        return up;
+    }
+
+    public boolean getDown() {
+        return down;
+    }
+
+    public int getX(){
+        return x;
+    }
+
+    public int getY(){
+        return y;
+    }
+
+    public String getDirection() {
+        return direction;
+    }
+    
+    public void setX(double x) {
+        //System.out.println("player x: " + x);
+        this.x = (int) x;
+    }
+
+    public void setY(double y) {
+        //System.out.println("player y: " + y);
+        this.y = (int) y;
+    }
+}
