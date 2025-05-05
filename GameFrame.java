@@ -132,6 +132,9 @@ public class GameFrame extends JComponent {
         im.put(KeyStroke.getKeyStroke(key, 0, true), action + "ReleaseAction");    
     }
 
+    public void keyCollect() {
+
+    }
     public void levelComplete() {
         lm.addLevel();
         lm.start();
@@ -150,7 +153,7 @@ public class GameFrame extends JComponent {
             try {
                 while (true) { 
                     if (player2 != null) {
-                        boolean left, right, up, down;
+                        boolean left, right, up, down, hasKey;
                         int x, y;
                         left = dataIn.readBoolean();
                         right = dataIn.readBoolean();
@@ -158,13 +161,16 @@ public class GameFrame extends JComponent {
                         down = dataIn.readBoolean();
                         x = dataIn.readInt();
                         y = dataIn.readInt();
-
+                        hasKey = dataIn.readBoolean();
 
                         player2.moveLeft(left);
                         player2.moveRight(right);
                         player2.moveUp(up);
                         player2.moveDown(down);
                         player2.setPosition(x, y);
+                        if (hasKey) {
+                            gc.checkKeys();
+                        }
                     }
                     try {
                         Thread.sleep(1);
@@ -209,6 +215,7 @@ public class GameFrame extends JComponent {
                         dataOut.writeBoolean(player1.getDown());
                         dataOut.writeInt(player1.getX());
                         dataOut.writeInt(player1.getY());
+                        dataOut.writeBoolean(player1.hasKey());
                         dataOut.flush();
 
                     }
