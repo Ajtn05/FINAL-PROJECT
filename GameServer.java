@@ -8,7 +8,7 @@ public class GameServer {
     private ReadFromClient p1ReadRunnable, p2ReadRunnable;
     private WriteToClient p1WriteRunnable, p2WriteRunnable;
 
-    private Boolean p1left, p1right, p1up , p1down, p2left, p2right, p2up, p2down;
+    private Boolean p1left, p1right, p1up , p1down, p1hasKey, p2left, p2right, p2up, p2down, p2hasKey;
     private int p1x, p1y, p2x, p2y;
 
     public GameServer() {
@@ -17,10 +17,12 @@ public class GameServer {
         p1right = false;
         p1up = false;
         p1down = false;
+        p1hasKey = false;
         p2left = false;
         p2right = false;
         p2up = false;
         p2down = false;
+        p2hasKey = false;
 
         numPlayers = 0;
         maxPlayers = 2;
@@ -118,6 +120,7 @@ public class GameServer {
                         p1down = dataIn.readBoolean();
                         p1x = dataIn.readInt();
                         p1y = dataIn.readInt();
+                        p1hasKey = dataIn.readBoolean();
                     }
                     else {
                         p2left = dataIn.readBoolean();
@@ -126,6 +129,7 @@ public class GameServer {
                         p2down = dataIn.readBoolean();
                         p2x = dataIn.readInt();
                         p2y = dataIn.readInt();
+                        p2hasKey = dataIn.readBoolean();
                     }
                 }
             } catch (IOException ex) {
@@ -155,6 +159,7 @@ public class GameServer {
                         dataOut.writeBoolean(p2down);
                         dataOut.writeInt(p2x);
                         dataOut.writeInt(p2y);
+                        dataOut.writeBoolean(p2hasKey);
                         dataOut.flush();
                     }
                     else {
@@ -164,6 +169,7 @@ public class GameServer {
                         dataOut.writeBoolean(p1down);
                         dataOut.writeInt(p1x);
                         dataOut.writeInt(p1y);
+                        dataOut.writeBoolean(p1hasKey);
                         dataOut.flush();
                     }
                     try {

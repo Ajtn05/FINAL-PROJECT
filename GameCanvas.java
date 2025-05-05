@@ -56,20 +56,33 @@ public class GameCanvas extends JComponent implements KeyListener{
         player2.draw(g2d);
     }
 
+    public boolean scanKeys() {
+        for (InteractableObjects interactable : interactables){
+            if (interactable instanceof KeyObject keyObject){
+                return keyObject.isInteracted();
+            }
+        }
+        return false;
+    }
+
     @Override
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_E){
-            for (InteractableObjects interactable : interactables){
-                if (interactable instanceof KeyObject keyObject){
-                    keyObject.checkCollision(player1);
-                    keyObject.checkCollision(player2);
-                    if (keyObject.isInteracted()){
-                        repaint();
-                        break;
-                    }
-                }
-            }            
+            checkKeys();          
         }
+    }
+
+    public void checkKeys() {
+        for (InteractableObjects interactable : interactables){
+            if (interactable instanceof KeyObject keyObject){
+                keyObject.checkCollision(player1);
+                keyObject.checkCollision(player2);
+                if (keyObject.isInteracted()){
+                    repaint();
+                    break;
+                }
+            }
+        }   
     }
 
     @Override
