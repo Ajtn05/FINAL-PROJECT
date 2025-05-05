@@ -163,7 +163,6 @@ public class GameFrame extends JComponent {
                         y = dataIn.readInt();
                         hasKey = dataIn.readBoolean();
 
-
                         player2.moveLeft(left);
                         player2.moveRight(right);
                         player2.moveUp(up);
