@@ -13,6 +13,7 @@ public class GameCanvas extends JComponent implements KeyListener{
     public Player player1, player2;
     public String tileMap;
     private Map map;
+    private int level;
     private ArrayList<InteractableObjects> interactables;
 
 
@@ -25,6 +26,7 @@ public class GameCanvas extends JComponent implements KeyListener{
                 tileMap = "tileMap2.txt";
                 break;
         }
+        this.level = level;
         map = new Map(tileMap);
         this.interactables = interactables;
         addKeyListener(this);
@@ -83,6 +85,19 @@ public class GameCanvas extends JComponent implements KeyListener{
                 }
             }
         }   
+    }
+
+    public void addLevel() {
+        level++;
+        switch(level){
+            case 1:
+                tileMap = "tileMap1.txt";
+                break;
+            case 2:
+                tileMap = "tileMap2.txt";
+                break;
+        }
+        map = new Map(tileMap);
     }
 
     @Override

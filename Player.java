@@ -10,6 +10,7 @@ public class Player extends Entities {
     private GameCanvas gc;
     private int keysCollected = 0;
     private boolean hasKey = false;
+    private boolean levelCompleted;
     private ArrayList<Integer> PASSABLE_TILES;
 
 
@@ -108,6 +109,11 @@ public class Player extends Entities {
                 collision = true;
             // }
         }
+
+        if (x >= 1024-32 || y >= 768-32) {
+            gf.levelComplete();
+            levelCompleted = true;
+        }
     
         // System.out.println("x: " + x);
         // System.out.println("y: " + y);
@@ -128,6 +134,10 @@ public class Player extends Entities {
 
     public boolean hasKey(){
         return hasKey;
+    }
+
+    public boolean levelCompleted(){
+        return levelCompleted;
     }
 
     public void update(Map map){
