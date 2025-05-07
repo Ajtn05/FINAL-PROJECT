@@ -135,10 +135,13 @@ public class GameFrame extends JComponent {
     public void keyCollect() {
 
     }
+
     public void levelComplete() {
-        lm.addLevel();
-        lm.start();
-        frame.dispose();
+        if (player1.levelCompleted() && player2.levelCompleted()) {
+            gc.addLevel();
+            lm.addLevel();
+            createPlayers();
+        }
     }
     
     private class ReadFromServer implements Runnable {
