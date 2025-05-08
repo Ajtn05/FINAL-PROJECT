@@ -9,7 +9,7 @@ public class Player extends Entities {
     private GameFrame gf;
     private GameCanvas gc;
     private int keysCollected = 0;
-    private boolean hasKey = false;
+    private boolean hasKey = false, opensDoor = false;
     private boolean levelCompleted;
     private ArrayList<Integer> PASSABLE_TILES;
 
@@ -118,6 +118,7 @@ public class Player extends Entities {
         if (itemType.equals("lock")){
             keysCollected--;
             hasKey = false;
+            opensDoor = true;
             System.out.println("Keys collected: " + keysCollected);
         }
 
@@ -142,6 +143,10 @@ public class Player extends Entities {
 
     public boolean hasKey(){
         return hasKey;
+    }
+
+    public boolean opensDoor(){
+        return opensDoor;
     }
 
     public boolean levelCompleted(){

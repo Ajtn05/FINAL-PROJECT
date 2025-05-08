@@ -8,7 +8,9 @@ public class GameServer {
     private ReadFromClient p1ReadRunnable, p2ReadRunnable;
     private WriteToClient p1WriteRunnable, p2WriteRunnable;
 
-    private Boolean p1left, p1right, p1up , p1down, p1hasKey, p2left, p2right, p2up, p2down, p2hasKey;
+    private Boolean p1left, p1right, p1up , p1down, p1hasKey,
+                    p2left, p2right, p2up, p2down, p2hasKey, 
+                    p1opensDoor = false, p2opensDoor = false;
     private int p1x, p1y, p2x, p2y;
 
     public GameServer() {
@@ -121,6 +123,7 @@ public class GameServer {
                         p1x = dataIn.readInt();
                         p1y = dataIn.readInt();
                         p1hasKey = dataIn.readBoolean();
+                        p1opensDoor = dataIn.readBoolean();
                     }
                     else {
                         p2left = dataIn.readBoolean();
@@ -130,6 +133,7 @@ public class GameServer {
                         p2x = dataIn.readInt();
                         p2y = dataIn.readInt();
                         p2hasKey = dataIn.readBoolean();
+                        p2opensDoor = dataIn.readBoolean();
                     }
                 }
             } catch (IOException ex) {
@@ -160,6 +164,7 @@ public class GameServer {
                         dataOut.writeInt(p2x);
                         dataOut.writeInt(p2y);
                         dataOut.writeBoolean(p2hasKey);
+                        dataOut.writeBoolean(p2opensDoor);
                         dataOut.flush();
                     }
                     else {
@@ -170,6 +175,7 @@ public class GameServer {
                         dataOut.writeInt(p1x);
                         dataOut.writeInt(p1y);
                         dataOut.writeBoolean(p1hasKey);
+                        dataOut.writeBoolean(p1opensDoor);
                         dataOut.flush();
                     }
                     try {
