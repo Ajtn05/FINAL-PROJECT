@@ -17,6 +17,7 @@ public class GameCanvas extends JComponent implements KeyListener{
     private ArrayList<InteractableObjects> interactables;
 
 
+
     public GameCanvas(int level, ArrayList<InteractableObjects> interactables){
         switch(level){
             case 1:
@@ -88,7 +89,7 @@ public class GameCanvas extends JComponent implements KeyListener{
         for (InteractableObjects interactable : interactables){
             if (interactable instanceof Lock lock){
                 lock.checkCollision(player1);
-                lock.checkCollision(player2);    
+                lock.checkCollision(player2);
                 repaint();
                 break;
             }

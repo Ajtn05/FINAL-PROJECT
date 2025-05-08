@@ -162,7 +162,7 @@ public class GameFrame extends JComponent {
             try {
                 while (true) { 
                     if (player2 != null) {
-                        boolean left, right, up, down, hasKey;
+                        boolean left, right, up, down, hasKey, opensDoor = false;
                         int x, y;
                         left = dataIn.readBoolean();
                         right = dataIn.readBoolean();
@@ -171,6 +171,7 @@ public class GameFrame extends JComponent {
                         x = dataIn.readInt();
                         y = dataIn.readInt();
                         hasKey = dataIn.readBoolean();
+                        opensDoor = dataIn.readBoolean();
 
                         player2.moveLeft(left);
                         player2.moveRight(right);
@@ -179,6 +180,9 @@ public class GameFrame extends JComponent {
                         player2.setPosition(x, y);
                         if (hasKey) {
                             gc.checkKeys();
+                        }
+                        if (opensDoor) {
+                            gc.checkLocks();
                         }
                     }
                     try {
@@ -225,6 +229,7 @@ public class GameFrame extends JComponent {
                         dataOut.writeInt(player1.getX());
                         dataOut.writeInt(player1.getY());
                         dataOut.writeBoolean(player1.hasKey());
+                        dataOut.writeBoolean(player1.opensDoor());
                         dataOut.flush();
 
                     }
