@@ -4,6 +4,7 @@ public class LevelManager {
     private String host, playerType;
     private int port;
     private GameCanvas gc;
+    private KeyObject keyObject;
     private int level;
     private MenuFrame mf;
     private ArrayList<Obstacle> obstacles;
@@ -22,10 +23,6 @@ public class LevelManager {
     public ArrayList<Obstacle> getObstacles(){
         return obstacles;
     }
-
-    // public ArrayList<InteractableObjects> getInteractables(){
-    //     return interactables;
-    // }
 
     public void start() {
         gc = new GameCanvas(level, interactables);
@@ -60,8 +57,14 @@ public class LevelManager {
                 ArrayList<Integer> newTilenums = new ArrayList<>(Arrays.asList(24,24,23));
                 obstacles.add(new PressurePlate(32,530,24,24, tileCoordinates,newTilenums));
                 
-                KeyObject key = new KeyObject(228,354);
+                KeyObject key = new KeyObject(228,354, "gold");
                 interactables.add(key);
+
+                ArrayList<int[]> tileCoordinates1 = new ArrayList<>(Arrays.asList(new int[][]{{1,13}}));
+                ArrayList<Integer> newTilenums1 = new ArrayList<>(Arrays.asList(24));
+                
+                Lock lock = new Lock(36,423, tileCoordinates1, newTilenums1, gc, keyObject, "gold");
+                interactables.add(lock);
                 break;
             case 2:
                 break;

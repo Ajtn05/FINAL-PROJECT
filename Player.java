@@ -76,23 +76,12 @@ public class Player extends Entities {
             topEdge >= 0 && topEdge < mapNum.length &&
             bottomEdge >= 0 && bottomEdge < mapNum.length ){
 
-            // for (int i = 0; i < 22; i++){
-            //     if (collision = mapNum[leftEdge][topEdge] == i || 
-            //                     mapNum[rightEdge][topEdge] == i ||
-            //                     mapNum[leftEdge][bottomEdge] == i || 
-            //                     mapNum[rightEdge][bottomEdge] == i ) {
-            //         collision = true;
-            //         break;
-            //     }   
-            // }
-
             int[] checkTiles = {
                 mapNum[leftEdge][topEdge],
                 mapNum[rightEdge][topEdge], 
                 mapNum[leftEdge][bottomEdge], 
                 mapNum[rightEdge][bottomEdge],
             };
-
             for (int tile : checkTiles){
                 if (!PASSABLE_TILES.contains(tile)){
                     collision = true;
@@ -100,14 +89,9 @@ public class Player extends Entities {
                 }
             }
         }
+        
         if (x == 0 || x == 1024 || y == 0 || y == 768) {
-            //basically level complete state i think
-            // if (x == 1024) {
-            //     gf.levelComplete();
-            // }
-            // else {
                 collision = true;
-            // }
         }
 
         if (x >= 1024-32 || y >= 768-32) {
@@ -124,12 +108,36 @@ public class Player extends Entities {
         return collision;
     }    
 
-    public void collect(String itemType){
-        // incase we wanna collect other objects also
+    public void interact(String itemType){
         if (itemType.equals("key")){
             keysCollected++;
             hasKey = true;
+            System.out.println("Keys collected: " + keysCollected);
         }
+
+        if (itemType.equals("lock")){
+            keysCollected--;
+            hasKey = false;
+            System.out.println("Keys collected: " + keysCollected);
+        }
+
+        // if (itemType.equals("goldLock")){
+        //     keysCollected--;
+        //     hasKey = false;
+        //     System.out.println("Keys collected: " + keysCollected);
+        // }
+
+        // if (itemType.equals("silverLock")){
+        //     keysCollected--;
+        //     hasKey = false;
+        //     System.out.println("Keys collected: " + keysCollected);
+        // }
+
+        // if (itemType.equals("bronzeLock")){
+        //     keysCollected--;
+        //     hasKey = false;
+        //     System.out.println("Keys collected: " + keysCollected);
+        // }
     }
 
     public boolean hasKey(){

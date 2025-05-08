@@ -49,11 +49,9 @@ public class GameCanvas extends JComponent implements KeyListener{
         map.draw(g2d);
         
         for (InteractableObjects interactable : interactables){
-            if (interactable instanceof KeyObject keyObject){
-                    keyObject.draw(g2d);
-            }
+            interactable.draw(g2d);
         }
-        
+
         player1.draw(g2d);
         player2.draw(g2d);
     }
@@ -68,9 +66,10 @@ public class GameCanvas extends JComponent implements KeyListener{
     }
 
     @Override
-    public void keyPressed(KeyEvent e) {
+    public void keyReleased(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_E){
-            checkKeys();          
+            checkKeys();   
+            checkLocks();       
         }
     }
 
@@ -78,13 +77,22 @@ public class GameCanvas extends JComponent implements KeyListener{
         for (InteractableObjects interactable : interactables){
             if (interactable instanceof KeyObject keyObject){
                 keyObject.checkCollision(player1);
-                keyObject.checkCollision(player2);
-                if (keyObject.isInteracted()){
-                    repaint();
-                    break;
-                }
+                keyObject.checkCollision(player2);    
+                repaint();
+                break;
             }
-        }   
+        }  
+    }
+
+    public void checkLocks() {
+        for (InteractableObjects interactable : interactables){
+            if (interactable instanceof Lock lock){
+                lock.checkCollision(player1);
+                lock.checkCollision(player2);    
+                repaint();
+                break;
+            }
+        }  
     }
 
     public void addLevel() {
@@ -101,7 +109,7 @@ public class GameCanvas extends JComponent implements KeyListener{
     }
 
     @Override
-    public void keyReleased(KeyEvent e) {}
+    public void keyPressed(KeyEvent e) {}
     @Override
     public void keyTyped(KeyEvent e) {}
 }

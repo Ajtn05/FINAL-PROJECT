@@ -11,7 +11,7 @@ public class Map {
     int rows = 24;
 
     public Map(String level){
-        tiles = new Tiles[27];
+        tiles = new Tiles[28];
         tileNum = new int[columns][rows];
         this.level = level;
         getImages();
@@ -105,6 +105,8 @@ public class Map {
             tiles[26] = new Tiles();
             tiles[26].image = ImageIO.read(getClass().getResourceAsStream("floor3.png"));
 
+            tiles[27] = new Tiles();
+            tiles[27].image = ImageIO.read(getClass().getResourceAsStream("newdoor.png"));    
 
         } catch (IOException e){
             e.printStackTrace();

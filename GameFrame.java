@@ -79,6 +79,12 @@ public class GameFrame extends JComponent {
                 for (Obstacle obstacle : lm.getObstacles()){
                     obstacle.checkCollision(player1, player2, gc.getMap(), gc);
                 }
+
+                // for (Door door :lm.getDoors()) {
+                //     door.checkCollision(player1);
+                //     door.checkCollision(player2);
+                // }
+
                 player1.update(gc.getMap());
                 player2.update(gc.getMap());
                 gc.repaint();
