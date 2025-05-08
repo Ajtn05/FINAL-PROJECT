@@ -57,13 +57,14 @@ public class LevelManager {
                 ArrayList<Integer> newTilenums = new ArrayList<>(Arrays.asList(24,24,23));
                 obstacles.add(new PressurePlate(32,530,24,24, tileCoordinates,newTilenums));
                 
-                KeyObject key = new KeyObject(228,354, "gold");
+                // KeyObject key = new KeyObject(228,354, "gold");
+                KeyObject key = new KeyObject(228,64, "gold");
                 interactables.add(key);
 
                 ArrayList<int[]> tileCoordinates1 = new ArrayList<>(Arrays.asList(new int[][]{{1,13}}));
                 ArrayList<Integer> newTilenums1 = new ArrayList<>(Arrays.asList(24));
                 
-                Lock lock = new Lock(36,423, tileCoordinates1, newTilenums1, gc, keyObject, "gold");
+                Lock lock = new Lock(36,423, tileCoordinates1, newTilenums1, gc, key, "gold");
                 interactables.add(lock);
                 break;
             case 2:
