@@ -54,34 +54,16 @@ public class Lock implements InteractableObjects{
         if ((x-pX <= 40 && y-pY <= 60 && !(pX - x > 40) && !(pY - y > 60))) {
             if (player.hasKey() && locked){  
                 player.interact("lock");
-                locked = false;
-                changeTile(gc.getMap());
-
-                // keyObject.setUsed(true);
-
-                // if (keyObject.hasKeyType("gold") != null){
-                //     player.interact("goldLock");
-                //     unlock();
-                // }
-
-                // if (keyObject.hasKeyType("silver") != null){
-                //     player.interact("silverLock");
-                //     unlock();
-                // }
-
-                // if (keyObject.hasKeyType("bronze") != null){
-                //     player.interact("bronzeLock");
-                //     unlock();
-                // }
+                unlock();
             } 
         }
     }
 
-    // public void unlock(){
-    //     locked = false;
-    //     changeTile(gc.getMap());
-    //     // keyObject.setUsed(true);
-    // }
+    public void unlock(){
+        locked = false;
+        changeTile(gc.getMap());
+        keyObject.setUsed();
+    }
 
     public void changeTile(Map map){
         for (int i = 0; i < tileCoordinates.size(); i++){

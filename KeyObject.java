@@ -6,7 +6,7 @@ import javax.imageio.ImageIO;
 public class KeyObject extends Entities implements InteractableObjects {
     private int x, y;
     private boolean unclaimed = true;
-    // private boolean used = false;
+    private boolean used = false;
     private String keyType;
 
     public KeyObject(int x, int y, String keyType){
@@ -37,33 +37,6 @@ public class KeyObject extends Entities implements InteractableObjects {
         return null;
     }
 
-    // public String hasKeyType(String keyType){
-    //     switch (keyType) {
-    //         case "gold":
-    //         return "gold";
-    //     case "silver":
-    //         return "silver";
-    //     case "bronze":
-    //         return "bronze"; 
-    //     }
-    //     return null;
-    // }
-
-    // public boolean hasSilverKey(String keyType){
-    //     if (keyType.equals("silver")){
-    //         return true;
-    //     }
-    //     return false;
-    // }
-
-    // public boolean hasBronzeKey(String keyType){
-    //     if (keyType.equals("bronze")){
-    //         return true;
-    //     }
-    //     return false;
-    // }
-    
-
     public void checkCollision(Player player){
         int pX = player.getX();
         int pY = player.getY();
@@ -77,9 +50,9 @@ public class KeyObject extends Entities implements InteractableObjects {
             }
     }
 
-    // public void setUsed(boolean used){
-    //     this.used = used;
-    // }
+    public void setUsed(){
+       used = true;
+    }
 
     @Override
     public boolean isInteracted(){
@@ -88,11 +61,10 @@ public class KeyObject extends Entities implements InteractableObjects {
 
     @Override
     public void draw(Graphics2D g){
-        // if (used){
-        //     return;
-        // }
-
-        // gold
+        if (used){
+            return;
+        }
+        
         if (unclaimed){
             g.drawImage(getKeyType(), x, y, 24, 24, null);
         } else if (!unclaimed){
