@@ -19,9 +19,9 @@ public class KeyObject extends Entities implements InteractableObjects {
     
     public void getImage(){
         try {
-            goldKey = ImageIO.read(getClass().getResourceAsStream("goldKey.png"));  
-            silverKey = ImageIO.read(getClass().getResourceAsStream("silverKey.png"));  
-            bronzeKey = ImageIO.read(getClass().getResourceAsStream("bronzeKey.png"));  
+            goldKey = ImageIO.read(getClass().getResourceAsStream("assets/images/goldKey.png"));  
+            silverKey = ImageIO.read(getClass().getResourceAsStream("assets/images/silverKey.png"));  
+            bronzeKey = ImageIO.read(getClass().getResourceAsStream("assets/images/bronzeKey.png"));  
         } catch (IOException e){
             e.printStackTrace();
         }

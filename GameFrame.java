@@ -23,7 +23,7 @@ public class GameFrame extends JComponent {
         this.playerType = playerType;
         frame = new JFrame();
         this.gc = gc;
-        map = new Map("tileMap1.txt");
+        map = new Map("assets/maps/tileMap1.txt");
         this.lm = lm;
     }
 

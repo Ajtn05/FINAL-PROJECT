@@ -34,30 +34,30 @@ public class Player extends Entities {
             int height = 32;
 
             // boy
-            boyUp = ImageIO.read(getClass().getResourceAsStream("walk_up.png"));
+            boyUp = ImageIO.read(getClass().getResourceAsStream("assets/images/walk_up.png"));
             boyUp1 = boyUp.getSubimage(17, 19, width, height);
             boyUp2 = boyUp.getSubimage(257, 19, width, height);
-            boyDown = ImageIO.read(getClass().getResourceAsStream("walk_down.png"));
+            boyDown = ImageIO.read(getClass().getResourceAsStream("assets/images/walk_down.png"));
             boyDown1 = boyDown.getSubimage(66, 17, width, height);
             boyDown2 = boyDown.getSubimage(259, 17, width, height);
-            boyLeft = ImageIO.read(getClass().getResourceAsStream("walk_left_down.png"));
+            boyLeft = ImageIO.read(getClass().getResourceAsStream("assets/images/walk_left_down.png"));
             boyLeft1 = boyLeft.getSubimage(18, 19, width, height);
             boyLeft2 = boyLeft.getSubimage(66, 19, width, height);
-            boyRight = ImageIO.read(getClass().getResourceAsStream("walk_right_down.png"));
+            boyRight = ImageIO.read(getClass().getResourceAsStream("assets/images/walk_right_down.png"));
             boyRight1 = boyRight.getSubimage(18, 19, width, height);
             boyRight2 = boyRight.getSubimage(65, 19, width, height);            
 
             // girl
-            girlUp = ImageIO.read(getClass().getResourceAsStream("girl_walk_up.png"));
+            girlUp = ImageIO.read(getClass().getResourceAsStream("assets/images/girl_walk_up.png"));
             girlUp1 = girlUp.getSubimage(18, 21, width, height);
             girlUp2 = girlUp.getSubimage(162, 21, width, height);
-            girlDown = ImageIO.read(getClass().getResourceAsStream("girl_walk_down.png"));
+            girlDown = ImageIO.read(getClass().getResourceAsStream("assets/images/girl_walk_down.png"));
             girlDown1 = girlDown.getSubimage(66, 20, width, height);
             girlDown2 = girlDown.getSubimage(258, 21, width, height);
-            girlLeft = ImageIO.read(getClass().getResourceAsStream("girl_walk_left_down.png"));
+            girlLeft = ImageIO.read(getClass().getResourceAsStream("assets/images/girl_walk_left_down.png"));
             girlLeft1 = girlLeft.getSubimage(18, 18, width, height);
             girlLeft2 = girlLeft.getSubimage(66, 18, width, height);
-            girlRight = ImageIO.read(getClass().getResourceAsStream("girl_walk_right_down.png"));
+            girlRight = ImageIO.read(getClass().getResourceAsStream("assets/images/girl_walk_right_down.png"));
             girlRight1 = girlRight.getSubimage(16, 18, width, height);
             girlRight2 = girlRight.getSubimage(64, 19, width, height);            
 
