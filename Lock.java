@@ -40,9 +40,9 @@ public class Lock implements InteractableObjects{
 
     public void getImage(){
         try {
-            goldPadlock = ImageIO.read(getClass().getResourceAsStream("goldPadlock.png"));  
-            silverPadlock = ImageIO.read(getClass().getResourceAsStream("silverPadlock.png"));  
-            bronzePadlock = ImageIO.read(getClass().getResourceAsStream("bronzePadlock.png"));  
+            goldPadlock = ImageIO.read(getClass().getResourceAsStream("assets/images/goldPadlock.png"));  
+            silverPadlock = ImageIO.read(getClass().getResourceAsStream("assets/images/silverPadlock.png"));  
+            bronzePadlock = ImageIO.read(getClass().getResourceAsStream("assets/images/bronzePadlock.png"));  
         } catch (IOException e){
             e.printStackTrace();
         }

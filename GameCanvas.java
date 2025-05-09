@@ -19,10 +19,10 @@ public class GameCanvas extends JComponent implements KeyListener{
     public GameCanvas(int level, ArrayList<InteractableObjects> interactables){
         switch(level){
             case 1:
-                tileMap = "tileMap1.txt";
+                tileMap = "assets/maps/tileMap1.txt";
                 break;
             case 2:
-                tileMap = "tileMap2.txt";
+                tileMap = "assets/maps/tileMap2.txt";
                 break;
         }
         this.level = level;
