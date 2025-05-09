@@ -37,6 +37,11 @@ public class KeyObject extends Entities implements InteractableObjects {
         return null;
     }
 
+    public String hasKeyType(){
+        return keyType;
+     }
+
+
     public void checkCollision(Player player){
         int pX = player.getX();
         int pY = player.getY();
@@ -44,7 +49,7 @@ public class KeyObject extends Entities implements InteractableObjects {
         if (pX + 24 > x && pX < x + 24 &&
             pY + 40 > y && pY < y + 24) {
                 if (unclaimed){
-                    player.interact( "key");
+                    player.interact("key", keyType);
                     unclaimed = false;
                 }
             }
@@ -64,7 +69,6 @@ public class KeyObject extends Entities implements InteractableObjects {
         if (used){
             return;
         }
-        
         if (unclaimed){
             g.drawImage(getKeyType(), x, y, 24, 24, null);
         } else if (!unclaimed){

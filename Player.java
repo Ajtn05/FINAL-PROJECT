@@ -10,8 +10,10 @@ public class Player extends Entities {
     private GameCanvas gc;
     private int keysCollected = 0;
     private boolean hasKey = false, opensDoor = false;
+    private String keyType = null;
     private boolean levelCompleted;
     private ArrayList<Integer> PASSABLE_TILES;
+
 
 
     public Player (int x, int y, GameFrame gf, GameCanvas gc, String character){
@@ -108,38 +110,39 @@ public class Player extends Entities {
         return collision;
     }    
 
-    public void interact(String itemType){
+    public void interact(String itemType, String keyType){
+        // if (itemType.equals("key")){
+        //     keysCollected++;
+        //     hasKey = true;
+        //     // System.out.println("Keys collected: " + keysCollected);
+        // }
+
         if (itemType.equals("key")){
             keysCollected++;
             hasKey = true;
-            System.out.println("Keys collected: " + keysCollected);
+            this.keyType = keyType;
         }
 
         if (itemType.equals("lock")){
-            keysCollected--;
-            hasKey = false;
-            opensDoor = true;
-            System.out.println("Keys collected: " + keysCollected);
+            if (this.keyType != null && keyType.equals(this.keyType)){
+                keysCollected--;
+                hasKey = false;
+                opensDoor = true;
+                this.keyType = null;
+            }
         }
 
         // if (itemType.equals("goldLock")){
         //     keysCollected--;
         //     hasKey = false;
-        //     System.out.println("Keys collected: " + keysCollected);
-        // }
-
-        // if (itemType.equals("silverLock")){
-        //     keysCollected--;
-        //     hasKey = false;
-        //     System.out.println("Keys collected: " + keysCollected);
-        // }
-
-        // if (itemType.equals("bronzeLock")){
-        //     keysCollected--;
-        //     hasKey = false;
-        //     System.out.println("Keys collected: " + keysCollected);
+        //     opensDoor = true;
+        //     // System.out.println("Keys collected: " + keysCollected);
         // }
     }
+
+    public String hasKeyType(){
+        return keyType;
+     }
 
     public boolean hasKey(){
         return hasKey;
@@ -364,12 +367,10 @@ public class Player extends Entities {
     }
     
     public void setX(double x) {
-        //System.out.println("player x: " + x);
         this.x = (int) x;
     }
 
     public void setY(double y) {
-        //System.out.println("player y: " + y);
         this.y = (int) y;
     }
 }

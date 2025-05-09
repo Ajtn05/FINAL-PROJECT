@@ -51,10 +51,25 @@ public class Lock implements InteractableObjects{
         int pX = player.getX();
         int pY = player.getY();
        
+        // if ((x-pX <= 40 && y-pY <= 60 && !(pX - x > 40) && !(pY - y > 60))) {
+        //     if (player.hasKey() && locked){  
+        //         player.interact("lock");
+        //         unlock();
+        //     } 
+        // }
+
         if ((x-pX <= 40 && y-pY <= 60 && !(pX - x > 40) && !(pY - y > 60))) {
-            if (player.hasKey() && locked){  
-                player.interact("lock");
-                unlock();
+            if (player.hasKey() && locked){
+                if (player.hasKeyType().equals(lockType)){
+                    player.interact("lock", lockType);
+                    unlock();
+                    System.out.println("it shouldddd work");
+                }
+
+            //    if (keyObject.hasKeyType().equals("gold")){
+            //         player.interact("goldLock");
+            //         unlock();
+            //   }  
             } 
         }
     }
