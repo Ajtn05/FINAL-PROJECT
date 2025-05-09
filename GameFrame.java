@@ -27,6 +27,18 @@ public class GameFrame extends JComponent {
         this.lm = lm;
     }
 
+    public void setUpGUI(){
+        gc.setPreferredSize(new Dimension(1024, 768));
+        createPlayers();
+        frame.add(gc);
+        frame.setTitle("Maze Game - Player " + playerID + " " + playerType);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.pack();
+        frame.setFocusable(true);
+        frame.setVisible(true);
+        gc.requestFocusInWindow();
+    }
+
     public void createPlayers() {
         String p1playerType = null, p2playerType = null;
         if (playerID == 1) {
@@ -60,18 +72,6 @@ public class GameFrame extends JComponent {
         }
     }
 
-    public void setUpGUI(){
-        gc.setPreferredSize(new Dimension(1024, 768));
-        createPlayers();
-        frame.add(gc);
-        frame.setTitle("Maze Game - Player " + playerID + " " + playerType);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setFocusable(true);
-        frame.setVisible(true);
-        gc.requestFocusInWindow();
-    }
-
     public void startGameTimer(){
         timer = new Timer(16, new ActionListener() {
             @Override
@@ -93,63 +93,14 @@ public class GameFrame extends JComponent {
         timer.start();
     }
 
-    public void addKeyBindings(){
-        ActionMap am = gc.getActionMap();
-        InputMap im = gc.getInputMap();
-
-        createBinding(am, im, "up", KeyEvent.VK_W);
-        createBinding(am, im, "down", KeyEvent.VK_S);
-        createBinding(am, im, "left", KeyEvent.VK_A);
-        createBinding(am, im, "right", KeyEvent.VK_D);
-    }
-
-    private void createBinding(ActionMap am, InputMap im, String action, int key){
-        am.put(action + "Action", new AbstractAction(){
-            public void actionPerformed(ActionEvent ae){
-                switch (action){
-                    case "up": player1.moveUp(true);
-                    break;
-                    case "down": player1.moveDown(true);
-                    break;
-                    case "left": player1.moveLeft(true);
-                    break;
-                    case "right": player1.moveRight(true);
-                    break;
-                }
-            }
-        });
-
-        am.put(action + "ReleaseAction", new AbstractAction() {
-            public void actionPerformed(ActionEvent ae){
-                switch (action){
-                    case "up": player1.moveUp(false);
-                    break;
-                    case "down": player1.moveDown(false);
-                    break;
-                    case "left": player1.moveLeft(false);
-                    break;
-                    case "right": player1.moveRight(false);
-                    break;
-                }
-            }
-        });
-
-        im.put(KeyStroke.getKeyStroke(key, 0, false), action + "Action" );
-        im.put(KeyStroke.getKeyStroke(key, 0, true), action + "ReleaseAction");    
-    }
-
-    public void keyCollect() {
-
-    }
-
     public void levelComplete() {
         if (player1.levelCompleted() && player2.levelCompleted()) {
-            gc.addLevel();
             lm.addLevel();
             createPlayers();
         }
     }
-    
+  
+    //SERVER COMMUNICATION
     private class ReadFromServer implements Runnable {
         private DataInputStream dataIn;
         
@@ -256,7 +207,6 @@ public class GameFrame extends JComponent {
             String check = in.readUTF();
             if (check.equals("continue")) {
                 mf.end();
-                lm.setUp();
                 if (playerID == 1) {
                     System.out.println("Waiting for Player #2 to connect");
                 }
@@ -274,4 +224,50 @@ public class GameFrame extends JComponent {
             return false;
         }
     }  
+
+    //KEYPRESS
+    private void createBinding(ActionMap am, InputMap im, String action, int key){
+        am.put(action + "Action", new AbstractAction(){
+            public void actionPerformed(ActionEvent ae){
+                switch (action){
+                    case "up": player1.moveUp(true);
+                    break;
+                    case "down": player1.moveDown(true);
+                    break;
+                    case "left": player1.moveLeft(true);
+                    break;
+                    case "right": player1.moveRight(true);
+                    break;
+                }
+            }
+        });
+
+        am.put(action + "ReleaseAction", new AbstractAction() {
+            public void actionPerformed(ActionEvent ae){
+                switch (action){
+                    case "up": player1.moveUp(false);
+                    break;
+                    case "down": player1.moveDown(false);
+                    break;
+                    case "left": player1.moveLeft(false);
+                    break;
+                    case "right": player1.moveRight(false);
+                    break;
+                }
+            }
+        });
+
+        im.put(KeyStroke.getKeyStroke(key, 0, false), action + "Action" );
+        im.put(KeyStroke.getKeyStroke(key, 0, true), action + "ReleaseAction");    
+    }
+
+    public void addKeyBindings(){
+        ActionMap am = gc.getActionMap();
+        InputMap im = gc.getInputMap();
+
+        createBinding(am, im, "up", KeyEvent.VK_W);
+        createBinding(am, im, "down", KeyEvent.VK_S);
+        createBinding(am, im, "left", KeyEvent.VK_A);
+        createBinding(am, im, "right", KeyEvent.VK_D);
+    }
 }

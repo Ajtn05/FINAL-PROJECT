@@ -2,6 +2,7 @@ import java.util.*;
 
 public class PressurePlate implements Obstacle {
     private int plateX, plateY, plateW, plateH;
+    private String ID;
     private ArrayList<int[]> tileCoordinates;
     private ArrayList<Integer> newTileNums;
 
@@ -10,13 +11,27 @@ public class PressurePlate implements Obstacle {
     // private Map map;
     // private GameCanvas gc;
 
-    public PressurePlate(int plateX, int plateY, int plateW, int plateH, ArrayList<int[]> tileCoordinates, ArrayList<Integer> newTileNums){
+    // public PressurePlate(int plateX, int plateY, int plateW, int plateH, ArrayList<int[]> tileCoordinates, ArrayList<Integer> newTileNums){
+    //     this.plateX = plateX;
+    //     this.plateY = plateY;
+    //     this.plateW = plateW;
+    //     this.plateH = plateH;
+    //     this.tileCoordinates = tileCoordinates;
+    //     this.newTileNums = newTileNums;
+
+    //     // this.player1 = player1;
+    //     // this.player2 = player2;
+    //     // this.map = map;
+    //     // this.gc = gc;
+    // }
+
+    public PressurePlate(int plateX, int plateY, int plateW, int plateH, MapItem object){
         this.plateX = plateX;
         this.plateY = plateY;
         this.plateW = plateW;
         this.plateH = plateH;
-        this.tileCoordinates = tileCoordinates;
-        this.newTileNums = newTileNums;
+        this.tileCoordinates = new ArrayList<>(Arrays.asList(object.getTileCoordinates()));
+        this.newTileNums = new ArrayList<>(Arrays.asList(object.getNewTileNum()));
 
         // this.player1 = player1;
         // this.player2 = player2;
@@ -53,5 +68,10 @@ public class PressurePlate implements Obstacle {
                     map.getTileNum()[cord[0]][cord[1]] = newtileNum;
                 }
         }
+    }
+
+    @Override
+    public String getID() {
+        return ID;
     }
 }

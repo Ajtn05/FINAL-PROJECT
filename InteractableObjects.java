@@ -7,4 +7,6 @@ public interface InteractableObjects {
     void draw(Graphics2D g);
     int getX();
     int getY();
+    String getID();
+
 }

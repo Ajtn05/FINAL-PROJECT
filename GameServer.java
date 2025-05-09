@@ -35,7 +35,6 @@ public class GameServer {
         }
     }
 
-
     public void acceptConnections() {
         try {
             int boy = 0;
@@ -198,7 +197,6 @@ public class GameServer {
         } 
 
     }
-
     public static void main(String[] args) {
         GameServer gs = new GameServer();
         gs.acceptConnections(); 

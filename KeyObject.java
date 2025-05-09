@@ -5,6 +5,7 @@ import javax.imageio.ImageIO;
 
 public class KeyObject extends Entities implements InteractableObjects {
     private int x, y;
+    private String ID;
     private boolean unclaimed = true;
     private boolean used = false;
     private String keyType;
@@ -15,6 +16,7 @@ public class KeyObject extends Entities implements InteractableObjects {
         this.keyType = keyType;
         getImage();
     }
+    
     public void getImage(){
         try {
             goldKey = ImageIO.read(getClass().getResourceAsStream("goldKey.png"));  
@@ -40,7 +42,6 @@ public class KeyObject extends Entities implements InteractableObjects {
     public String hasKeyType(){
         return keyType;
      }
-
 
     public void checkCollision(Player player){
         int pX = player.getX();
@@ -84,5 +85,10 @@ public class KeyObject extends Entities implements InteractableObjects {
     @Override
     public int getY(){
         return y;
+    }
+
+    @Override
+    public String getID() {
+        return ID;
     }
 }
