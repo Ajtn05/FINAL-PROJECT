@@ -58,14 +58,21 @@ public class LevelManager {
                 obstacles.add(new PressurePlate(32,530,24,24, tileCoordinates,newTilenums));
                 
                 // KeyObject key = new KeyObject(228,354, "gold");
-                KeyObject key = new KeyObject(228,64, "gold");
+                KeyObject key = new KeyObject(228,64, "bronze");
                 interactables.add(key);
 
                 ArrayList<int[]> tileCoordinates1 = new ArrayList<>(Arrays.asList(new int[][]{{1,13}}));
                 ArrayList<Integer> newTilenums1 = new ArrayList<>(Arrays.asList(24));
-                
-                Lock lock = new Lock(36,423, tileCoordinates1, newTilenums1, gc, key, "gold");
+                Lock lock = new Lock(36,423, tileCoordinates1, newTilenums1, gc, key, "bronze");
                 interactables.add(lock);
+
+                // KeyObject key2 = new KeyObject(300,64, "bronze");
+                // interactables.add(key2);
+
+                // ArrayList<int[]> tileCoordinates2 = new ArrayList<>(Arrays.asList(new int[][]{{15,2}}));
+                // ArrayList<Integer> newTilenums2 = new ArrayList<>(Arrays.asList(1));
+                // Lock lock2 = new Lock(356,150, tileCoordinates2, newTilenums2, gc, key2, "bronze");
+                // interactables.add(lock2);
                 break;
             case 2:
                 break;
