@@ -2,10 +2,12 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import javax.imageio.ImageIO;
 
 public class Lock implements InteractableObjects{
     private int x, y;
+    private String ID;
     private BufferedImage goldPadlock, silverPadlock, bronzePadlock;
     private boolean locked = true;
     private ArrayList<int[]> tileCoordinates;
@@ -14,11 +16,22 @@ public class Lock implements InteractableObjects{
     private KeyObject keyObject;
     private String lockType;
 
-    public Lock(int x, int y, ArrayList<int[]> tileCoordinates, ArrayList<Integer> newTileNums, GameCanvas gc, KeyObject keyObject, String lockType){
+    // public Lock(int x, int y, ArrayList<int[]> tileCoordinates, ArrayList<Integer> newTileNums, GameCanvas gc, KeyObject keyObject, String lockType){
+    //     this.x = x;
+    //     this.y = y;
+    //     this.tileCoordinates = tileCoordinates;
+    //     this.newTileNums = newTileNums;
+    //     this.gc = gc;
+    //     this.keyObject = keyObject;
+    //     this.lockType = lockType;
+    //     getImage();
+    // }
+
+    public Lock(int x, int y, MapItem object, GameCanvas gc, KeyObject keyObject, String lockType){
         this.x = x;
         this.y = y;
-        this.tileCoordinates = tileCoordinates;
-        this.newTileNums = newTileNums;
+        this.tileCoordinates = new ArrayList<>(Arrays.asList(object.getTileCoordinates()));
+        this.newTileNums = new ArrayList<>(Arrays.asList(object.getNewTileNum()));
         this.gc = gc;
         this.keyObject = keyObject;
         this.lockType = lockType;
@@ -33,18 +46,6 @@ public class Lock implements InteractableObjects{
         } catch (IOException e){
             e.printStackTrace();
         }
-    }
-
-    public BufferedImage getLockType(){
-        switch (lockType) {
-            case "gold":
-                return goldPadlock;
-            case "silver":
-                return silverPadlock;
-            case "bronze":
-                return bronzePadlock;
-        }
-        return null;
     }
 
     public void checkCollision(Player player){
@@ -88,15 +89,28 @@ public class Lock implements InteractableObjects{
         }
     }
 
-    public boolean isInteracted() {
-        return !locked;
-    }
-
     @Override
     public void draw(Graphics2D g){
         if (locked){
             g.drawImage(getLockType(), x, y, 24, 24, null);
         }
+    }
+
+    //GETTERS
+    public BufferedImage getLockType(){
+        switch (lockType) {
+            case "gold":
+                return goldPadlock;
+            case "silver":
+                return silverPadlock;
+            case "bronze":
+                return bronzePadlock;
+        }
+        return null;
+    }
+
+    public boolean isInteracted() {
+        return !locked;
     }
 
     @Override
@@ -111,5 +125,10 @@ public class Lock implements InteractableObjects{
 
     public boolean getLocked() {
         return locked;
+    }
+
+    @Override
+    public String getID() {
+        return ID;
     }
 }

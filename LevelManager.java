@@ -4,6 +4,7 @@ public class LevelManager {
     private String host, playerType;
     private int port;
     private GameCanvas gc;
+    private GameFrame gf;
     private KeyObject keyObject;
     private int level;
     private MenuFrame mf;
@@ -26,7 +27,7 @@ public class LevelManager {
 
     public void start() {
         gc = new GameCanvas(level, interactables);
-        GameFrame gf = new GameFrame(gc, this, playerType);
+        gf = new GameFrame(gc, this, playerType);
         if (gf.connectToServer(host, port, playerType, mf)) {
             gf.setUpGUI();
             gf.startGameTimer();
@@ -34,17 +35,14 @@ public class LevelManager {
             setUpObstacles();
         }
         else {
-            // mf.reset(this);
             mf.frame.dispose();
             mf.setUpGUI("Player type already exists, please choose another");
         }
     }
 
-    public void setUp() {
-    }
-
     public void addLevel() {
         level++;
+        gc.addLevel(level);
         setUpObstacles();
     }
 
@@ -53,30 +51,58 @@ public class LevelManager {
         interactables.clear();
         switch(level){
             case 1:
-                ArrayList<int[]> tileCoordinates = new ArrayList<>(Arrays.asList(new int[][]{{27,9}, {28,9}, {1,17}}));
-                ArrayList<Integer> newTilenums = new ArrayList<>(Arrays.asList(24,24,23));
-                obstacles.add(new PressurePlate(32,530,24,24, tileCoordinates,newTilenums));
+                //pressureplate
+                MapItem PressurePlate = new MapItem(new int[][]{{27,9}, {28,9}, {1,17}}, new Integer[]{24, 24, 23});
+                obstacles.add(new PressurePlate(32,530,24,24, PressurePlate));
                 
+                // key 1
                 // KeyObject key = new KeyObject(228,354, "gold");
                 KeyObject key = new KeyObject(228,64, "bronze");
                 interactables.add(key);
 
-                ArrayList<int[]> tileCoordinates1 = new ArrayList<>(Arrays.asList(new int[][]{{1,13}}));
-                ArrayList<Integer> newTilenums1 = new ArrayList<>(Arrays.asList(24));
-                Lock lock = new Lock(36,423, tileCoordinates1, newTilenums1, gc, key, "bronze");
-                interactables.add(lock);
+                //lock 1
+                MapItem lock1 = new MapItem(new int[][]{{1,13}}, new Integer[]{24});
+                interactables.add(new Lock(36,423, lock1, gc, key, "bronze"));
 
-                // KeyObject key2 = new KeyObject(300,64, "bronze");
-                // interactables.add(key2);
+                //key 2
+                KeyObject key2 = new KeyObject(300,64, "bronze");
+                interactables.add(key2);
 
-                // ArrayList<int[]> tileCoordinates2 = new ArrayList<>(Arrays.asList(new int[][]{{15,2}}));
-                // ArrayList<Integer> newTilenums2 = new ArrayList<>(Arrays.asList(1));
-                // Lock lock2 = new Lock(356,150, tileCoordinates2, newTilenums2, gc, key2, "bronze");
-                // interactables.add(lock2);
+                // //lock 2
+                MapItem lock2 = new MapItem(new int[][]{{15,2}}, new Integer[]{24});
+                interactables.add(new Lock(356,150, lock2, gc, key2, "bronze"));
+                
                 break;
             case 2:
                 break;
         }
     }
+
+    //GETTERS
+
+    // public void checkLocks() {
+    //     for (InteractableObjects interactable : interactables){
+    //         if (interactable instanceof Lock lock){
+    //             lock.checkCollision(player1);
+    //             lock.checkCollision(player2);
+    //             repaint();
+    //         }
+    //     }  
+    // }
+
+    public InteractableObjects getInteractableObjects(String name) {
+        for (InteractableObjects interactable : interactables) {
+            if (interactable.getID().equals(name)) {
+                return interactable;
+            }
+        }
+        return null;
+    }
+
+    public GameCanvas getGC() {return gc;}
+
+    public GameFrame getGF() {return gf;}
+
+
 
 }

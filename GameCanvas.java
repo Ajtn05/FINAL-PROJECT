@@ -16,8 +16,6 @@ public class GameCanvas extends JComponent implements KeyListener{
     private int level;
     private ArrayList<InteractableObjects> interactables;
 
-
-
     public GameCanvas(int level, ArrayList<InteractableObjects> interactables){
         switch(level){
             case 1:
@@ -39,10 +37,44 @@ public class GameCanvas extends JComponent implements KeyListener{
         this.player2 = player2;
     }
 
-    public Map getMap(){
-        return this.map;
+    public boolean scanKeys() {
+        for (InteractableObjects interactable : interactables){
+            if (interactable instanceof KeyObject keyObject){
+                return keyObject.isInteracted();
+            }
+        }
+        return false;
     }
 
+    public void checkKeys() {
+        for (InteractableObjects interactable : interactables){
+            if (interactable instanceof KeyObject keyObject){
+                keyObject.checkCollision(player1);
+                keyObject.checkCollision(player2);    
+                repaint();
+            }
+        }  
+    }
+
+    public void checkLocks() {
+        for (InteractableObjects interactable : interactables){
+            if (interactable instanceof Lock lock){
+                lock.checkCollision(player1);
+                lock.checkCollision(player2);
+                repaint();
+            }
+        }  
+    }
+
+    public void addLevel(int level) {
+        switch(level){
+            case 1 -> tileMap = "tileMap1.txt";
+            case 2 -> tileMap = "tileMap2.txt";
+        }
+        map = new Map(tileMap);
+    }
+
+    //DRAW METHODS
     @Override
     public void paintComponent(Graphics g){
         super.paintComponent(g);
@@ -56,16 +88,12 @@ public class GameCanvas extends JComponent implements KeyListener{
         player1.draw(g2d);
         player2.draw(g2d);
     }
-
-    public boolean scanKeys() {
-        for (InteractableObjects interactable : interactables){
-            if (interactable instanceof KeyObject keyObject){
-                return keyObject.isInteracted();
-            }
-        }
-        return false;
-    }
-
+    
+    //KEYPRESS METHODS
+    @Override
+    public void keyPressed(KeyEvent e) {}
+    @Override
+    public void keyTyped(KeyEvent e) {}
     @Override
     public void keyReleased(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_E){
@@ -74,43 +102,8 @@ public class GameCanvas extends JComponent implements KeyListener{
         }
     }
 
-    public void checkKeys() {
-        for (InteractableObjects interactable : interactables){
-            if (interactable instanceof KeyObject keyObject){
-                keyObject.checkCollision(player1);
-                keyObject.checkCollision(player2);    
-                repaint();
-                break;
-            }
-        }  
+    //GETTER METHODS
+    public Map getMap(){
+        return this.map;
     }
-
-    public void checkLocks() {
-        for (InteractableObjects interactable : interactables){
-            if (interactable instanceof Lock lock){
-                lock.checkCollision(player1);
-                lock.checkCollision(player2);
-                repaint();
-                break;
-            }
-        }  
-    }
-
-    public void addLevel() {
-        level++;
-        switch(level){
-            case 1:
-                tileMap = "tileMap1.txt";
-                break;
-            case 2:
-                tileMap = "tileMap2.txt";
-                break;
-        }
-        map = new Map(tileMap);
-    }
-
-    @Override
-    public void keyPressed(KeyEvent e) {}
-    @Override
-    public void keyTyped(KeyEvent e) {}
 }
