@@ -119,9 +119,9 @@ public class Player extends Entities {
     public void interact(InteractableObjects object){
         
         if (object instanceof KeyObject keyObject) {
+            System.out.println("key");
             KeyObject key = ((KeyObject) object);
             keysCollected++;
-            hasKey = true;
             key.claim();
             key.setKeyOrder(keysCollected);
             this.keyType = keyObject.hasKeyType();
@@ -130,12 +130,17 @@ public class Player extends Entities {
         }
 
         if (object instanceof Lock lock) {
+            System.out.println("lock");
             for (KeyObject key : keys) {
                 if (lock.getLockType().equals(key.hasKeyType())) {
+                    System.out.println("nice key");
                     keysCollected--;
-                    hasKey = false;
                     opensDoor = true;
                     this.keyType = null;
+                    keys.remove(key);
+                    for (KeyObject key2 : keys) {
+                        key2.decrementKeyOrder();
+                    }
                     break;
                 }
             }
@@ -163,12 +168,22 @@ public class Player extends Entities {
         this.y = 62; //62
     }
 
-    public String hasKeyType(){
-        return keyType;
+    public boolean hasKeyType(String type){
+        for (KeyObject key : keys) {
+            if (key.hasKeyType().equals(type)) {
+                return true;
+            }
+        }
+        return false;
      }
 
     public boolean hasKey(){
-        return hasKey;
+        if (keys.size() > 0) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     public boolean opensDoor(){

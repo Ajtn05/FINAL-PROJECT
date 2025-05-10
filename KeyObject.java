@@ -64,11 +64,14 @@ public class KeyObject extends Entities implements InteractableObjects {
 
     public void claim(){
         unclaimed = false;
-        System.out.println("getting claimed");
     }
 
     public void setKeyOrder(int keyOrder) {
         this.keyOrder = keyOrder;
+    }
+
+    public void decrementKeyOrder() {
+        keyOrder--;
     }
 
     public void setOwner(Player owner) {
@@ -102,8 +105,8 @@ public class KeyObject extends Entities implements InteractableObjects {
 
     public void checkDraw(Graphics2D g, Player player, int location) {
         for(KeyObject key : player.getKeys()) {
-            if (this.equals(key)) {
-                g.drawImage(getKeyTypeImage(), location, 3, 24, 24, null);
+            if (this.equals(key) && !unclaimed) {
+                g.drawImage(getKeyTypeImage(), getLocation(), 3, 24, 24, null);
             }
         }
     }
@@ -111,7 +114,7 @@ public class KeyObject extends Entities implements InteractableObjects {
     public int getLocation() {
         int location;
         if (keyOrder == 1) {location = 3;}
-        else {location = 30*keyOrder;}
+        else {location = 15*keyOrder;}
         return location;
     }
     @Override
