@@ -51,8 +51,8 @@ public class GameFrame extends JComponent {
                 p1playerType = "girl";
                 p2playerType = "boy";
             }
-            player1 = new Player(1, 62, this, gc, p1playerType);
-            player2 = new Player(4, 62, this, gc, p2playerType);
+            player1 = new Player(1, 62, this, gc, p1playerType, lm);
+            player2 = new Player(4, 62, this, gc, p2playerType, lm);
             gc.setPlayer(player1, player2);
         }
 
@@ -66,8 +66,8 @@ public class GameFrame extends JComponent {
                 p2playerType = "girl";
                 p1playerType = "boy";
             }
-            player1 = new Player(4, 62, this, gc, p2playerType);
-            player2 = new Player(1, 62, this, gc, p1playerType);
+            player1 = new Player(4, 62, this, gc, p2playerType, lm);
+            player2 = new Player(1, 62, this, gc, p1playerType, lm);
             gc.setPlayer(player1, player2);
         }
     }
