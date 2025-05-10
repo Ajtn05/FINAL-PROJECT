@@ -66,7 +66,7 @@ public class PressurePlate implements Obstacle {
                     // map.getTileNum()[1][17] = 23;
 
                     map.getTileNum()[cord[0]][cord[1]] = newtileNum;
-                }
+            }
         }
     }
 

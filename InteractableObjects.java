@@ -8,5 +8,4 @@ public interface InteractableObjects {
     int getX();
     int getY();
     String getID();
-
 }

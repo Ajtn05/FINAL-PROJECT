@@ -8,23 +8,27 @@ public class Player extends Entities {
     public boolean up = false, down = false, left = false, right = false;
     private GameFrame gf;
     private GameCanvas gc;
+    private LevelManager lm;
     private int keysCollected = 0;
     private boolean hasKey = false, opensDoor = false;
     private String keyType = null;
     private boolean levelCompleted;
     private ArrayList<Integer> PASSABLE_TILES;
+    public ArrayList<KeyObject> keys;
 
 
 
-    public Player (int x, int y, GameFrame gf, GameCanvas gc, String character){
+    public Player (int x, int y, GameFrame gf, GameCanvas gc, String character, LevelManager lm){
         this.x = x; //1
         this.y = y; //62
         this.character = character;
         this.gf = gf; // like ur my gf
         this.gc = gc;
+        this.lm = lm;
         speed = 4;
         direction = "down";
         PASSABLE_TILES = new ArrayList<>(Arrays.asList(22, 23, 24, 25, 26));
+        keys = new ArrayList<>();
         getImages();
     }
 
@@ -92,8 +96,9 @@ public class Player extends Entities {
             }
         }
         
-        if (x == 0 || x == 1024 || y == 0 || y == 768) {
+        if (x < 0 || x > 1024 || y < 0 || y > 768) {
                 collision = true;
+                kill();
         }
 
         if (x >= 1024-32 || y >= 768-32) {
@@ -110,27 +115,40 @@ public class Player extends Entities {
         return collision;
     }    
 
-    public void interact(String itemType, String keyType){
-        // if (itemType.equals("key")){
-        //     keysCollected++;
-        //     hasKey = true;
-        //     // System.out.println("Keys collected: " + keysCollected);
-        // }
-
-        if (itemType.equals("key")){
+    // public void interact(String itemType, String keyType){
+    public void interact(InteractableObjects object){
+        
+        if (object instanceof KeyObject keyObject) {
+            KeyObject key = ((KeyObject) object);
             keysCollected++;
             hasKey = true;
-            this.keyType = keyType;
+            key.claim();
+            key.setKeyOrder(keysCollected);
+            this.keyType = keyObject.hasKeyType();
+            keys.add((KeyObject) object);
+            key.setOwner(this);
         }
 
-        if (itemType.equals("lock")){
-            if (this.keyType != null && keyType.equals(this.keyType)){
-                keysCollected--;
-                hasKey = false;
-                opensDoor = true;
-                this.keyType = null;
+        if (object instanceof Lock lock) {
+            for (KeyObject key : keys) {
+                if (lock.getLockType().equals(key.hasKeyType())) {
+                    keysCollected--;
+                    hasKey = false;
+                    opensDoor = true;
+                    this.keyType = null;
+                    break;
+                }
             }
         }
+
+        // if (itemType.equals("lock")){
+        //     if (this.keyType != null && keyType.equals(this.keyType)){
+        //         keysCollected--;
+        //         hasKey = false;
+        //         opensDoor = true;
+        //         this.keyType = null;
+        //     }
+        // }
 
         // if (itemType.equals("goldLock")){
         //     keysCollected--;
@@ -138,6 +156,11 @@ public class Player extends Entities {
         //     opensDoor = true;
         //     // System.out.println("Keys collected: " + keysCollected);
         // }
+    }
+
+    public void kill(){
+        this.x = 1+32; //1
+        this.y = 62; //62
     }
 
     public String hasKeyType(){
@@ -338,6 +361,9 @@ public class Player extends Entities {
         this.right = right;
     }
 
+    public ArrayList<KeyObject> getKeys() {
+        return keys;
+    }
     public boolean getLeft() {
         return left;
     }
@@ -360,6 +386,10 @@ public class Player extends Entities {
 
     public int getY(){
         return y;
+    }
+    
+    public int getKeysCollected() {
+        return keysCollected;
     }
 
     public String getDirection() {

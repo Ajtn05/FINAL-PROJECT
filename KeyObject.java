@@ -9,6 +9,8 @@ public class KeyObject extends Entities implements InteractableObjects {
     private boolean unclaimed = true;
     private boolean used = false;
     private String keyType;
+    private int keyOrder = 0;
+    private Player owner = null;
 
     public KeyObject(int x, int y, String keyType){
         this.x = x;
@@ -27,7 +29,7 @@ public class KeyObject extends Entities implements InteractableObjects {
         }
     }
 
-    public BufferedImage getKeyType(){
+    public BufferedImage getKeyTypeImage(){
         switch (keyType) {
             case "gold":
                 return goldKey;
@@ -50,7 +52,7 @@ public class KeyObject extends Entities implements InteractableObjects {
         if (pX + 24 > x && pX < x + 24 &&
             pY + 40 > y && pY < y + 24) {
                 if (unclaimed){
-                    player.interact("key", keyType);
+                    player.interact(this);
                     unclaimed = false;
                 }
             }
@@ -60,6 +62,19 @@ public class KeyObject extends Entities implements InteractableObjects {
        used = true;
     }
 
+    public void claim(){
+        unclaimed = false;
+        System.out.println("getting claimed");
+    }
+
+    public void setKeyOrder(int keyOrder) {
+        this.keyOrder = keyOrder;
+    }
+
+    public void setOwner(Player owner) {
+        this.owner = owner;
+    }
+
     @Override
     public boolean isInteracted(){
         return !unclaimed;
@@ -67,16 +82,38 @@ public class KeyObject extends Entities implements InteractableObjects {
 
     @Override
     public void draw(Graphics2D g){
+
         if (used){
             return;
         }
         if (unclaimed){
-            g.drawImage(getKeyType(), x, y, 24, 24, null);
-        } else if (!unclaimed){
-            g.drawImage(getKeyType(), 3, 3, 24, 24, null);
+            g.drawImage(getKeyTypeImage(), x, y, 24, 24, null);
+        }
+        // } else if (!unclaimed){
+        //     g.drawImage(getKeyTypeImage(), getLocation(), 3, 24, 24, null);
+        // }
+
+        // int i = 0;
+        // for (BufferedImage images : keyImages) {
+        //     g.drawImage(images, 3*i, 3, 24, 24, null);
+        //     i++;
+        // }
+    }
+
+    public void checkDraw(Graphics2D g, Player player, int location) {
+        for(KeyObject key : player.getKeys()) {
+            if (this.equals(key)) {
+                g.drawImage(getKeyTypeImage(), location, 3, 24, 24, null);
+            }
         }
     }
 
+    public int getLocation() {
+        int location;
+        if (keyOrder == 1) {location = 3;}
+        else {location = 30*keyOrder;}
+        return location;
+    }
     @Override
     public int getX(){
         return x;
@@ -90,5 +127,9 @@ public class KeyObject extends Entities implements InteractableObjects {
     @Override
     public String getID() {
         return ID;
+    }
+
+    public Player getOwner() {
+        return owner;
     }
 }

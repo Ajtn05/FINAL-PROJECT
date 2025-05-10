@@ -50,7 +50,7 @@ public class GameCanvas extends JComponent implements KeyListener{
         for (InteractableObjects interactable : interactables){
             if (interactable instanceof KeyObject keyObject){
                 keyObject.checkCollision(player1);
-                keyObject.checkCollision(player2);    
+                keyObject.checkCollision(player2); 
                 repaint();
             }
         }  
@@ -82,9 +82,15 @@ public class GameCanvas extends JComponent implements KeyListener{
         map.draw(g2d);
         
         for (InteractableObjects interactable : interactables){
+            if (interactable instanceof KeyObject keyObject) {
+                if (keyObject.getOwner() != null) {
+                    if (keyObject.getOwner().equals(player1)) {
+                        keyObject.checkDraw(g2d, player1, keyObject.getLocation());
+                    }
+                }
+            }
             interactable.draw(g2d);
         }
-
         player1.draw(g2d);
         player2.draw(g2d);
     }

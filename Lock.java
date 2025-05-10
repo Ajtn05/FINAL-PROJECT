@@ -62,11 +62,10 @@ public class Lock implements InteractableObjects{
         if ((x-pX <= 40 && y-pY <= 60 && !(pX - x > 40) && !(pY - y > 60))) {
             if (player.hasKey() && locked){
                 if (player.hasKeyType().equals(lockType)){
-                    player.interact("lock", lockType);
+                    player.interact(this);
                     unlock();
                     System.out.println("it shouldddd work");
                 }
-
             //    if (keyObject.hasKeyType().equals("gold")){
             //         player.interact("goldLock");
             //         unlock();
@@ -92,12 +91,12 @@ public class Lock implements InteractableObjects{
     @Override
     public void draw(Graphics2D g){
         if (locked){
-            g.drawImage(getLockType(), x, y, 24, 24, null);
+            g.drawImage(getLockTypeImage(), x, y, 24, 24, null);
         }
     }
 
     //GETTERS
-    public BufferedImage getLockType(){
+    public BufferedImage getLockTypeImage(){
         switch (lockType) {
             case "gold":
                 return goldPadlock;
@@ -107,6 +106,10 @@ public class Lock implements InteractableObjects{
                 return bronzePadlock;
         }
         return null;
+    }
+
+    public String getLockType() {
+        return lockType;
     }
 
     public boolean isInteracted() {
