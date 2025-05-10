@@ -11,7 +11,7 @@ public class GameServer {
     private Boolean p1left, p1right, p1up , p1down, p1hasKey,
                     p2left, p2right, p2up, p2down, p2hasKey, 
                     p1opensDoor = false, p2opensDoor = false;
-    private int p1x, p1y, p2x, p2y;
+    private int p1x, p1y, p2x, p2y, p1keys, p2keys;
 
     public GameServer() {
         //values are hardcoded for now
@@ -121,7 +121,8 @@ public class GameServer {
                         p1down = dataIn.readBoolean();
                         p1x = dataIn.readInt();
                         p1y = dataIn.readInt();
-                        p1hasKey = dataIn.readBoolean();
+                        // p1hasKey = dataIn.readBoolean();
+                        p1keys = dataIn.readInt();
                         p1opensDoor = dataIn.readBoolean();
                     }
                     else {
@@ -131,7 +132,8 @@ public class GameServer {
                         p2down = dataIn.readBoolean();
                         p2x = dataIn.readInt();
                         p2y = dataIn.readInt();
-                        p2hasKey = dataIn.readBoolean();
+                        // p2hasKey = dataIn.readBoolean();
+                        p2keys = dataIn.readInt();
                         p2opensDoor = dataIn.readBoolean();
                     }
                 }
@@ -162,7 +164,8 @@ public class GameServer {
                         dataOut.writeBoolean(p2down);
                         dataOut.writeInt(p2x);
                         dataOut.writeInt(p2y);
-                        dataOut.writeBoolean(p2hasKey);
+                        // dataOut.writeBoolean(p2hasKey);
+                        dataOut.writeInt(p2keys);
                         dataOut.writeBoolean(p2opensDoor);
                         dataOut.flush();
                     }
@@ -173,7 +176,8 @@ public class GameServer {
                         dataOut.writeBoolean(p1down);
                         dataOut.writeInt(p1x);
                         dataOut.writeInt(p1y);
-                        dataOut.writeBoolean(p1hasKey);
+                        // dataOut.writeBoolean(p1hasKey);
+                        dataOut.writeInt(p1keys);
                         dataOut.writeBoolean(p1opensDoor);
                         dataOut.flush();
                     }

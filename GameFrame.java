@@ -18,6 +18,9 @@ public class GameFrame extends JComponent {
     private LevelManager lm;
     private String playerType;
 
+    private boolean left, right, up, down, hasKey, opensDoor = false;
+    private int x, y, keys;
+
 
     public GameFrame(GameCanvas gc, LevelManager lm, String playerType){
         this.playerType = playerType;
@@ -85,6 +88,13 @@ public class GameFrame extends JComponent {
                 //     door.checkCollision(player2);
                 // }
 
+                if (keys > 0) {
+                    gc.checkKeys();
+                }
+                if (opensDoor) {
+                    gc.checkLocks();
+                }
+
                 player1.update(gc.getMap());
                 player2.update(gc.getMap());
                 gc.repaint();
@@ -113,15 +123,14 @@ public class GameFrame extends JComponent {
             try {
                 while (true) { 
                     if (player2 != null) {
-                        boolean left, right, up, down, hasKey, opensDoor = false;
-                        int x, y;
                         left = dataIn.readBoolean();
                         right = dataIn.readBoolean();
                         up = dataIn.readBoolean();
                         down = dataIn.readBoolean();
                         x = dataIn.readInt();
                         y = dataIn.readInt();
-                        hasKey = dataIn.readBoolean();
+                        // hasKey = dataIn.readBoolean();
+                        keys = dataIn.readInt();
                         opensDoor = dataIn.readBoolean();
 
                         player2.moveLeft(left);
@@ -129,12 +138,6 @@ public class GameFrame extends JComponent {
                         player2.moveUp(up);
                         player2.moveDown(down);
                         player2.setPosition(x, y);
-                        if (hasKey) {
-                            gc.checkKeys();
-                        }
-                        if (opensDoor) {
-                            gc.checkLocks();
-                        }
                     }
                     try {
                         Thread.sleep(1);
@@ -179,7 +182,8 @@ public class GameFrame extends JComponent {
                         dataOut.writeBoolean(player1.getDown());
                         dataOut.writeInt(player1.getX());
                         dataOut.writeInt(player1.getY());
-                        dataOut.writeBoolean(player1.hasKey());
+                        // dataOut.writeBoolean(player1.hasKey());
+                        dataOut.writeInt(player1.keys.size());
                         dataOut.writeBoolean(player1.opensDoor());
                         dataOut.flush();
 
