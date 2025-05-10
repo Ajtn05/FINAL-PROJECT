@@ -59,6 +59,18 @@ public class MenuFrame {
         lm.start();
     }
 
+    public void test(String sex) {
+        frame = new JFrame();
+        host = "localhost";
+        port = 9999;
+        switch(sex) {
+            case "1": playerType = "boy"; break;
+            case "2": playerType = "girl"; break;
+        }
+        LevelManager lm = new LevelManager(host, port, playerType, 1, this);
+        lm.testStart();  
+    }
+
 
     public void end() {
         frame.dispose();

@@ -39,8 +39,8 @@ public class GameCanvas extends JComponent implements KeyListener{
 
     public boolean scanKeys() {
         for (InteractableObjects interactable : interactables){
-            if (interactable instanceof KeyObject keyObject){
-                return keyObject.isInteracted();
+            if (interactable instanceof KeyObject){
+                return interactable.isInteracted();
             }
         }
         return false;
