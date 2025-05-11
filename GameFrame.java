@@ -82,8 +82,8 @@ public class GameFrame extends JComponent {
                 for (Obstacle obstacle : lm.getObstacles()){
                     obstacle.checkCollision(player1, player2, gc.getMap(), gc);
 
-                    if (obstacle instanceof Spikes spikes){
-                        spikes.updateSpriteAnimation();
+                    if (obstacle instanceof Traps traps){
+                        traps.updateSpriteAnimation();
                     }
                 }
 
