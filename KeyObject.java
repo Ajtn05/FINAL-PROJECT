@@ -85,22 +85,12 @@ public class KeyObject extends Entities implements InteractableObjects {
 
     @Override
     public void draw(Graphics2D g){
-
         if (used){
             return;
         }
         if (unclaimed){
             g.drawImage(getKeyTypeImage(), x, y, 24, 24, null);
         }
-        // } else if (!unclaimed){
-        //     g.drawImage(getKeyTypeImage(), getLocation(), 3, 24, 24, null);
-        // }
-
-        // int i = 0;
-        // for (BufferedImage images : keyImages) {
-        //     g.drawImage(images, 3*i, 3, 24, 24, null);
-        //     i++;
-        // }
     }
 
     public void checkDraw(Graphics2D g, Player player, int location) {
@@ -117,6 +107,7 @@ public class KeyObject extends Entities implements InteractableObjects {
         else {location = 15*keyOrder;}
         return location;
     }
+    
     @Override
     public int getX(){
         return x;
