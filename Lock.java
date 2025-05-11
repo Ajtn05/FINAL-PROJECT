@@ -65,10 +65,6 @@ public class Lock implements InteractableObjects{
                     player.interact(this);
                     unlock();
                 }
-            //    if (keyObject.hasKeyType().equals("gold")){
-            //         player.interact("goldLock");
-            //         unlock();
-            //   }  
             } 
         }
     }

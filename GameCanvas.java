@@ -15,8 +15,12 @@ public class GameCanvas extends JComponent implements KeyListener{
     private Map map;
     private int level;
     private ArrayList<InteractableObjects> interactables;
+    private ArrayList<Obstacle> obstacles;
 
-    public GameCanvas(int level, ArrayList<InteractableObjects> interactables){
+
+    public GameCanvas(int level, ArrayList<Obstacle> obstacles, ArrayList<InteractableObjects> interactables){
+        // public GameCanvas(int level, ArrayList<InteractableObjects> interactables){
+
         switch(level){
             case 1:
                 tileMap = "assets/maps/tileMap1.txt";
@@ -31,6 +35,7 @@ public class GameCanvas extends JComponent implements KeyListener{
         }
         this.level = level;
         map = new Map(tileMap);
+        this.obstacles = obstacles;
         this.interactables = interactables;
         addKeyListener(this);
         setFocusable(true);
@@ -85,7 +90,7 @@ public class GameCanvas extends JComponent implements KeyListener{
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
         map.draw(g2d);
-        
+
         for (InteractableObjects interactable : interactables){
             if (interactable instanceof KeyObject keyObject) {
                 if (keyObject.getOwner() != null) {
@@ -96,6 +101,13 @@ public class GameCanvas extends JComponent implements KeyListener{
             }
             interactable.draw(g2d);
         }
+
+        for (Obstacle obstacle : obstacles){
+            if (obstacle instanceof Spikes spikes){
+                spikes.draw(g2d);
+            }
+        }
+        
         player1.draw(g2d);
         player2.draw(g2d);
     }

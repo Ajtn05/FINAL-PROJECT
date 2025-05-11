@@ -119,7 +119,6 @@ public class Player extends Entities {
     public void interact(InteractableObjects object){
         
         if (object instanceof KeyObject keyObject) {
-            System.out.println("key");
             KeyObject key = ((KeyObject) object);
             keysCollected++;
             key.claim();
@@ -133,7 +132,6 @@ public class Player extends Entities {
             System.out.println("lock");
             for (KeyObject key : keys) {
                 if (lock.getLockType().equals(key.hasKeyType())) {
-                    System.out.println("nice key");
                     keysCollected--;
                     opensDoor = true;
                     this.keyType = null;
@@ -153,13 +151,6 @@ public class Player extends Entities {
         //         opensDoor = true;
         //         this.keyType = null;
         //     }
-        // }
-
-        // if (itemType.equals("goldLock")){
-        //     keysCollected--;
-        //     hasKey = false;
-        //     opensDoor = true;
-        //     // System.out.println("Keys collected: " + keysCollected);
         // }
     }
 
