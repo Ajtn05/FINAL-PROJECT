@@ -26,7 +26,7 @@ public class LevelManager {
     }
 
     public void start() {
-        gc = new GameCanvas(level, interactables);
+        gc = new GameCanvas(level, obstacles, interactables);
         gf = new GameFrame(gc, this, playerType);
         if (gf.connectToServer(host, port, playerType, mf)) {
             gf.setUpGUI();
@@ -42,7 +42,7 @@ public class LevelManager {
 
     //DELETE AFTER
     public void testStart() {
-        gc = new GameCanvas(level, interactables);
+        gc = new GameCanvas(level, obstacles, interactables);
         gf = new GameFrame(gc, this, playerType);
         if (gf.testConnectToServer(host, port, playerType, mf)) {
             gf.setUpGUI();
@@ -66,6 +66,11 @@ public class LevelManager {
                 //pressureplate
                 MapItem PressurePlate = new MapItem(new int[][]{{27,9}, {28,9}, {1,17}}, new Integer[]{24, 24, 23});
                 obstacles.add(new PressurePlate(32,530,24,24, PressurePlate));
+
+                obstacles.add(new Spikes(352, 382, 32, 32));
+                obstacles.add(new Spikes(97, 542, 32, 32));
+                obstacles.add(new Spikes(673, 314, 32, 32));
+                obstacles.add(new Spikes(833, 606, 32, 32));
                 
                 // key 1
                 // KeyObject key = new KeyObject(228,354, "gold");
@@ -87,6 +92,7 @@ public class LevelManager {
                 MapItem PressurePlate2 = new MapItem(new int[][]{{15,8}, {15,16}}, new Integer[]{23, 26});
                 obstacles.add(new PressurePlate(481,242,24,24, PressurePlate2));
                 
+                System.out.println("Obstacles: " + obstacles.size());
                 break;
             case 2:
                 MapItem PressurePlate3 = new MapItem(new int[][]{{3, 16}, {3, 21}}, new Integer[]{23, 24});

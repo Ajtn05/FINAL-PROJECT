@@ -81,12 +81,11 @@ public class GameFrame extends JComponent {
             public void actionPerformed(ActionEvent ae){
                 for (Obstacle obstacle : lm.getObstacles()){
                     obstacle.checkCollision(player1, player2, gc.getMap(), gc);
-                }
 
-                // for (Door door :lm.getDoors()) {
-                //     door.checkCollision(player1);
-                //     door.checkCollision(player2);
-                // }
+                    if (obstacle instanceof Spikes spikes){
+                        spikes.updateSpriteAnimation();
+                    }
+                }
 
                 if (keys > 0) {
                     gc.checkKeys(player2);

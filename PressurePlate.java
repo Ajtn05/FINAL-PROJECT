@@ -1,15 +1,10 @@
 import java.util.*;
 
 public class PressurePlate implements Obstacle {
-    private int plateX, plateY, plateW, plateH;
+    private int x, y, width, height;
     private String ID;
     private ArrayList<int[]> tileCoordinates;
     private ArrayList<Integer> newTileNums;
-
-    // private Player player1;
-    // private Player player2;
-    // private Map map;
-    // private GameCanvas gc;
 
     // public PressurePlate(int plateX, int plateY, int plateW, int plateH, ArrayList<int[]> tileCoordinates, ArrayList<Integer> newTileNums){
     //     this.plateX = plateX;
@@ -19,24 +14,13 @@ public class PressurePlate implements Obstacle {
     //     this.tileCoordinates = tileCoordinates;
     //     this.newTileNums = newTileNums;
 
-    //     // this.player1 = player1;
-    //     // this.player2 = player2;
-    //     // this.map = map;
-    //     // this.gc = gc;
-    // }
-
-    public PressurePlate(int plateX, int plateY, int plateW, int plateH, MapItem object){
-        this.plateX = plateX;
-        this.plateY = plateY;
-        this.plateW = plateW;
-        this.plateH = plateH;
+    public PressurePlate(int x, int y, int w, int h, MapItem object){
+        this.x = x;
+        this.y = y;
+        this.width = w;
+        this.height = h;
         this.tileCoordinates = new ArrayList<>(Arrays.asList(object.getTileCoordinates()));
         this.newTileNums = new ArrayList<>(Arrays.asList(object.getNewTileNum()));
-
-        // this.player1 = player1;
-        // this.player2 = player2;
-        // this.map = map;
-        // this.gc = gc;
     }
 
     @Override
@@ -49,13 +33,8 @@ public class PressurePlate implements Obstacle {
         int pX = player.getX();
         int pY = player.getY();
 
-        // int plateX = 32;
-        // int plateY = 530;
-        // int plateW = 24;
-        // int plateH = 24;
-
-        if (pX + 24 > plateX && pX < plateX + plateW && 
-            pY + 40 > plateY && pY < plateY + plateH) {
+        if (pX + 24 > x && pX < x + width && 
+            pY + 40 > y && pY < y + height) {
 
             for (int i = 0; i < tileCoordinates.size(); i++){
                 int[] cord = tileCoordinates.get(i);
