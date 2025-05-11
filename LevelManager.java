@@ -62,15 +62,15 @@ public class LevelManager {
         obstacles.clear();
         interactables.clear();
         switch(level){
-            case 1:
+            case 3:
                 //pressureplate
                 MapItem PressurePlate = new MapItem(new int[][]{{27,9}, {28,9}, {1,17}}, new Integer[]{24, 24, 23});
                 obstacles.add(new PressurePlate(32,530,24,24, PressurePlate));
 
-                obstacles.add(new Spikes(352, 382, 32, 32, 10));
-                obstacles.add(new Spikes(97, 542, 32, 32, 6));
-                obstacles.add(new Spikes(673, 314, 32, 32, 12));
-                obstacles.add(new Spikes(833, 606, 32, 32, 9));
+                obstacles.add(new Traps("spike", 352, 382, 32, 32, 10));
+                obstacles.add(new Traps("fire", 97, 314, 32, 32, 6));
+                obstacles.add(new Traps("fire", 672, 314, 32, 32, 7));
+                obstacles.add(new Traps("spike", 833, 606, 32, 32, 9));
                 
                 // key 1
                 // KeyObject key = new KeyObject(228,354, "gold");
@@ -92,9 +92,17 @@ public class LevelManager {
                 MapItem PressurePlate2 = new MapItem(new int[][]{{15,8}, {15,16}}, new Integer[]{23, 26});
                 obstacles.add(new PressurePlate(481,242,24,24, PressurePlate2));
                 
-                System.out.println("Obstacles: " + obstacles.size());
                 break;
             case 2:
+                obstacles.add(new Traps("spike", 97, 414, 32, 32, 10));
+                obstacles.add(new Traps("fire", 288, 634, 32, 32, 8));
+                obstacles.add(new Traps("spike", 225, 410, 32, 32, 7));
+                obstacles.add(new Traps("spike", 225, 374, 32, 32, 7));
+                obstacles.add(new Traps("fire", 480, 506, 32, 32, 9));
+                obstacles.add(new Traps("fire", 960, 278, 32, 32, 9));
+                obstacles.add(new Traps("fire", 960, 314, 32, 32, 9));
+                obstacles.add(new Traps("spike", 610, 122, 32, 32, 9));
+
                 MapItem PressurePlate3 = new MapItem(new int[][]{{3, 16}, {3, 21}}, new Integer[]{23, 24});
                 obstacles.add(new PressurePlate(101,506,24,24, PressurePlate3));
 
@@ -122,10 +130,10 @@ public class LevelManager {
                 KeyObject key6 = new KeyObject(580, 612, "silver");
                 interactables.add(key6);
 
-                MapItem lock6 = new MapItem(new int[][]{{27, 16}}, new Integer[]{25});
-                interactables.add(new Lock(869, 520, lock6, gc, key6, "silver"));
+                MapItem lock6 = new MapItem(new int[][]{{25, 15}}, new Integer[]{25});
+                interactables.add(new Lock(805, 486, lock6, gc, key6, "silver"));
 
-                MapItem PressurePlate5 = new MapItem(new int[][]{{28, 10}, {26, 2}}, new Integer[]{23, 26});
+                MapItem PressurePlate5 = new MapItem(new int[][]{{28, 10}, {23, 4}}, new Integer[]{23, 26});
                 obstacles.add(new PressurePlate(900,315,24,24, PressurePlate5));
 
                 KeyObject key7 = new KeyObject(949, 81, "gold");
@@ -135,7 +143,23 @@ public class LevelManager {
                 interactables.add(new Lock(965, 680, lock7, gc, key7, "gold"));
 
                 break;
-            case 3:
+            case 1:
+
+                obstacles.add(new Traps("spike", 34, 254, 32, 32, 10));
+                obstacles.add(new Traps("fire", 256, 58, 32, 32, 8));
+                obstacles.add(new Traps("fire", 704, 155, 32, 32, 6));
+
+                obstacles.add(new Traps("spike", 642, 701, 32, 32, 8));
+                obstacles.add(new Traps("spike", 676, 701, 32, 32, 9));
+
+                obstacles.add(new Traps("spike", 962, 250, 32, 32, 7));
+
+                obstacles.add(new Traps("fire", 417, 442, 32, 32, 7));
+
+                obstacles.add(new Traps("spike", 740, 510, 32, 32, 7));
+                obstacles.add(new Traps("fire", 832, 508, 32, 32, 6));
+
+
                 MapItem PressurePlate6 = new MapItem(new int[][]{{9, 20}, {5, 19}}, new Integer[]{23, 24});
                 obstacles.add(new PressurePlate(288,634,24,24, PressurePlate6));
 

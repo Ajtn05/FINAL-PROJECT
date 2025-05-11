@@ -22,13 +22,13 @@ public class GameCanvas extends JComponent implements KeyListener{
         // public GameCanvas(int level, ArrayList<InteractableObjects> interactables){
 
         switch(level){
-            case 1:
+            case 3:
                 tileMap = "assets/maps/tileMap1.txt";
                 break;
             case 2:
                 tileMap = "assets/maps/tileMap2.txt";
                 break;
-            case 3:
+            case 1:
                 tileMap = "assets/maps/tileMap3.txt";
                 break;
 
@@ -75,9 +75,9 @@ public class GameCanvas extends JComponent implements KeyListener{
 
     public void addLevel(int level) {
         switch(level){
-            case 1 -> tileMap = "assets/maps/tileMap1.txt";
+            case 3 -> tileMap = "assets/maps/tileMap1.txt";
             case 2 -> tileMap = "assets/maps/tileMap2.txt";
-            case 3 -> tileMap = "assets/maps/tileMap3.txt";
+            case 1 -> tileMap = "assets/maps/tileMap3.txt";
         }
         map = new Map(tileMap);
     }
@@ -101,8 +101,8 @@ public class GameCanvas extends JComponent implements KeyListener{
         }
 
         for (Obstacle obstacle : obstacles){
-            if (obstacle instanceof Spikes spikes){
-                spikes.draw(g2d);
+            if (obstacle instanceof Traps traps){
+                traps.draw(g2d);
             }
         }
         
