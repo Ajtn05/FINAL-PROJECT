@@ -67,10 +67,10 @@ public class LevelManager {
                 MapItem PressurePlate = new MapItem(new int[][]{{27,9}, {28,9}, {1,17}}, new Integer[]{24, 24, 23});
                 obstacles.add(new PressurePlate(32,530,24,24, PressurePlate));
 
-                obstacles.add(new Spikes(352, 382, 32, 32));
-                obstacles.add(new Spikes(97, 542, 32, 32));
-                obstacles.add(new Spikes(673, 314, 32, 32));
-                obstacles.add(new Spikes(833, 606, 32, 32));
+                obstacles.add(new Spikes(352, 382, 32, 32, 10));
+                obstacles.add(new Spikes(97, 542, 32, 32, 6));
+                obstacles.add(new Spikes(673, 314, 32, 32, 12));
+                obstacles.add(new Spikes(833, 606, 32, 32, 9));
                 
                 // key 1
                 // KeyObject key = new KeyObject(228,354, "gold");

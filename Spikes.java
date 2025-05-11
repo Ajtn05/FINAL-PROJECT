@@ -9,12 +9,14 @@ public class Spikes implements Obstacle {
     private String ID;
     private int spriteCounter = 0;
     private int spriteNum = 1;
+    private int speed;
 
-    public Spikes(int x, int y, int w, int h){
+    public Spikes(int x, int y, int w, int h, int speed){
         this.x = x;
         this.y = y;
         this.width = w;
         this.height = h;
+        this.speed = speed;
         getImages();
     }
 
@@ -81,7 +83,7 @@ public class Spikes implements Obstacle {
 
     public void updateSpriteAnimation(){
         spriteCounter++;
-        if (spriteCounter >= 10){
+        if (spriteCounter >= speed){
             spriteNum = (spriteNum % 12) + 1;
             spriteCounter = 0;
         }
