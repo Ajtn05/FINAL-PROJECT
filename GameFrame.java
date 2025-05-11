@@ -89,10 +89,10 @@ public class GameFrame extends JComponent {
                 // }
 
                 if (keys > 0) {
-                    gc.checkKeys();
+                    gc.checkKeys(player2);
                 }
                 if (opensDoor) {
-                    gc.checkLocks();
+                    gc.checkLocks(player2); // here
                 }
 
                 player1.update(gc.getMap());
@@ -131,7 +131,7 @@ public class GameFrame extends JComponent {
                         y = dataIn.readInt();
                         // hasKey = dataIn.readBoolean();
                         keys = dataIn.readInt();
-                        opensDoor = dataIn.readBoolean();
+                        opensDoor = dataIn.readBoolean(); // here
 
                         player2.moveLeft(left);
                         player2.moveRight(right);

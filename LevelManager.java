@@ -72,9 +72,6 @@ public class LevelManager {
                 KeyObject key = new KeyObject(228,354, "gold");
                 interactables.add(key);
 
-                KeyObject key20 = new KeyObject(100,62, "silver");
-                interactables.add(key20);
-
                 //lock 1
                 MapItem lock1 = new MapItem(new int[][]{{1,13}}, new Integer[]{24});
                 interactables.add(new Lock(36,423, lock1, gc, key, "gold"));
