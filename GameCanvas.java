@@ -24,6 +24,10 @@ public class GameCanvas extends JComponent implements KeyListener{
             case 2:
                 tileMap = "assets/maps/tileMap2.txt";
                 break;
+            case 3:
+                tileMap = "assets/maps/tileMap3.txt";
+                break;
+
         }
         this.level = level;
         map = new Map(tileMap);
@@ -70,6 +74,7 @@ public class GameCanvas extends JComponent implements KeyListener{
         switch(level){
             case 1 -> tileMap = "assets/maps/tileMap1.txt";
             case 2 -> tileMap = "assets/maps/tileMap2.txt";
+            case 3 -> tileMap = "assets/maps/tileMap3.txt";
         }
         map = new Map(tileMap);
     }
