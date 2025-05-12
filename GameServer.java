@@ -12,7 +12,7 @@ public class GameServer {
                     p2left, p2right, p2up, p2down, p2hasKey, 
                     p1opensDoor = false, p2opensDoor = false,
                     p1dead = false, p2dead = false;
-    private int p1x, p1y, p2x, p2y, p1keys, p2keys;
+    private int p1x, p1y, p2x, p2y, p1keys, p2keys, p1lives, p2lives;
 
     public GameServer() {
         //values are hardcoded for now
@@ -125,6 +125,7 @@ public class GameServer {
                         // p1hasKey = dataIn.readBoolean();
                         p1keys = dataIn.readInt();
                         p1opensDoor = dataIn.readBoolean();
+                        p1lives = dataIn.readInt();
                     }
                     else {
                         p2left = dataIn.readBoolean();
@@ -136,6 +137,7 @@ public class GameServer {
                         // p2hasKey = dataIn.readBoolean();
                         p2keys = dataIn.readInt();
                         p2opensDoor = dataIn.readBoolean();
+                        p2lives = dataIn.readInt();
                     }
                 }
             } catch (IOException ex) {
@@ -168,6 +170,7 @@ public class GameServer {
                         // dataOut.writeBoolean(p2hasKey);
                         dataOut.writeInt(p2keys);
                         dataOut.writeBoolean(p2opensDoor);
+                        dataOut.writeInt(p2lives);
                         dataOut.flush();
                     }
                     else {
@@ -180,6 +183,7 @@ public class GameServer {
                         // dataOut.writeBoolean(p1hasKey);
                         dataOut.writeInt(p1keys);
                         dataOut.writeBoolean(p1opensDoor);
+                        dataOut.writeInt(p1lives);
                         dataOut.flush();
                     }
                     try {

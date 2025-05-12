@@ -106,9 +106,8 @@ public class Traps implements Obstacle {
 
 
     @Override
-    public void checkCollision(Player player1, Player player2, Map map, GameCanvas gc){
-        checkCollisionForPlayer(player1, map);
-        checkCollisionForPlayer(player2, map);
+    public void checkCollision(Player player, Map map, GameCanvas gc){
+        checkCollisionForPlayer(player, map);
     }
 
     public void checkCollisionForPlayer(Player player, Map map){
@@ -117,9 +116,9 @@ public class Traps implements Obstacle {
 
         if (pX + 24 > x && pX < x + width && 
             pY + 40 > y && pY < y + height) {
+
             if (trap.equals("spike")){
-                if (spriteNum == 7 || spriteNum == 8 || spriteNum == 9 || 
-                    spriteNum == 10 || spriteNum == 11){
+                if (spriteNum == 11){
                     player.kill();
                 }
             }

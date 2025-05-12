@@ -25,6 +25,10 @@ public class LevelManager {
         return obstacles;
     }
 
+    public void setObstacles(ArrayList<Obstacle> newObstacles) {
+        obstacles = newObstacles;
+    }
+
     public void start() {
         gc = new GameCanvas(level, obstacles, interactables);
         gf = new GameFrame(gc, this, playerType);
@@ -59,6 +63,7 @@ public class LevelManager {
     }
 
     public void resetLevel() {
+        System.out.println("reset level");
         gc.addLevel(level);
         gf.gameReset();
         setUpObstacles();
