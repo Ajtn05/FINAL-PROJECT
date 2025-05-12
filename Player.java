@@ -15,6 +15,8 @@ public class Player extends Entities {
     private boolean levelCompleted;
     private ArrayList<Integer> PASSABLE_TILES;
     public ArrayList<KeyObject> keys;
+    public Lives lives;
+    private boolean dead = false;
 
 
 
@@ -25,6 +27,7 @@ public class Player extends Entities {
         this.gf = gf; // like ur my gf
         this.gc = gc;
         this.lm = lm;
+        lives = new Lives(this, 5);
         speed = 4;
         direction = "down";
         PASSABLE_TILES = new ArrayList<>(Arrays.asList(22, 23, 24, 25, 26));
@@ -143,21 +146,23 @@ public class Player extends Entities {
                 }
             }
         }
-
-        // if (itemType.equals("lock")){
-        //     if (this.keyType != null && keyType.equals(this.keyType)){
-        //         keysCollected--;
-        //         hasKey = false;
-        //         opensDoor = true;
-        //         this.keyType = null;
-        //     }
-        // }
     }
 
     public void kill(){
-        this.x = 1+32; //1
-        this.y = 62; //62
+        System.out.println(lives.getLives());
+        if (lives.getLives() == 1) {
+            keys.clear();
+            lm.resetLevel();
+            setDead();
+        }
+        else {
+            this.x = 1+32; //1
+            this.y = 62; //62
+            lives.takeLife();
+        }
     }
+
+    public void setDead() {dead = true;}
 
     public boolean hasKeyType(String type){
         for (KeyObject key : keys) {
@@ -175,6 +180,10 @@ public class Player extends Entities {
         else {
             return false;
         }
+    }
+
+    public boolean isDead() {
+        return dead;
     }
 
     public boolean opensDoor(){
@@ -408,5 +417,9 @@ public class Player extends Entities {
 
     public void setY(double y) {
         this.y = (int) y;
+    }
+
+    public void setLives(int num) {
+        lives.setLives(num);
     }
 }

@@ -57,9 +57,8 @@ public class Spikes implements Obstacle {
     }
 
     @Override
-    public void checkCollision(Player player1, Player player2, Map map, GameCanvas gc){
-        checkCollisionForPlayer(player1, map);
-        checkCollisionForPlayer(player2, map);
+    public void checkCollision(Player player, Map map, GameCanvas gc){
+        checkCollisionForPlayer(player, map);
     }
 
     public void checkCollisionForPlayer(Player player, Map map){

@@ -2,6 +2,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 import java.net.*;
+import java.util.ArrayList;
 import javax.swing.*;
 
 
@@ -18,7 +19,7 @@ public class GameFrame extends JComponent {
     private LevelManager lm;
     private String playerType;
 
-    private boolean left, right, up, down, hasKey, opensDoor = false;
+    private boolean left, right, up, down, hasKey, opensDoor = false, dead;
     private int x, y, keys;
 
 
@@ -79,14 +80,14 @@ public class GameFrame extends JComponent {
         timer = new Timer(16, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae){
-                for (Obstacle obstacle : lm.getObstacles()){
-                    obstacle.checkCollision(player1, player2, gc.getMap(), gc);
+                ArrayList<Obstacle> obstacleCopy = new ArrayList<>(lm.getObstacles());
+                for (Obstacle obstacle : obstacleCopy) {
+                    obstacle.checkCollision(player1, gc.getMap(), gc);
 
                     if (obstacle instanceof Spikes spikes){
                         spikes.updateSpriteAnimation();
                     }
-                }
-
+                } 
                 if (keys > 0) {
                     gc.checkKeys(player2);
                 }
@@ -107,6 +108,11 @@ public class GameFrame extends JComponent {
             lm.addLevel();
             createPlayers();
         }
+    }
+
+    public void gameReset() {
+        createPlayers();
+        player2.setLives(5);
     }
   
     //SERVER COMMUNICATION
