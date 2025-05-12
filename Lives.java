@@ -19,8 +19,8 @@ public class Lives {
 
     public void getImage() {
         try {
-            full = ImageIO.read(getClass().getResourceAsStream("assets/images/goldKey.png"));
-            taken = ImageIO.read(getClass().getResourceAsStream("assets/images/silverKey.png"));
+            full = ImageIO.read(getClass().getResourceAsStream("assets/images/heart.png"));
+            taken = ImageIO.read(getClass().getResourceAsStream("assets/images/empty_heart.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
