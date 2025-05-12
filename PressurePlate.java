@@ -23,10 +23,15 @@ public class PressurePlate implements Obstacle {
         this.newTileNums = new ArrayList<>(Arrays.asList(object.getNewTileNum()));
     }
 
+    // @Override
+    // public void checkCollision(Player player1, Player player2, Map map, GameCanvas gc){
+    //     checkCollisionForPlayer(player1, map);
+    //     checkCollisionForPlayer(player2, map);
+    // }
+
     @Override
-    public void checkCollision(Player player1, Player player2, Map map, GameCanvas gc){
-        checkCollisionForPlayer(player1, map);
-        checkCollisionForPlayer(player2, map);
+    public void checkCollision(Player player, Map map, GameCanvas gc){
+        checkCollisionForPlayer(player, map);
     }
 
     public void checkCollisionForPlayer(Player player, Map map){

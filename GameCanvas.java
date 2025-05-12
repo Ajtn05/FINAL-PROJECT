@@ -16,6 +16,7 @@ public class GameCanvas extends JComponent implements KeyListener{
     private int level;
     private ArrayList<InteractableObjects> interactables;
     private ArrayList<Obstacle> obstacles;
+    private Lives player1Lives, player2Lives;
 
 
     public GameCanvas(int level, ArrayList<Obstacle> obstacles, ArrayList<InteractableObjects> interactables){
@@ -77,6 +78,7 @@ public class GameCanvas extends JComponent implements KeyListener{
     }
 
     public void addLevel(int level) {
+        System.out.println("player killed, adding level: " + level);
         switch(level){
             case 4 -> tileMap = "assets/maps/tileMap1.txt";
             case 2 -> tileMap = "assets/maps/tileMap2.txt";
@@ -93,18 +95,21 @@ public class GameCanvas extends JComponent implements KeyListener{
         Graphics2D g2d = (Graphics2D) g;
         map.draw(g2d);
 
-        for (InteractableObjects interactable : interactables){
+        ArrayList<InteractableObjects> interactablesCopy = new ArrayList<>(interactables);
+        for (InteractableObjects interactable : interactablesCopy) {
             if (interactable instanceof KeyObject keyObject) {
-                if (keyObject.getOwner() != null) {
-                    if (keyObject.getOwner().equals(player1)) {
-                        keyObject.checkDraw(g2d, player1, keyObject.getLocation());
-                    }
+                if (keyObject.getOwner() != null && keyObject.getOwner().equals(player1)) {
+                    keyObject.checkDraw(g2d, player1, keyObject.getLocation());
                 }
             }
             interactable.draw(g2d);
         }
 
-        for (Obstacle obstacle : obstacles){
+
+        player1.lives.draw(g2d);
+
+        ArrayList<Obstacle> obstaclesCopy = new ArrayList<>(obstacles);
+        for (Obstacle obstacle : obstaclesCopy){
             if (obstacle instanceof Traps traps){
                 traps.draw(g2d);
             }

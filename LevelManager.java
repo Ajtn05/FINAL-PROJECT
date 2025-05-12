@@ -58,6 +58,12 @@ public class LevelManager {
         setUpObstacles();
     }
 
+    public void resetLevel() {
+        gc.addLevel(level);
+        gf.gameReset();
+        setUpObstacles();
+    }
+
     public void setUpObstacles(){
         obstacles.clear();
         interactables.clear();
@@ -314,7 +320,5 @@ public class LevelManager {
     public GameCanvas getGC() {return gc;}
 
     public GameFrame getGF() {return gf;}
-
-
 
 }

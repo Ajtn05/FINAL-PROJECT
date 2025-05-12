@@ -1,5 +1,5 @@
 
 public interface Obstacle {
-    void checkCollision(Player player1, Player player2, Map map, GameCanvas gc);
+    void checkCollision(Player player, Map map, GameCanvas gc);
     String getID();
 }

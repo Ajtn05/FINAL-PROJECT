@@ -104,10 +104,10 @@ public class KeyObject extends Entities implements InteractableObjects {
     public int getLocation() {
         int location;
         if (keyOrder == 1) {location = 3;}
-        else {location = 15*keyOrder;}
+        else {location = 10*keyOrder;}
         return location;
     }
-    
+
     @Override
     public int getX(){
         return x;

@@ -10,7 +10,8 @@ public class GameServer {
 
     private Boolean p1left, p1right, p1up , p1down, p1hasKey,
                     p2left, p2right, p2up, p2down, p2hasKey, 
-                    p1opensDoor = false, p2opensDoor = false;
+                    p1opensDoor = false, p2opensDoor = false,
+                    p1dead = false, p2dead = false;
     private int p1x, p1y, p2x, p2y, p1keys, p2keys;
 
     public GameServer() {
