@@ -213,7 +213,7 @@ public class LevelManager {
                 MapItem lock13 = new MapItem(new int[][]{{29, 22}}, new Integer[]{25});
                 interactables.add(new Lock(932, 710, lock13, gc, key13, "gold"));
                 break;
-            case 1:
+            case 5:
 
                 obstacles.add(new Traps("spike", 99, 127, 32, 32, 6));
                 obstacles.add(new Traps("spike", 99, 348, 32, 32, 6));
@@ -298,6 +298,9 @@ public class LevelManager {
                 interactables.add(new Lock(965, 677, lock19, gc, key19, "gold"));
 
                 gc.getPopUps().showPopUp();
+
+                break;
+            case 1:
 
                 break;
         }   
