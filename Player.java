@@ -132,7 +132,6 @@ public class Player extends Entities {
         }
 
         if (object instanceof Lock lock) {
-            System.out.println("lock");
             for (KeyObject key : keys) {
                 if (lock.getLockType().equals(key.hasKeyType())) {
                     keysCollected--;

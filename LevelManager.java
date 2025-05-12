@@ -68,15 +68,16 @@ public class LevelManager {
         obstacles.clear();
         interactables.clear();
         switch(level){
-            case 1:
+            case 4:
+
+                obstacles.add(new Traps("spike", 352, 382, 32, 32, 10));
+                obstacles.add(new Traps("fire", 97, 314, 32, 32, 6));
+                obstacles.add(new Traps("fire", 672, 314, 32, 32, 7));
+                obstacles.add(new Traps("spike", 833, 606, 32, 32, 9));
+
                 //pressureplate
                 MapItem PressurePlate = new MapItem(new int[][]{{27,9}, {28,9}, {1,17}}, new Integer[]{24, 24, 23});
                 obstacles.add(new PressurePlate(32,530,24,24, PressurePlate));
-
-                obstacles.add(new Spikes(352, 382, 32, 32, 10));
-                obstacles.add(new Spikes(97, 542, 32, 32, 6));
-                obstacles.add(new Spikes(673, 314, 32, 32, 12));
-                obstacles.add(new Spikes(833, 606, 32, 32, 9));
                 
                 // key 1
                 // KeyObject key = new KeyObject(228,354, "gold");
@@ -98,9 +99,17 @@ public class LevelManager {
                 MapItem PressurePlate2 = new MapItem(new int[][]{{15,8}, {15,16}}, new Integer[]{23, 26});
                 obstacles.add(new PressurePlate(481,242,24,24, PressurePlate2));
                 
-                System.out.println("Obstacles: " + obstacles.size());
                 break;
             case 2:
+                obstacles.add(new Traps("spike", 97, 414, 32, 32, 10));
+                obstacles.add(new Traps("fire", 288, 634, 32, 32, 8));
+                obstacles.add(new Traps("spike", 225, 410, 32, 32, 7));
+                obstacles.add(new Traps("spike", 225, 374, 32, 32, 7));
+                obstacles.add(new Traps("fire", 480, 506, 32, 32, 9));
+                obstacles.add(new Traps("fire", 960, 278, 32, 32, 9));
+                obstacles.add(new Traps("fire", 960, 314, 32, 32, 9));
+                obstacles.add(new Traps("spike", 610, 122, 32, 32, 9));
+
                 MapItem PressurePlate3 = new MapItem(new int[][]{{3, 16}, {3, 21}}, new Integer[]{23, 24});
                 obstacles.add(new PressurePlate(101,506,24,24, PressurePlate3));
 
@@ -128,10 +137,10 @@ public class LevelManager {
                 KeyObject key6 = new KeyObject(580, 612, "silver");
                 interactables.add(key6);
 
-                MapItem lock6 = new MapItem(new int[][]{{27, 16}}, new Integer[]{25});
-                interactables.add(new Lock(869, 520, lock6, gc, key6, "silver"));
+                MapItem lock6 = new MapItem(new int[][]{{25, 15}}, new Integer[]{25});
+                interactables.add(new Lock(805, 486, lock6, gc, key6, "silver"));
 
-                MapItem PressurePlate5 = new MapItem(new int[][]{{28, 10}, {26, 2}}, new Integer[]{23, 26});
+                MapItem PressurePlate5 = new MapItem(new int[][]{{28, 10}, {23, 4}}, new Integer[]{23, 26});
                 obstacles.add(new PressurePlate(900,315,24,24, PressurePlate5));
 
                 KeyObject key7 = new KeyObject(949, 81, "gold");
@@ -142,6 +151,18 @@ public class LevelManager {
 
                 break;
             case 3:
+
+                obstacles.add(new Traps("spike", 34, 254, 32, 32, 10));
+                obstacles.add(new Traps("fire", 256, 58, 32, 32, 8));
+                obstacles.add(new Traps("fire", 704, 155, 32, 32, 6));
+                obstacles.add(new Traps("spike", 642, 701, 32, 32, 8));
+                obstacles.add(new Traps("spike", 676, 701, 32, 32, 9));
+                obstacles.add(new Traps("spike", 962, 250, 32, 32, 7));
+                obstacles.add(new Traps("fire", 417, 442, 32, 32, 7));
+                obstacles.add(new Traps("spike", 740, 510, 32, 32, 7));
+                obstacles.add(new Traps("fire", 832, 508, 32, 32, 6));
+
+
                 MapItem PressurePlate6 = new MapItem(new int[][]{{9, 20}, {5, 19}}, new Integer[]{23, 24});
                 obstacles.add(new PressurePlate(288,634,24,24, PressurePlate6));
 
@@ -186,6 +207,90 @@ public class LevelManager {
 
                 MapItem lock13 = new MapItem(new int[][]{{29, 22}}, new Integer[]{25});
                 interactables.add(new Lock(932, 710, lock13, gc, key13, "gold"));
+                break;
+            case 1:
+
+                obstacles.add(new Traps("spike", 99, 127, 32, 32, 6));
+                obstacles.add(new Traps("spike", 99, 348, 32, 32, 6));
+                obstacles.add(new Traps("fire", 32, 506, 32, 32, 5));
+
+                obstacles.add(new Traps("fire", 192, 700, 32, 32, 8));
+                obstacles.add(new Traps("fire", 224, 700, 32, 32, 8));
+                obstacles.add(new Traps("fire", 256, 700, 32, 32, 8));
+
+                obstacles.add(new Traps("spike", 226, 480, 32, 32, 8));
+                obstacles.add(new Traps("spike", 226, 448, 32, 32, 8));
+
+                obstacles.add(new Traps("fire", 352, 284, 32, 32, 5));
+                obstacles.add(new Traps("spike", 482, 602, 32, 32, 8));
+
+                obstacles.add(new Traps("spike", 642, 350, 32, 32, 6));
+                obstacles.add(new Traps("spike", 738, 350, 32, 32, 6));
+
+                obstacles.add(new Traps("spike", 612, 702, 32, 32, 7));
+
+                obstacles.add(new Traps("fire", 961, 412, 32, 32, 6));
+                obstacles.add(new Traps("fire", 961, 316, 32, 32, 9));
+                obstacles.add(new Traps("fire", 961, 220, 32, 32, 6));
+
+                obstacles.add(new Traps("spike", 610, 62, 32, 32, 7));
+                obstacles.add(new Traps("spike", 482, 190, 32, 32, 8));
+                obstacles.add(new Traps("spike", 482, 222, 32, 32, 8));
+
+
+                MapItem PressurePlate9 = new MapItem(new int[][]{{3, 14}, {3, 20}}, new Integer[]{23, 24});
+                obstacles.add(new PressurePlate(104,446,24,24, PressurePlate9));
+
+                KeyObject key14 = new KeyObject(37,642, "silver");
+                interactables.add(key14);
+
+                KeyObject key15 = new KeyObject(358, 706, "gold");
+                interactables.add(key15);
+
+                MapItem lock14 = new MapItem(new int[][]{{7, 10}}, new Integer[]{25});
+                interactables.add(new Lock(228, 326, lock14, gc, key14, "silver"));
+
+                MapItem PressurePlate10 = new MapItem(new int[][]{{9, 10}, {8, 4}}, new Integer[]{23, 24});
+                obstacles.add(new PressurePlate(291,324,24,24, PressurePlate10));
+
+                KeyObject key16 = new KeyObject(356, 66, "bronze");
+                interactables.add(key16);
+
+                MapItem lock15 = new MapItem(new int[][]{{9, 16}}, new Integer[]{25});
+                interactables.add(new Lock(293, 517, lock15, gc, key15, "gold"));
+
+                MapItem PressurePlate11 = new MapItem(new int[][]{{11, 16}, {17, 12}, {18, 12}}, new Integer[]{23, 24, 25});
+                obstacles.add(new PressurePlate(352,510,24,24, PressurePlate11));
+
+                MapItem lock16 = new MapItem(new int[][]{{24, 19}}, new Integer[]{25});
+                interactables.add(new Lock(773, 614, lock16, gc, key16, "bronze"));
+
+                MapItem PressurePlate12 = new MapItem(new int[][]{{22, 14}, {28, 4}}, new Integer[]{23, 24});
+                obstacles.add(new PressurePlate(712,446,24,24, PressurePlate12));
+
+                KeyObject key17 = new KeyObject(710, 706, "silver");
+                interactables.add(key17);
+
+                MapItem lock17 = new MapItem(new int[][]{{26, 10}}, new Integer[]{25});
+                interactables.add(new Lock(836, 327, lock17, gc, key17, "silver"));                
+
+                KeyObject key18 = new KeyObject(901, 258, "gold");
+                interactables.add(key18);
+
+                MapItem lock18 = new MapItem(new int[][]{{17, 6}}, new Integer[]{25});
+                interactables.add(new Lock(548, 198, lock18, gc, key18, "gold"));
+
+                MapItem PressurePlate13 = new MapItem(new int[][]{{30, 2}, {22, 4}}, new Integer[]{23, 24});
+                obstacles.add(new PressurePlate(965,58,24,24, PressurePlate13));
+
+                MapItem PressurePlate14 = new MapItem(new int[][]{{19, 5}, {13, 7}}, new Integer[]{23, 24});
+                obstacles.add(new PressurePlate(613,154,24,24, PressurePlate14));
+
+                KeyObject key19 = new KeyObject(421, 66, "gold");
+                interactables.add(key19);
+
+                MapItem lock19 = new MapItem(new int[][]{{30, 21}}, new Integer[]{25});
+                interactables.add(new Lock(965, 677, lock19, gc, key19, "gold"));
 
                 break;
         }   
