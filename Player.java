@@ -30,7 +30,7 @@ public class Player extends Entities {
         lives = new Lives(this, 5);
         speed = 4;
         direction = "down";
-        PASSABLE_TILES = new ArrayList<>(Arrays.asList(22, 23, 24, 25, 26));
+        PASSABLE_TILES = new ArrayList<>(Arrays.asList(22, 23, 24, 25, 26, 34));
         keys = new ArrayList<>();
         getImages();
     }
