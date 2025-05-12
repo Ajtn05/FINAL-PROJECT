@@ -101,7 +101,8 @@ public class Player extends Entities {
         
         if (x < 0 || x > 1024 || y < 0 || y > 768) {
                 collision = true;
-                kill();
+                setX(1);
+                setY(62);
         }
 
         if (x >= 1024-32 || y >= 768-32) {
@@ -148,7 +149,6 @@ public class Player extends Entities {
     }
 
     public void kill(){
-        System.out.println(lives.getLives());
         if (lives.getLives() == 1) {
             keys.clear();
             lm.resetLevel();
@@ -420,5 +420,9 @@ public class Player extends Entities {
 
     public void setLives(int num) {
         lives.setLives(num);
+    }
+
+    public int getLives() {
+        return lives.getLives();
     }
 }

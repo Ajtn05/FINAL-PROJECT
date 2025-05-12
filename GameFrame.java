@@ -20,7 +20,7 @@ public class GameFrame extends JComponent {
     private String playerType;
 
     private boolean left, right, up, down, hasKey, opensDoor = false, dead;
-    private int x, y, keys;
+    private int x, y, keys, lives;
 
 
     public GameFrame(GameCanvas gc, LevelManager lm, String playerType){
@@ -83,7 +83,7 @@ public class GameFrame extends JComponent {
                 ArrayList<Obstacle> obstacleCopy = new ArrayList<>(lm.getObstacles());
                 for (Obstacle obstacle : obstacleCopy) {
                     obstacle.checkCollision(player1, gc.getMap(), gc);
-
+                    obstacle.checkCollision(player2, gc.getMap(), gc);
                     if (obstacle instanceof Traps traps){
                         traps.updateSpriteAnimation();
                     }
@@ -94,6 +94,7 @@ public class GameFrame extends JComponent {
                 if (opensDoor) {
                     gc.checkLocks(player2); // here
                 }
+
 
                 player1.update(gc.getMap());
                 player2.update(gc.getMap());
@@ -137,11 +138,13 @@ public class GameFrame extends JComponent {
                         // hasKey = dataIn.readBoolean();
                         keys = dataIn.readInt();
                         opensDoor = dataIn.readBoolean(); // here
+                        lives = dataIn.readInt();
 
                         player2.moveLeft(left);
                         player2.moveRight(right);
                         player2.moveUp(up);
                         player2.moveDown(down);
+                        player2.setLives(lives);
                         player2.setPosition(x, y);
                     }
                     try {
@@ -190,6 +193,7 @@ public class GameFrame extends JComponent {
                         // dataOut.writeBoolean(player1.hasKey());
                         dataOut.writeInt(player1.keys.size());
                         dataOut.writeBoolean(player1.opensDoor());
+                        dataOut.writeInt(player1.getLives());
                         dataOut.flush();
 
                     }
