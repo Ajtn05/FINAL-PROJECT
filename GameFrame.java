@@ -95,9 +95,9 @@ public class GameFrame extends JComponent {
                     gc.checkLocks(player2); // here
                 }
 
-
                 player1.update(gc.getMap());
                 player2.update(gc.getMap());
+                gc.getPopUps().update();
                 gc.repaint();
             }
         });

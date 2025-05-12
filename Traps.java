@@ -38,18 +38,6 @@ public class Traps implements Obstacle {
             spike6 = spikes.getSubimage(2,0, imageW, imageH);
 
             fire = ImageIO.read(getClass().getResourceAsStream("assets/images/Fire_Trap.png"));
-            // fire1 = fire.getSubimage(3,0, imageW, imageH);
-            // fire2 = fire.getSubimage(35,0, imageW, imageH);
-            // fire3 = fire.getSubimage(67,0, imageW, imageH);
-            // fire4 = fire.getSubimage(99,0, imageW, imageH);
-            // fire5 = fire.getSubimage(226,0, imageW, imageH);
-            // fire6 = fire.getSubimage(256,0, imageW, imageH);
-            // fire7 = fire.getSubimage(288,0, imageW, imageH);
-            // fire8 = fire.getSubimage(320,0, imageW, imageH);
-            // fire9 = fire.getSubimage(352,0, imageW, imageH);
-            // fire10 = fire.getSubimage(384,0, imageW, imageH);
-            // fire11 = fire.getSubimage(416,0, imageW, imageH);
-
             fire1 = fire.getSubimage(0,0, imageW, fireH);
             fire2 = fire.getSubimage(32,0, imageW, fireH);
             fire3 = fire.getSubimage(64,0, imageW, fireH);
@@ -118,7 +106,8 @@ public class Traps implements Obstacle {
             pY + 40 > y && pY < y + height) {
 
             if (trap.equals("spike")){
-                if (spriteNum == 11){
+                if (spriteNum == 7 || spriteNum == 8 || spriteNum == 9 || 
+                spriteNum == 10 || spriteNum == 11){
                     player.kill();
                 }
             }

@@ -297,22 +297,13 @@ public class LevelManager {
                 MapItem lock19 = new MapItem(new int[][]{{30, 21}}, new Integer[]{25});
                 interactables.add(new Lock(965, 677, lock19, gc, key19, "gold"));
 
+                gc.getPopUps().showPopUp();
+
                 break;
         }   
     }
 
     //GETTERS
-
-    // public void checkLocks() {
-    //     for (InteractableObjects interactable : interactables){
-    //         if (interactable instanceof Lock lock){
-    //             lock.checkCollision(player1);
-    //             lock.checkCollision(player2);
-    //             repaint();
-    //         }
-    //     }  
-    // }
-
     public InteractableObjects getInteractableObjects(String name) {
         for (InteractableObjects interactable : interactables) {
             if (interactable.getID().equals(name)) {
