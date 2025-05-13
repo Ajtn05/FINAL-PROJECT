@@ -5,7 +5,6 @@ import java.net.*;
 import java.util.ArrayList;
 import javax.swing.*;
 
-
 public class GameFrame extends JComponent {
     private JFrame frame;
     private GameCanvas gc;
@@ -18,6 +17,7 @@ public class GameFrame extends JComponent {
     private WriteToServer wtsRunnable;
     private LevelManager lm;
     private String playerType;
+    private Boolean startTraps = false;
 
     private boolean left, right, up, down, hasKey, opensDoor = false, dead;
     private int x, y, keys, lives;
@@ -84,7 +84,7 @@ public class GameFrame extends JComponent {
                 for (Obstacle obstacle : obstacleCopy) {
                     obstacle.checkCollision(player1, gc.getMap(), gc);
                     obstacle.checkCollision(player2, gc.getMap(), gc);
-                    if (obstacle instanceof Traps traps){
+                    if (obstacle instanceof Traps traps && startTraps){
                         traps.updateSpriteAnimation();
                     }
                 } 
@@ -129,16 +129,21 @@ public class GameFrame extends JComponent {
             try {
                 while (true) { 
                     if (player2 != null) {
-                        left = dataIn.readBoolean();
-                        right = dataIn.readBoolean();
-                        up = dataIn.readBoolean();
-                        down = dataIn.readBoolean();
-                        x = dataIn.readInt();
-                        y = dataIn.readInt();
-                        // hasKey = dataIn.readBoolean();
-                        keys = dataIn.readInt();
-                        opensDoor = dataIn.readBoolean(); // here
-                        lives = dataIn.readInt();
+                        String message = dataIn.readUTF();
+                        String[] packets = message.split(",");
+
+                        byte booleans = Byte.parseByte(packets[0]);
+                        x = Integer.parseInt(packets[1]);
+                        y = Integer.parseInt(packets[2]);
+                        keys = Integer.parseInt(packets[3]);
+                        lives = Integer.parseInt(packets[4]);
+
+                        left      = (booleans & (1 << 0)) != 0;
+                        right     = (booleans & (1 << 1)) != 0;
+                        up        = (booleans & (1 << 2)) != 0;
+                        down      = (booleans & (1 << 3)) != 0;
+                        opensDoor = (booleans & (1 << 4)) != 0;
+                        startTraps = (booleans & (1 << 5)) != 0;
 
                         player2.moveLeft(left);
                         player2.moveRight(right);
@@ -146,6 +151,7 @@ public class GameFrame extends JComponent {
                         player2.moveDown(down);
                         player2.setLives(lives);
                         player2.setPosition(x, y);
+
                     }
                     try {
                         Thread.sleep(1);
@@ -184,18 +190,23 @@ public class GameFrame extends JComponent {
             try {
                 while (true) { 
                     if(player1 != null) {
-                        dataOut.writeBoolean(player1.getLeft());
-                        dataOut.writeBoolean(player1.getRight());
-                        dataOut.writeBoolean(player1.getUp());
-                        dataOut.writeBoolean(player1.getDown());
-                        dataOut.writeInt(player1.getX());
-                        dataOut.writeInt(player1.getY());
-                        // dataOut.writeBoolean(player1.hasKey());
-                        dataOut.writeInt(player1.keys.size());
-                        dataOut.writeBoolean(player1.opensDoor());
-                        dataOut.writeInt(player1.getLives());
-                        dataOut.flush();
+                        byte booleans = 0;
+                        //i love bitwise OR
+                        if (player1.getLeft()) booleans  |= 1 << 0;
+                        if (player1.getRight()) booleans |= 1 << 1;
+                        if (player1.getUp()) booleans    |= 1 << 2;
+                        if (player1.getDown()) booleans  |= 1 << 3;
+                        if (player1.opensDoor()) booleans|= 1 << 4;
+                        if (startTraps) booleans         |= 1 << 5;
 
+                        x = player1.getX();
+                        y = player1.getY();
+                        keys = player1.keys.size();
+                        lives = player1.getLives();
+
+                        String message = booleans + "," + x + "," + y + "," + keys + "," + lives;
+                        dataOut.writeUTF(message);
+                        dataOut.flush();
                     }
                     try {
                         Thread.sleep(1);
@@ -266,6 +277,8 @@ public class GameFrame extends JComponent {
         }
     }  
 
+
+
     //KEYPRESS
     private void createBinding(ActionMap am, InputMap im, String action, int key){
         am.put(action + "Action", new AbstractAction(){
@@ -277,7 +290,7 @@ public class GameFrame extends JComponent {
                     break;
                     case "left": player1.moveLeft(true);
                     break;
-                    case "right": player1.moveRight(true);
+                    case "right": player1.moveRight(true); 
                     break;
                 }
             }
@@ -292,7 +305,7 @@ public class GameFrame extends JComponent {
                     break;
                     case "left": player1.moveLeft(false);
                     break;
-                    case "right": player1.moveRight(false);
+                    case "right": player1.moveRight(false); startTraps = true;
                     break;
                 }
             }
@@ -311,4 +324,9 @@ public class GameFrame extends JComponent {
         createBinding(am, im, "left", KeyEvent.VK_A);
         createBinding(am, im, "right", KeyEvent.VK_D);
     }
+
+    public int getOtherLives() {
+        return player2.getLives();
+    }
+
 }

@@ -12,7 +12,7 @@ public class Player extends Entities {
     private int keysCollected = 0;
     private boolean hasKey = false, opensDoor = false;
     private String keyType = null;
-    private boolean levelCompleted;
+    private boolean levelCompleted = false;
     private ArrayList<Integer> PASSABLE_TILES;
     public ArrayList<KeyObject> keys;
     public Lives lives;
@@ -101,8 +101,6 @@ public class Player extends Entities {
         
         if (x < 0 || x > 1024 || y < 0 || y > 768) {
                 collision = true;
-                setX(1);
-                setY(62);
         }
 
         if (x >= 1024-32 || y >= 768-32) {
