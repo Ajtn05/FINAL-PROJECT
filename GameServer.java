@@ -11,7 +11,8 @@ public class GameServer {
     private Boolean p1left, p1right, p1up , p1down, p1hasKey,
                     p2left, p2right, p2up, p2down, p2hasKey, 
                     p1opensDoor = false, p2opensDoor = false,
-                    p1dead = false, p2dead = false;
+                    p1dead = false, p2dead = false,
+                    p1startTraps = false, p2startTraps = false;
     private int p1x, p1y, p2x, p2y, p1keys, p2keys, p1lives, p2lives;
 
     public GameServer() {
@@ -116,28 +117,38 @@ public class GameServer {
             try {
                 while (true) { 
                     if(playerID == 1) {
-                        p1left = dataIn.readBoolean();
-                        p1right = dataIn.readBoolean();
-                        p1up = dataIn.readBoolean();
-                        p1down = dataIn.readBoolean();
-                        p1x = dataIn.readInt();
-                        p1y = dataIn.readInt();
-                        // p1hasKey = dataIn.readBoolean();
-                        p1keys = dataIn.readInt();
-                        p1opensDoor = dataIn.readBoolean();
-                        p1lives = dataIn.readInt();
+                        String message = dataIn.readUTF();
+                        String[] packets = message.split(",");
+
+                        byte booleans = Byte.parseByte(packets[0]);
+                        p1x = Integer.parseInt(packets[1]);
+                        p1y = Integer.parseInt(packets[2]);
+                        p1keys = Integer.parseInt(packets[3]);
+                        p1lives = Integer.parseInt(packets[4]);
+
+                        p1left      = (booleans & (1 << 0)) != 0;
+                        p1right     = (booleans & (1 << 1)) != 0;
+                        p1up        = (booleans & (1 << 2)) != 0;
+                        p1down      = (booleans & (1 << 3)) != 0;
+                        p1opensDoor = (booleans & (1 << 4)) != 0;
+                        p1startTraps = (booleans & (1 << 5)) != 0;
                     }
                     else {
-                        p2left = dataIn.readBoolean();
-                        p2right = dataIn.readBoolean();
-                        p2up = dataIn.readBoolean();
-                        p2down = dataIn.readBoolean();
-                        p2x = dataIn.readInt();
-                        p2y = dataIn.readInt();
-                        // p2hasKey = dataIn.readBoolean();
-                        p2keys = dataIn.readInt();
-                        p2opensDoor = dataIn.readBoolean();
-                        p2lives = dataIn.readInt();
+                        String message = dataIn.readUTF();
+                        String[] packets = message.split(",");
+
+                        byte booleans = Byte.parseByte(packets[0]);
+                        p2x = Integer.parseInt(packets[1]);
+                        p2y = Integer.parseInt(packets[2]);
+                        p2keys = Integer.parseInt(packets[3]);
+                        p2lives = Integer.parseInt(packets[4]);
+
+                        p2left      = (booleans & (1 << 0)) != 0;
+                        p2right     = (booleans & (1 << 1)) != 0;
+                        p2up        = (booleans & (1 << 2)) != 0;
+                        p2down      = (booleans & (1 << 3)) != 0;
+                        p2opensDoor = (booleans & (1 << 4)) != 0;
+                        p2startTraps = (booleans & (1 << 5)) != 0;
                     }
                 }
             } catch (IOException ex) {
@@ -161,29 +172,42 @@ public class GameServer {
             try {
                 while (true) { 
                     if(playerID == 1) {
-                        dataOut.writeBoolean(p2left);
-                        dataOut.writeBoolean(p2right);
-                        dataOut.writeBoolean(p2up);
-                        dataOut.writeBoolean(p2down);
-                        dataOut.writeInt(p2x);
-                        dataOut.writeInt(p2y);
-                        // dataOut.writeBoolean(p2hasKey);
-                        dataOut.writeInt(p2keys);
-                        dataOut.writeBoolean(p2opensDoor);
-                        dataOut.writeInt(p2lives);
+
+                        byte booleans = 0;
+                        //i love bitwise OR
+                        if (p2left) booleans  |= 1 << 0;
+                        if (p2right) booleans |= 1 << 1;
+                        if (p2up) booleans    |= 1 << 2;
+                        if (p2down) booleans  |= 1 << 3;
+                        if (p2opensDoor) booleans |= 1 << 4;
+                        if (p2startTraps) booleans |= 1 << 5;
+
+                        int x = p2x;
+                        int y = p2y;
+                        int keys = p2keys;
+                        int lives = p2lives;
+
+                        String message = booleans + "," + x + "," + y + "," + keys + "," + lives;
+                        dataOut.writeUTF(message);
                         dataOut.flush();
                     }
                     else {
-                        dataOut.writeBoolean(p1left);
-                        dataOut.writeBoolean(p1right); 
-                        dataOut.writeBoolean(p1up);
-                        dataOut.writeBoolean(p1down);
-                        dataOut.writeInt(p1x);
-                        dataOut.writeInt(p1y);
-                        // dataOut.writeBoolean(p1hasKey);
-                        dataOut.writeInt(p1keys);
-                        dataOut.writeBoolean(p1opensDoor);
-                        dataOut.writeInt(p1lives);
+                        byte booleans = 0;
+                        //i love bitwise OR
+                        if (p1left) booleans  |= 1 << 0;
+                        if (p1right) booleans |= 1 << 1;
+                        if (p1up) booleans    |= 1 << 2;
+                        if (p1down) booleans  |= 1 << 3;
+                        if (p1opensDoor) booleans |= 1 << 4;
+                        if (p1startTraps) booleans |= 1 << 5;
+
+                        int x = p1x;
+                        int y = p1y;
+                        int keys = p1keys;
+                        int lives = p1lives;
+
+                        String message = booleans + "," + x + "," + y + "," + keys + "," + lives;
+                        dataOut.writeUTF(message);
                         dataOut.flush();
                     }
                     try {
@@ -206,6 +230,7 @@ public class GameServer {
         } 
 
     }
+    
     public static void main(String[] args) {
         GameServer gs = new GameServer();
         gs.acceptConnections(); 
