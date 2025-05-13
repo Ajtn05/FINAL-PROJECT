@@ -7,10 +7,11 @@ public class Entities {
                          boyLeft2, boyRight2, boyUp2, boyDown2, 
                          girlUp1, girlDown1, girlLeft1, girlRight1, 
                          girlUp2, girlDown2, girlLeft2, girlRight2;
-    public BufferedImage boyUp, boyDown, boyLeft, boyRight, girlUp, girlDown, girlLeft, girlRight;
+    public BufferedImage boyUp, boyDown, boyLeft, boyRight, girlUp, 
+                         girlDown, girlLeft, girlRight;
     public BufferedImage goldKey, silverKey, bronzeKey;
+    public BufferedImage king;
     public String direction;
-
     public int spriteCounter = 0;
     public int spriteNum = 1;
 
