@@ -4,7 +4,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 public class PopUps {
-    private BufferedImage GamePlay, GameOver;
+    private BufferedImage GamePlay, GameOver, YouDied;
     private boolean showPopUp = false;
     private int counter = 0;
     private int duration = 600;
@@ -19,6 +19,7 @@ public class PopUps {
         try {
            GamePlay = ImageIO.read(getClass().getResourceAsStream("assets/images/GamePlay_PopUp.png"));
            GameOver = ImageIO.read(getClass().getResourceAsStream("assets/images/GameOver_PopUp.png"));
+           YouDied = ImageIO.read(getClass().getResourceAsStream("assets/images/YouDied_PopUp.png"));
         } catch (IOException e){
             e.printStackTrace();
         }
@@ -31,10 +32,8 @@ public class PopUps {
 
         if (gc.getLevel() == 6){
             return GameOver;
-         }
-
-        
-        return null;
+        }        
+        return YouDied;
     }
 
     public void showPopUp(){
