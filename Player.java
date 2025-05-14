@@ -144,6 +144,11 @@ public class Player extends Entities {
                 }
             }
         }
+
+        if (object instanceof King king){
+            king.setDead();
+            System.out.println("bros dead");
+        }
     }
 
     public void kill(){

@@ -1,7 +1,7 @@
 import java.awt.image.*;
 
 public class Entities {
-    public int x, y, speed;
+    public int x, y, speed, width, height;
     public String character;
     public BufferedImage boyLeft1, boyRight1, boyUp1, boyDown1, 
                          boyLeft2, boyRight2, boyUp2, boyDown2, 
@@ -10,7 +10,7 @@ public class Entities {
     public BufferedImage boyUp, boyDown, boyLeft, boyRight, girlUp, 
                          girlDown, girlLeft, girlRight;
     public BufferedImage goldKey, silverKey, bronzeKey;
-    public BufferedImage king;
+    public BufferedImage kingSprite, king;
     public String direction;
     public int spriteCounter = 0;
     public int spriteNum = 1;
