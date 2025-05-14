@@ -13,21 +13,20 @@ public class MenuFrame extends JComponent implements MouseMotionListener, MouseL
     public Socket socket;
 
     private BufferedImage staticMenu, hovered_boy, hovered_girl, hovered_id, hovered_port;
-    private Rectangle hoverBoxHost, hoverBoxPort, hoverBoxG, hoverBoxB;
+    private Rectangle hoverBoxHost, hoverBoxPort, hoverBoxG, hoverBoxB, hoverBoxPlay;
     private JTextField hostInput, portInput;
-    private boolean isHoveringHost = false, isHoveringPort = false, 
-                    isHoveringGirl = false, isHoveringBoy = false;
+    private boolean isHoveringHost = false, isHoveringPort = false, isHoveringGirl = false, 
+                    isHoveringBoy = false, isHoveringPlay = false, isBoySelected = false, isGirlSelected = false;
 
     public MenuFrame(){
-        hoverBoxHost = new Rectangle(442,316, 311,58);
-        hoverBoxPort = new Rectangle(442,401, 311,58);
-        hoverBoxB = new Rectangle(308,533, 167,160);
-        hoverBoxG = new Rectangle(548,533, 167,160);
+        hoverBoxHost = new Rectangle(449,280, 277,51);
+        hoverBoxPort = new Rectangle(447,357, 279,52);
+        hoverBoxB = new Rectangle(307,460, 167,160);
+        hoverBoxG = new Rectangle(548,460, 167,160);
+        hoverBoxPlay = new Rectangle(450, 662, 125, 65);
 
         hostInput = new JTextField(8);
         portInput = new JTextField(8);
-        hostInput.setVisible(false);
-        portInput.setVisible(false);
         
         Font font = new Font("SubVarioOTW03-CondFat", Font.PLAIN, 45);
         try {
@@ -49,6 +48,21 @@ public class MenuFrame extends JComponent implements MouseMotionListener, MouseL
         getImages();
         addMouseMotionListener(this);
         addMouseListener(this);
+    }
+
+    public void setUpGUI(){
+        frame = new JFrame("Maze Game");
+        frame.setLayout(null);
+        frame.setPreferredSize(new Dimension(1024, 768));
+        frame.setContentPane(this);
+        frame.add(hostInput);
+        frame.add(portInput);
+        frame.pack();
+        frame.setFocusable(true);
+        frame.requestFocusInWindow();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
     }
 
      public void getImages(){
@@ -77,64 +91,23 @@ public class MenuFrame extends JComponent implements MouseMotionListener, MouseL
             g.drawImage(hovered_port, 0, 0, null);
         }
 
-        if (isHoveringGirl){
+        if (isHoveringGirl || isGirlSelected){
             g.drawImage(hovered_girl, 0, 0, null);
         }
 
-        if (isHoveringBoy){
+        if (isHoveringBoy || isBoySelected){
             g.drawImage(hovered_boy, 0, 0, null);
         }
-    }
-
-    public void setUpGUI(){
-        frame = new JFrame("Maze Game");
-        frame.setLayout(null);
-        frame.setPreferredSize(new Dimension(1024, 768));
-        frame.setContentPane(this);
-        frame.add(hostInput);
-        frame.add(portInput);
-        frame.pack();
-        frame.setFocusable(true);
-        frame.requestFocusInWindow();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
     }
 
     public void end() {
         frame.dispose();
     }
 
-    public void setUpInputListeners() {
-        hostInput.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e){
-                host = hostInput.getText();
-                System.out.println("host: " + host);
-                hostInput.setVisible(false);
-            }
-        });
-
-        portInput.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent e){
-                port = Integer.parseInt(portInput.getText());
-                System.out.println("port: " + port);
-                portInput.setVisible(false); 
-            }
-        });
-
-        // ActionListener buttonListener = new ActionListener() {
-        //     @Override
-        //     public void actionPerformed(ActionEvent ae) {
-        //         Object o = ae.getSource();
-        //         if (o == connect) {
-        //             connect();
-        //         }
-        //     }  
-        // };
-
-        // connect.addActionListener(buttonListener);
+    public void connect() {
+        LevelManager lm = new LevelManager(host, port, playerType, 1, this);
+        System.out.println("yes");
+        lm.start();
     }
 
     @Override
@@ -143,73 +116,89 @@ public class MenuFrame extends JComponent implements MouseMotionListener, MouseL
         isHoveringPort = hoverBoxPort.contains(e.getPoint());
         isHoveringBoy = hoverBoxB.contains(e.getPoint());
         isHoveringGirl = hoverBoxG.contains(e.getPoint());
+        isHoveringPlay = hoverBoxPlay.contains(e.getPoint());
         repaint();
     }
 
-
     @Override
-    public void mouseClicked(MouseEvent e) {
-        hostInput.setVisible(false);
-        portInput.setVisible(false);
+    public void mousePressed(MouseEvent e) {
 
-        if (hoverBoxHost.contains(e.getPoint())){
-            hostInput.setBounds(439,313, 318,64);
+        if (isHoveringHost){
+            hostInput.setBounds(447,280, 282,52);
             hostInput.setVisible(true);
             hostInput.requestFocusInWindow();
-            checkInputs();
         }
 
-        if (hoverBoxPort.contains(e.getPoint())){
-            portInput.setBounds(439,401, 318,64);
+        if (isHoveringPort){
+            portInput.setBounds(447,357, 282,52);
             portInput.setVisible(true);
             portInput.requestFocusInWindow();
-            checkInputs();
         }
 
-        if (hoverBoxB.contains(e.getPoint())){
+        if (isHoveringBoy){
             playerType = "boy";
-            checkInputs();
-            // repaint();
-            System.out.println("playerType: " + playerType);
+            isBoySelected = true;
         }
 
-        if (hoverBoxG.contains(e.getPoint())){
+        if (isHoveringGirl){
             playerType = "girl";
-            checkInputs();
-            // repaint();
-            System.out.println("playerType: " + playerType);
+            isGirlSelected = true;
         } 
-        
-        // if (host == "localhost" && port == 9999 && playerType != null){
-        //     connect();
-        // }
-    }
 
-    @Override
-    public void mouseDragged(MouseEvent e) {}
-    @Override
-    public void mousePressed(MouseEvent e) {}
+        if (isHoveringPlay){
+            host = hostInput.getText();
+            port = Integer.parseInt(portInput.getText());
+
+            if (host != null && port > 0 && playerType != null){
+                connect();
+            } else {
+                System.out.println("fill out fields");
+            }
+        }
+    }
     @Override
     public void mouseReleased(MouseEvent e) {}
     @Override
     public void mouseEntered(MouseEvent e) {}
     @Override
     public void mouseExited(MouseEvent e) {}
+    @Override
+    public void mouseClicked(MouseEvent e) {}
+    @Override
+    public void mouseDragged(MouseEvent e) {}
 
-    private void checkInputs(){
-        if (host != null && port > 0 && playerType != null){
-            connect();
-        }
-    }
 
-    public void connect() {
-        // host = hostInput.getText();
-        // port = Integer.parseInt(portInput.getText());
-        // playerType = playerInput.getText();
-        LevelManager lm = new LevelManager(host, port, playerType, 1, this);
-        System.out.println("yes");
-        lm.start();
-    }
+    // public void setUpInputListeners() {
+    //     hostInput.addActionListener(new ActionListener() {
+    //         @Override
+    //         public void actionPerformed(ActionEvent e){
+    //             host = hostInput.getText();
+    //             System.out.println("host: " + host);
+    //         }
+    //     });
+
+    //     portInput.addActionListener(new ActionListener(){
+    //         @Override
+    //         public void actionPerformed(ActionEvent e){
+    //             port = Integer.parseInt(portInput.getText());
+    //             System.out.println("port: " + port);
+    //         }
+    //     });
+    // public void setUpButtonListeners(){
+    //     ActionListener buttonListener = new ActionListener() {
+    //             @Override
+    //             public void actionPerformed(ActionEvent ae) {
+    //                 Object o = ae.getSource();
+    //                 if (o == play) {
+    //                     connect();
+    //                 }
+    //             }  
+    //         };
+
+    //        play.addMouseListener(buttonListener);
+    // }
+    
+    // }
 
     // public void test(String sex) {
     //     frame = new JFrame();
