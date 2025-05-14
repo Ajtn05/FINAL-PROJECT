@@ -5,7 +5,7 @@ import javax.imageio.ImageIO;
 
 public class PopUps {
     private BufferedImage GamePlay, GameOver, YouDied;
-    private boolean showPopUp = false;
+    public boolean showPopUp = false;
     private int counter = 0;
     private int duration = 600;
     private GameCanvas gc;
@@ -39,6 +39,10 @@ public class PopUps {
     public void showPopUp(){
         showPopUp = true;
         counter = 0;
+    }
+
+    public Boolean setFalse(){
+        return showPopUp = false;
     }
 
     public void update(){

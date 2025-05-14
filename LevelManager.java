@@ -74,7 +74,7 @@ public class LevelManager {
         obstacles.clear();
         interactables.clear();
         switch(level){
-            case 5:
+            case 1:
 
                 obstacles.add(new Traps("spike", 352, 382, 32, 32, 10));
                 obstacles.add(new Traps("fire", 97, 314, 32, 32, 6));
@@ -306,7 +306,7 @@ public class LevelManager {
                 // }
 
                 break;
-            case 1:
+            case 5:
 
                 // top
                 for (int i = 0; i < 20; i++){
