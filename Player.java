@@ -6,14 +6,14 @@ import javax.imageio.ImageIO;
 
 public class Player extends Entities {
     public boolean up = false, down = false, left = false, right = false;
-    private GameFrame gf;
+    private static GameFrame gf;
     private GameCanvas gc;
     private LevelManager lm;
     private int keysCollected = 0;
     private boolean hasKey = false, opensDoor = false;
     private String keyType = null;
-    private boolean levelCompleted = false;
-    private ArrayList<Integer> PASSABLE_TILES;
+    private static boolean levelCompleted = false;
+    private static ArrayList<Integer> PASSABLE_TILES;
     public ArrayList<KeyObject> keys;
     public Lives lives;
     private boolean dead = false;
@@ -73,7 +73,7 @@ public class Player extends Entities {
         }
     }
 
-    public boolean checkCollision(int x, int y, int[][] mapNum){
+    public static boolean checkCollision(int x, int y, int[][] mapNum){
         boolean collision = false;
         int leftEdge = (x + 2) / 32;
         int rightEdge = (x + 18) / 32;
