@@ -126,7 +126,7 @@ public class GameServer {
                         p1keys = Integer.parseInt(packets[3]);
                         p1lives = Integer.parseInt(packets[4]);
 
-                        p1left      = (booleans & (1 << 0)) != 0;
+                        p1left      = (booleans & (1)) != 0;
                         p1right     = (booleans & (1 << 1)) != 0;
                         p1up        = (booleans & (1 << 2)) != 0;
                         p1down      = (booleans & (1 << 3)) != 0;
@@ -143,7 +143,7 @@ public class GameServer {
                         p2keys = Integer.parseInt(packets[3]);
                         p2lives = Integer.parseInt(packets[4]);
 
-                        p2left      = (booleans & (1 << 0)) != 0;
+                        p2left      = (booleans & (1)) != 0;
                         p2right     = (booleans & (1 << 1)) != 0;
                         p2up        = (booleans & (1 << 2)) != 0;
                         p2down      = (booleans & (1 << 3)) != 0;
@@ -175,7 +175,7 @@ public class GameServer {
 
                         byte booleans = 0;
                         //i love bitwise OR
-                        if (p2left) booleans  |= 1 << 0;
+                        if (p2left) booleans  |= 1;
                         if (p2right) booleans |= 1 << 1;
                         if (p2up) booleans    |= 1 << 2;
                         if (p2down) booleans  |= 1 << 3;
@@ -194,7 +194,7 @@ public class GameServer {
                     else {
                         byte booleans = 0;
                         //i love bitwise OR
-                        if (p1left) booleans  |= 1 << 0;
+                        if (p1left) booleans  |= 1;
                         if (p1right) booleans |= 1 << 1;
                         if (p1up) booleans    |= 1 << 2;
                         if (p1down) booleans  |= 1 << 3;
