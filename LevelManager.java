@@ -324,6 +324,10 @@ public class LevelManager {
                 for (int i = 0; i < 14; i++){
                     obstacles.add(new Traps("fire", 832, 187 + (i*32), 32, 32, 6));
                 }
+
+                King king = new King(564, 130, 32, 48);
+                interactables.add(king);
+
                 break;
         }   
     }

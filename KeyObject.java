@@ -4,7 +4,6 @@ import java.io.*;
 import javax.imageio.ImageIO;
 
 public class KeyObject extends Entities implements InteractableObjects {
-    private int x, y;
     private String ID;
     private boolean unclaimed = true;
     private boolean used = false;

@@ -18,6 +18,7 @@ public class GameCanvas extends JComponent implements KeyListener {
     private ArrayList<Obstacle> obstacles;
     private Lives player1Lives, player2Lives;
     private PopUps popUps;
+    private King king;
 
 
     public GameCanvas(int level, ArrayList<Obstacle> obstacles, ArrayList<InteractableObjects> interactables){
@@ -80,6 +81,15 @@ public class GameCanvas extends JComponent implements KeyListener {
         }  
     }
 
+    public void checkKing(Player player){
+        for (InteractableObjects interactable : interactables){
+            if (interactable instanceof King king){
+                king.checkCollision(player);
+                repaint();
+            }
+        }
+    }
+
     public void addLevel(int level) {
         System.out.println("player killed, adding level: " + level);
         switch(level){
@@ -123,7 +133,6 @@ public class GameCanvas extends JComponent implements KeyListener {
         player1.draw(g2d);
         player2.draw(g2d);
         popUps.draw(g2d);
-
     }
     
     //KEYPRESS METHODS
@@ -135,7 +144,10 @@ public class GameCanvas extends JComponent implements KeyListener {
     public void keyReleased(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_E){
             checkKeys(player1);   
-            checkLocks(player1);       
+            checkLocks(player1);
+            checkKing(player1);
+            popUps.setFalse();  
+            System.out.println(popUps.showPopUp);   
         }
     }
 

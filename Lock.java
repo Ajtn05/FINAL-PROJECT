@@ -51,13 +51,6 @@ public class Lock implements InteractableObjects{
     public void checkCollision(Player player){
         int pX = player.getX();
         int pY = player.getY();
-       
-        // if ((x-pX <= 40 && y-pY <= 60 && !(pX - x > 40) && !(pY - y > 60))) {
-        //     if (player.hasKey() && locked){  
-        //         player.interact("lock");
-        //         unlock();
-        //     } 
-        // }
 
         if ((x-pX <= 40 && y-pY <= 60 && !(pX - x > 40) && !(pY - y > 60))) {
             if (player.hasKey() && locked){
