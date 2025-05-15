@@ -103,9 +103,10 @@ public class Player extends Entities {
                 collision = true;
         }
 
-        if (x >= 1024-32 || y >= 768-32) {
+        if (x >= 1024-40 && y >= 768-80) {
             gf.levelComplete();
             levelCompleted = true;
+            // collision = true;
         }
     
         // System.out.println("x: " + x);

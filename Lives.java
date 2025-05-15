@@ -38,10 +38,10 @@ public class Lives {
 
     public void draw(Graphics2D g) {
         for (int i= 0; i < fullNumber; i++) {
-            g.drawImage(full, 10*i, 50, 24, 24, null);
+            g.drawImage(full, 20*i, 37, 24, 24, null);
         }
         for (int i = 5; i > fullNumber; i--) {
-            g.drawImage(taken, 10*(i-1), 50, 24, 24, null);
+            g.drawImage(taken, 20*(i-1), 37, 24, 24, null);
         }
     }
 

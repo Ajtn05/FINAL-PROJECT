@@ -17,31 +17,14 @@ public class GameCanvas extends JComponent implements KeyListener {
     private ArrayList<InteractableObjects> interactables;
     private ArrayList<Obstacle> obstacles;
     private Lives player1Lives, player2Lives;
-    private PopUps popUps;
+    public static PopUps popUps;
     private King king;
+    private GameFrame gf;
 
 
     public GameCanvas(int level, ArrayList<Obstacle> obstacles, ArrayList<InteractableObjects> interactables){
-        switch(level){
-            case 5:
-                tileMap = "assets/maps/tileMap1.txt";
-                break;
-            case 2:
-                tileMap = "assets/maps/tileMap2.txt";
-                break;
-            case 3:
-                tileMap = "assets/maps/tileMap3.txt";
-                break;
-            case 4:
-                tileMap = "assets/maps/tileMap4.txt";
-                break;
-            case 1:
-                tileMap = "assets/maps/tileMap5.txt";
-                break;
-
-        }
+        addLevel(level);
         this.level = level;
-        map = new Map(tileMap);
         popUps = new PopUps(this);
         this.obstacles = obstacles;
         this.interactables = interactables;
@@ -93,11 +76,11 @@ public class GameCanvas extends JComponent implements KeyListener {
     public void addLevel(int level) {
         System.out.println("player killed, adding level: " + level);
         switch(level){
-            case 5 -> tileMap = "assets/maps/tileMap1.txt";
+            case 1 -> tileMap = "assets/maps/tileMap1.txt";
             case 2 -> tileMap = "assets/maps/tileMap2.txt";
             case 3 -> tileMap = "assets/maps/tileMap3.txt";
             case 4 -> tileMap = "assets/maps/tileMap4.txt";
-            case 1 -> tileMap = "assets/maps/tileMap5.txt";
+            case 5 -> tileMap = "assets/maps/tileMap5.txt";
 
         }
         map = new Map(tileMap);
@@ -137,18 +120,21 @@ public class GameCanvas extends JComponent implements KeyListener {
     
     //KEYPRESS METHODS
     @Override
-    public void keyPressed(KeyEvent e) {}
-    @Override
-    public void keyTyped(KeyEvent e) {}
-    @Override
-    public void keyReleased(KeyEvent e) {
+    public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_E){
             checkKeys(player1);   
             checkLocks(player1);
             checkKing(player1);
-            popUps.setFalse();  
+            popUps.setFalse();
+            // gf.startTraps(); 
             System.out.println(popUps.showPopUp);   
         }
+    }
+    @Override
+    public void keyTyped(KeyEvent e) {}
+    @Override
+    public void keyReleased(KeyEvent e) {
+       
     }
 
     //GETTER METHODS
@@ -156,9 +142,9 @@ public class GameCanvas extends JComponent implements KeyListener {
         return this.map;
     }
 
-    public int getLevel(){
-        return level;
-    }
+    // public int getLevel(){
+    //     return level;
+    // }
 
     public PopUps getPopUps(){
         return popUps;

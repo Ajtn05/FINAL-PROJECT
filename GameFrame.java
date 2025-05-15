@@ -17,10 +17,10 @@ public class GameFrame extends JComponent {
     private WriteToServer wtsRunnable;
     private LevelManager lm;
     private String playerType;
-    private Boolean startTraps = false;
+    public Boolean startTraps = false;
 
     private boolean left, right, up, down, hasKey, opensDoor = false, dead;
-    private int x, y, keys, lives;
+    private int x, y, keys, lives, level, x2, y2;
 
 
     public GameFrame(GameCanvas gc, LevelManager lm, String playerType){
@@ -41,6 +41,18 @@ public class GameFrame extends JComponent {
         frame.setFocusable(true);
         frame.setVisible(true);
         gc.requestFocusInWindow();
+
+        level = lm.getLevel();
+
+        switch (level) {
+            case 1: 
+                this.x = 1;
+                this.y = 62;
+                this.x2 = 4;
+                this.y2 = 62;
+                break;
+            case 2:
+        }
     }
 
     public void createPlayers() {
@@ -144,6 +156,7 @@ public class GameFrame extends JComponent {
                         down      = (booleans & (1 << 3)) != 0;
                         opensDoor = (booleans & (1 << 4)) != 0;
                         startTraps = (booleans & (1 << 5)) != 0;
+    
 
                         player2.moveLeft(left);
                         player2.moveRight(right);
@@ -283,6 +296,7 @@ public class GameFrame extends JComponent {
     private void createBinding(ActionMap am, InputMap im, String action, int key){
         am.put(action + "Action", new AbstractAction(){
             public void actionPerformed(ActionEvent ae){
+                startTraps = true;
                 switch (action){
                     case "up": player1.moveUp(true);
                     break;
@@ -305,7 +319,7 @@ public class GameFrame extends JComponent {
                     break;
                     case "left": player1.moveLeft(false);
                     break;
-                    case "right": player1.moveRight(false); startTraps = true;
+                    case "right": player1.moveRight(false); 
                     break;
                 }
             }
@@ -327,6 +341,10 @@ public class GameFrame extends JComponent {
 
     public int getOtherLives() {
         return player2.getLives();
+    }
+
+    public void startTraps(){
+        this.startTraps = true;
     }
 
 }
