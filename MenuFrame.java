@@ -167,48 +167,4 @@ public class MenuFrame extends JComponent implements MouseMotionListener, MouseL
     @Override
     public void mouseDragged(MouseEvent e) {}
 
-
-    // public void setUpInputListeners() {
-    //     hostInput.addActionListener(new ActionListener() {
-    //         @Override
-    //         public void actionPerformed(ActionEvent e){
-    //             host = hostInput.getText();
-    //             System.out.println("host: " + host);
-    //         }
-    //     });
-
-    //     portInput.addActionListener(new ActionListener(){
-    //         @Override
-    //         public void actionPerformed(ActionEvent e){
-    //             port = Integer.parseInt(portInput.getText());
-    //             System.out.println("port: " + port);
-    //         }
-    //     });
-    // public void setUpButtonListeners(){
-    //     ActionListener buttonListener = new ActionListener() {
-    //             @Override
-    //             public void actionPerformed(ActionEvent ae) {
-    //                 Object o = ae.getSource();
-    //                 if (o == play) {
-    //                     connect();
-    //                 }
-    //             }  
-    //         };
-
-    //        play.addMouseListener(buttonListener);
-    // }
-    
-    // }
-
-    // public void test(String sex) {
-    //     frame = new JFrame();
-    //     host = "localhost";
-    //     port = 9999;
-    //     switch(sex) {
-    //         case "1": playerType = "boy"; break;
-    //         case "2": playerType = "girl"; break;
-    //     }
-    //     LevelManager lm = new LevelManager(host, port, playerType, 1, this);
-    //     lm.testStart();  
-    // }
 }

@@ -9,9 +9,10 @@ public class PopUps {
     private int counter = 0;
     private int duration = 600;
     private GameCanvas gc;
+    private String type;
+    private GameFrame gf;
 
     public PopUps(GameCanvas gc){
-        this.gc = gc;
         getImages();
     }
 
@@ -26,17 +27,18 @@ public class PopUps {
     }
 
     public BufferedImage getPopUpImage(){
-        if (gc.getLevel() == 1){
+        if (type.equals("GamePlay")){
            return GamePlay;
         }
 
-        if (gc.getLevel() == 6){
+        if (type.equals("GameOver")){
             return GameOver;
         }        
         return YouDied;
     }
 
-    public void showPopUp(){
+    public void showPopUp(String type){
+        this.type = type;
         showPopUp = true;
         counter = 0;
     }
