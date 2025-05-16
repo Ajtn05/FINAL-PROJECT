@@ -37,27 +37,37 @@ public class GameFrame extends JComponent {
         level = lm.getLevel();
 
         switch (level) {
-            case 3: 
+            case 4: 
                 x = 41;
                 y = 698;
                 x2 = 968;
                 y2 = 58;
                 break;
-
             case 2:
                 x = 1;
                 y = 62;
                 x2 = 740;
                 y2 = 58;
                 break;
-
-            case 1:
+            case 3:
                 x = 41;
                 y = 698;
                 x2 = 741;
                 y2 = 62;
                 break;
-
+            case 1:
+                x = 1;
+                y = 62;
+                x2 = 776;
+                y2 = 62;
+                break;
+        
+            case 5:
+                x = 450;
+                y = 380;
+                x2 = 550;
+                y2 = 380;
+                break;
         }
 
         createPlayers();
@@ -361,5 +371,4 @@ public class GameFrame extends JComponent {
     public void startTraps(){
         this.startTraps = true;
     }
-
 }
