@@ -33,6 +33,33 @@ public class GameFrame extends JComponent {
 
     public void setUpGUI(){
         gc.setPreferredSize(new Dimension(1024, 768));
+
+        level = lm.getLevel();
+
+        switch (level) {
+            case 3: 
+                x = 41;
+                y = 698;
+                x2 = 968;
+                y2 = 58;
+                break;
+
+            case 2:
+                x = 1;
+                y = 62;
+                x2 = 740;
+                y2 = 58;
+                break;
+
+            case 1:
+                x = 41;
+                y = 698;
+                x2 = 741;
+                y2 = 62;
+                break;
+
+        }
+
         createPlayers();
         frame.add(gc);
         frame.setTitle("Maze Game - Player " + playerID + " " + playerType);
@@ -41,18 +68,6 @@ public class GameFrame extends JComponent {
         frame.setFocusable(true);
         frame.setVisible(true);
         gc.requestFocusInWindow();
-
-        level = lm.getLevel();
-
-        switch (level) {
-            case 1: 
-                this.x = 1;
-                this.y = 62;
-                this.x2 = 4;
-                this.y2 = 62;
-                break;
-            case 2:
-        }
     }
 
     public void createPlayers() {
@@ -67,8 +82,8 @@ public class GameFrame extends JComponent {
                 p1playerType = "girl";
                 p2playerType = "boy";
             }
-            player1 = new Player(1, 62, this, gc, p1playerType, lm);
-            player2 = new Player(4, 62, this, gc, p2playerType, lm);
+            player1 = new Player(x, y, this, gc, p1playerType, lm);
+            player2 = new Player(x2, y2, this, gc, p2playerType, lm);
             gc.setPlayer(player1, player2);
         }
 
@@ -82,8 +97,8 @@ public class GameFrame extends JComponent {
                 p2playerType = "girl";
                 p1playerType = "boy";
             }
-            player1 = new Player(4, 62, this, gc, p2playerType, lm);
-            player2 = new Player(1, 62, this, gc, p1playerType, lm);
+            player1 = new Player(x2, y2, this, gc, p2playerType, lm);
+            player2 = new Player(x, y, this, gc, p1playerType, lm);
             gc.setPlayer(player1, player2);
         }
     }
