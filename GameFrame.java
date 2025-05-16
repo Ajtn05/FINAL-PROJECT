@@ -17,10 +17,10 @@ public class GameFrame extends JComponent {
     private WriteToServer wtsRunnable;
     private LevelManager lm;
     private String playerType;
-    private Boolean startTraps = false;
+    public Boolean startTraps = false;
 
     private boolean left, right, up, down, hasKey, opensDoor = false, dead;
-    private int x, y, keys, lives;
+    private int x, y, keys, lives, level, x2, y2;
 
 
     public GameFrame(GameCanvas gc, LevelManager lm, String playerType){
@@ -33,6 +33,43 @@ public class GameFrame extends JComponent {
 
     public void setUpGUI(){
         gc.setPreferredSize(new Dimension(1024, 768));
+
+        level = lm.getLevel();
+
+        switch (level) {
+            case 4: 
+                x = 41;
+                y = 698;
+                x2 = 968;
+                y2 = 58;
+                break;
+            case 2:
+                x = 1;
+                y = 62;
+                x2 = 740;
+                y2 = 58;
+                break;
+            case 3:
+                x = 41;
+                y = 698;
+                x2 = 741;
+                y2 = 62;
+                break;
+            case 1:
+                x = 1;
+                y = 62;
+                x2 = 776;
+                y2 = 62;
+                break;
+        
+            case 5:
+                x = 450;
+                y = 380;
+                x2 = 550;
+                y2 = 380;
+                break;
+        }
+
         createPlayers();
         frame.add(gc);
         frame.setTitle("Maze Game - Player " + playerID + " " + playerType);
@@ -55,8 +92,8 @@ public class GameFrame extends JComponent {
                 p1playerType = "girl";
                 p2playerType = "boy";
             }
-            player1 = new Player(1, 62, this, gc, p1playerType, lm);
-            player2 = new Player(4, 62, this, gc, p2playerType, lm);
+            player1 = new Player(x, y, this, gc, p1playerType, lm);
+            player2 = new Player(x2, y2, this, gc, p2playerType, lm);
             gc.setPlayer(player1, player2);
         }
 
@@ -70,8 +107,8 @@ public class GameFrame extends JComponent {
                 p2playerType = "girl";
                 p1playerType = "boy";
             }
-            player1 = new Player(4, 62, this, gc, p2playerType, lm);
-            player2 = new Player(1, 62, this, gc, p1playerType, lm);
+            player1 = new Player(x2, y2, this, gc, p2playerType, lm);
+            player2 = new Player(x, y, this, gc, p1playerType, lm);
             gc.setPlayer(player1, player2);
         }
     }
@@ -144,6 +181,7 @@ public class GameFrame extends JComponent {
                         down      = (booleans & (1 << 3)) != 0;
                         opensDoor = (booleans & (1 << 4)) != 0;
                         startTraps = (booleans & (1 << 5)) != 0;
+    
 
                         player2.moveLeft(left);
                         player2.moveRight(right);
@@ -283,6 +321,7 @@ public class GameFrame extends JComponent {
     private void createBinding(ActionMap am, InputMap im, String action, int key){
         am.put(action + "Action", new AbstractAction(){
             public void actionPerformed(ActionEvent ae){
+                startTraps = true;
                 switch (action){
                     case "up": player1.moveUp(true);
                     break;
@@ -305,7 +344,7 @@ public class GameFrame extends JComponent {
                     break;
                     case "left": player1.moveLeft(false);
                     break;
-                    case "right": player1.moveRight(false); startTraps = true;
+                    case "right": player1.moveRight(false); 
                     break;
                 }
             }
@@ -329,4 +368,7 @@ public class GameFrame extends JComponent {
         return player2.getLives();
     }
 
+    public void startTraps(){
+        this.startTraps = true;
+    }
 }

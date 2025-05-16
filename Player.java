@@ -17,14 +17,17 @@ public class Player extends Entities {
     public ArrayList<KeyObject> keys;
     public Lives lives;
     private boolean dead = false;
+    private int initialX, initialY;
 
 
 
     public Player (int x, int y, GameFrame gf, GameCanvas gc, String character, LevelManager lm){
-        this.x = x; //1
-        this.y = y; //62
+        this.x = x;
+        this.y = y; 
+        this.initialX = x;
+        this.initialY = y;
         this.character = character;
-        this.gf = gf; // like ur my gf
+        this.gf = gf; 
         this.gc = gc;
         this.lm = lm;
         lives = new Lives(this, 5);
@@ -103,9 +106,10 @@ public class Player extends Entities {
                 collision = true;
         }
 
-        if (x >= 1024-32 || y >= 768-32) {
+        if (x >= 1024-40 && y >= 768-80) {
             gf.levelComplete();
             levelCompleted = true;
+            // collision = true;
         }
     
         // System.out.println("x: " + x);
@@ -117,7 +121,6 @@ public class Player extends Entities {
         return collision;
     }    
 
-    // public void interact(String itemType, String keyType){
     public void interact(InteractableObjects object){
         
         if (object instanceof KeyObject keyObject) {
@@ -151,6 +154,11 @@ public class Player extends Entities {
         }
     }
 
+    public void respawn(){
+        this.x = initialX;
+        this.y = initialY;
+    }
+
     public void kill(){
         if (lives.getLives() == 1) {
             keys.clear();
@@ -158,8 +166,7 @@ public class Player extends Entities {
             setDead();
         }
         else {
-            this.x = 1+32; //1
-            this.y = 62; //62
+            respawn();
             lives.takeLife();
         }
     }
