@@ -6,14 +6,14 @@ import javax.imageio.ImageIO;
 
 public class Player extends Entities {
     public boolean up = false, down = false, left = false, right = false;
-    private static GameFrame gf;
+    private GameFrame gf;
     private GameCanvas gc;
     private LevelManager lm;
     private int keysCollected = 0;
     private boolean hasKey = false, opensDoor = false;
     private String keyType = null;
-    private static boolean levelCompleted = false;
-    private static ArrayList<Integer> PASSABLE_TILES;
+    private boolean levelCompleted = false;
+    private ArrayList<Integer> PASSABLE_TILES;
     public ArrayList<KeyObject> keys;
     public Lives lives;
     private boolean dead = false;
@@ -73,7 +73,7 @@ public class Player extends Entities {
         }
     }
 
-    public static boolean checkCollision(int x, int y, int[][] mapNum){
+    public boolean checkCollision(int x, int y, int[][] mapNum){
         boolean collision = false;
         int leftEdge = (x + 2) / 32;
         int rightEdge = (x + 18) / 32;
@@ -303,53 +303,42 @@ public class Player extends Entities {
         if (character.equals("girl")){
             if (spriteNum == 0){
                 switch (direction){
-                    case "up":
-                        image = girlUp1;
-                        break;
-                    case "down":
-                        image = girlDown1; 
-                        break;
-                    case "left":
-                        image = girlLeft1; 
-                        break;
-                    case "right":
-                        image = girlRight1; 
-                        break;
+                    case "up" -> image = girlUp1;
+                    case "down" -> image = girlDown1;
+                    case "left" -> image = girlLeft1;
+                    case "right" -> image = girlRight1;
                 } 
             } else {
                 switch (direction){
-                    case "up": 
-                        if (spriteNum == 1){
-                            image = girlUp1; 
-                    }
-                        if (spriteNum == 2) {
-                            image = girlUp2; 
+                    case "up" -> { 
+                        if (spriteNum == 1) {image = girlUp1;}
+                        if (spriteNum == 2) {image = girlUp2; 
                         }
-                        break;
-                    case "down": 
+                    }
+                    case "down" -> { 
                         if (spriteNum == 1){
                             image = girlDown1; 
                         }
                         if (spriteNum == 2) {
                             image = girlDown2; 
                         }
-                        break;
-                    case "left":
+                    }
+                    case "left" -> {
                         if (spriteNum == 1){
                             image = girlLeft1; 
                         }
                         if (spriteNum == 2) {
                             image = girlLeft2; 
                         }
-                        break;
-                    case "right":
+                    }
+                    case "right" -> {
                         if (spriteNum == 1){
                             image = girlRight1; 
                         }
                         if (spriteNum == 2) {
                             image = girlRight2; 
                         }
-                        break;
+                    }
                 }
             }
         }
