@@ -5,7 +5,6 @@ public class LevelManager {
     private int port;
     private GameCanvas gc;
     private GameFrame gf;
-    // private PopUps popUps;
     private KeyObject keyObject;
     private int level;
     private MenuFrame mf;
@@ -75,7 +74,7 @@ public class LevelManager {
         obstacles.clear();
         interactables.clear();
         switch(level){
-            case 4:
+            case 5:
 
                 obstacles.add(new Traps("spike", 352, 382, 32, 32, 10));
                 obstacles.add(new Traps("fire", 97, 314, 32, 32, 6));
@@ -245,7 +244,7 @@ public class LevelManager {
                 interactables.add(new Lock(932, 710, lock13, gc, key10, "bronze"));
                 
                 break;
-            case 1:
+            case 4:
 
                 obstacles.add(new Traps("spike", 99, 127, 32, 32, 6));
                 obstacles.add(new Traps("spike", 99, 348, 32, 32, 6));
@@ -335,8 +334,7 @@ public class LevelManager {
                 interactables.add(new Lock(965, 677, lock19, gc, key19, "gold"));
 
                 break;
-            case 5:
-
+            case 6:
                 for (int i = 0; i < 20; i++){ obstacles.add(new Traps("fire", 192 + (i*32), 187, 32, 32, 6));}
                 for (int i = 0; i < 14; i++){obstacles.add(new Traps("fire", 160, 187 + (i*32), 32, 32, 6));}
                 for (int i = 0; i < 21; i++){obstacles.add(new Traps("fire", 192 + (i*32), 603, 32, 32, 6));}
@@ -345,7 +343,21 @@ public class LevelManager {
                 King king = new King(564, 130, 32, 48);
                 interactables.add(king);
 
+                gc.getPopUps().showPopUp("KingMessage");
                 break;
+            case 1:
+
+                gc.getPopUps().showPopUp("Congrats");
+                break;
+            case 7:
+
+                gc.getPopUps().showPopUp("Betrayed");
+                break;
+            case 8:
+            
+                gc.getPopUps().showPopUp("YouWin");
+                break;
+                
         }   
     }
 
