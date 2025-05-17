@@ -89,11 +89,11 @@ public class GameCanvas extends JComponent implements KeyListener {
             // case 3 -> tileMap = "assets/maps/blankMap.txt";
             // case 4 -> tileMap = "assets/maps/blankMap.txt";
 
-            case 1 -> tileMap = "assets/maps/tileMap1.txt";
+            case 5 -> tileMap = "assets/maps/tileMap1.txt";
             case 2 -> tileMap = "assets/maps/tileMap2.txt";
             case 3 -> tileMap = "assets/maps/tileMap3.txt";
             case 4 -> tileMap = "assets/maps/tileMap4.txt";
-            case 5 -> tileMap = "assets/maps/tileMap5.txt";
+            case 1 -> tileMap = "assets/maps/tileMap5.txt";
             case 6 -> tileMap = "assets/maps/blankMap.txt";
             case 7 -> tileMap = "assets/maps/blankMap.txt";
             case 8 -> tileMap = "assets/maps/blankMap.txt";
@@ -146,12 +146,12 @@ public class GameCanvas extends JComponent implements KeyListener {
             checkKing(player1);
             popUps.setFalse();
 
-            if (level == 1){
+            if (level == 5){
                 player1.murder();
             }
             
-            // System.out.println("player1 x: " + player1.getX() + " player1 y: " + player1.getY());
-            // System.out.println("player2 x: " + player2.getX() + " player2 y: " + player2.getY());
+            System.out.println("player1 x: " + player1.getX() + " player1 y: " + player1.getY());
+            System.out.println("player2 x: " + player2.getX() + " player2 y: " + player2.getY());
         }
     }
 

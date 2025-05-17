@@ -99,7 +99,7 @@ public class KeyObject extends Entities implements InteractableObjects {
 
     public int getLocation() {
         int location;
-        if (keyOrder == 1) {location = 3;}
+        if (keyOrder == 1) {location = 10;}
         else {location = 10*keyOrder;}
         return location;
     }
