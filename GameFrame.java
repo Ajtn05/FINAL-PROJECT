@@ -37,8 +37,20 @@ public class GameFrame extends JComponent {
 
         level = lm.getLevel();
 
+        setCoordinates();
+        createPlayers();
+        frame.add(gc);
+        frame.setTitle("Maze Game - Player " + playerID + " " + playerType);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.pack();
+        frame.setFocusable(true);
+        frame.setVisible(true);
+        gc.requestFocusInWindow();
+    }
+
+    public void setCoordinates() {
         switch (level) {
-            case 5: 
+            case 1: 
                 x = 41;
                 y = 698;
                 x2 = 968;
@@ -63,28 +75,19 @@ public class GameFrame extends JComponent {
                 y2 = 62;
                 break;
         
+            case 5:
+                x = 450;
+                y = 380;
+                x2 = 550;
+                y2 = 380;
+                break;
             case 6:
                 x = 450;
                 y = 380;
                 x2 = 550;
                 y2 = 380;
                 break;
-            case 1:
-                x = 450;
-                y = 380;
-                x2 = 550;
-                y2 = 380;
-                break;
         }
-
-        createPlayers();
-        frame.add(gc);
-        frame.setTitle("Maze Game - Player " + playerID + " " + playerType);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setFocusable(true);
-        frame.setVisible(true);
-        gc.requestFocusInWindow();
     }
 
     public void createPlayers() {
@@ -156,6 +159,7 @@ public class GameFrame extends JComponent {
     }
 
     public void gameReset() {
+        setCoordinates();
         createPlayers();
         player2.setLives(5);
     }
