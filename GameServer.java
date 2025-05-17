@@ -12,7 +12,8 @@ public class GameServer {
                     p2left, p2right, p2up, p2down, p2hasKey, 
                     p1opensDoor = false, p2opensDoor = false,
                     p1dead = false, p2dead = false,
-                    p1startTraps = false, p2startTraps = false;
+                    p1startTraps = false, p2startTraps = false,
+                    p1levelComplete = false, p2levelComplete = false;
     private int p1x, p1y, p2x, p2y, p1keys, p2keys, p1lives, p2lives;
 
     public GameServer() {
@@ -132,7 +133,8 @@ public class GameServer {
                         p1down      = (booleans & (1 << 3)) != 0;
                         p1opensDoor = (booleans & (1 << 4)) != 0;
                         p1startTraps = (booleans & (1 << 5)) != 0;
-                        // p1dead = (booleans & (1 << 6)) != 0;
+                        p1dead = (booleans & (1 << 6)) != 0;
+                        p1levelComplete = (booleans & (1 << 7)) != 0;
                     }
                     else {
                         String message = dataIn.readUTF();
@@ -150,7 +152,8 @@ public class GameServer {
                         p2down      = (booleans & (1 << 3)) != 0;
                         p2opensDoor = (booleans & (1 << 4)) != 0;
                         p2startTraps = (booleans & (1 << 5)) != 0;
-                        // p2dead = (booleans & (1 << 6)) != 0;
+                        p2dead = (booleans & (1 << 6)) != 0;
+                        p2levelComplete = (booleans & (1 << 7)) != 0;
                     }
                 }
             } catch (IOException ex) {
@@ -184,6 +187,7 @@ public class GameServer {
                         if (p2opensDoor) booleans |= 1 << 4;
                         if (p2startTraps) booleans |= 1 << 5;
                         if (p2dead) booleans |= 1 << 6;
+                        if (p2levelComplete) booleans |= 1 << 7;
 
                         int x = p2x;
                         int y = p2y;
@@ -203,7 +207,8 @@ public class GameServer {
                         if (p1down) booleans  |= 1 << 3;
                         if (p1opensDoor) booleans |= 1 << 4;
                         if (p1startTraps) booleans |= 1 << 5;
-                        // if (p1dead) booleans |= 1 << 6;
+                        if (p1dead) booleans |= 1 << 6;
+                        if (p1levelComplete) booleans |= 1 << 7;
 
                         int x = p1x;
                         int y = p1y;

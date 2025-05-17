@@ -108,7 +108,8 @@ public class Player extends Entities {
                 collision = true;
         }
 
-        if (x >= 1024-(32*2) && y >= (768-(32*2))) {
+        if ((x >= (1024-(32*2))) && (y >= (768-(32*2)))) {
+            System.out.println("x: " + x + " y: " + y);
             gf.levelComplete();
             levelCompleted = true;
             // collision = true;
@@ -185,7 +186,7 @@ public class Player extends Entities {
     }
 
     public void kill(){
-        if (lives.getLives() == 1) {
+        if (lives.getLives() == 0) {
             System.out.println("bug here");
             keys.clear();
             lm.resetLevel();
@@ -405,6 +406,10 @@ public class Player extends Entities {
     
     public int getKeysCollected() {
         return keysCollected;
+    }
+
+    public boolean getLevelCompleted() {
+        return levelCompleted;
     }
 
     public String getDirection() {
