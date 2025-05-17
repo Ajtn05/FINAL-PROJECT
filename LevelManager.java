@@ -82,7 +82,19 @@ public class LevelManager {
         interactables.clear();
         System.out.println("setting up obstacles: " + level);
         switch(level){
-            case 8:
+
+         case 1:
+
+                obstacles.add(new Traps("spike", 352, 382, 32, 32, 10));
+                obstacles.add(new Traps("fire", 97, 314, 32, 32, 6));
+                obstacles.add(new Traps("fire", 672, 314, 32, 32, 7));
+                obstacles.add(new Traps("spike", 833, 606, 32, 32, 9));
+
+                MapItem PressurePlate = new MapItem(new int[][]{{27,9}, {28,9}, {1,17}}, new Integer[]{24, 24, 23});
+                obstacles.add(new PressurePlate(32,530,24,24, PressurePlate));
+                
+                KeyObject key = new KeyObject(228,354, "gold");
+                interactables.add(key);
 
             obstacles.add(new Traps("spike", 352, 382, 32, 32, 10));
             obstacles.add(new Traps("fire", 97, 314, 32, 32, 6));
@@ -112,6 +124,12 @@ public class LevelManager {
 
             MapItem lock20 = new MapItem(new int[][]{{15, 16}}, new Integer[]{24});
             interactables.add(new Lock(484,518, lock20, gc, key20, "bronze"));
+            
+            gc.getPopUps().showPopUp("GamePlay");
+                
+                break;
+            case 2:
+
 
             MapItem PressurePlate15 = new MapItem(new int[][]{{26, 5}, {15, 4}}, new Integer[]{23, 24});
             obstacles.add(new PressurePlate(840, 158,24,24, PressurePlate15));
@@ -119,7 +137,7 @@ public class LevelManager {
             gc.getPopUps().showPopUp("GamePlay");
             
             break;
-        case 7:
+        case 2:
 
             obstacles.add(new Traps("spike", 97, 414, 32, 32, 10));
             obstacles.add(new Traps("fire", 288, 634, 32, 32, 8));
@@ -182,7 +200,7 @@ public class LevelManager {
             obstacles.add(new PressurePlate(553,222,24,24, PressurePlate17));
 
             break;
-        case 6:
+        case 3:
 
             obstacles.add(new Traps("spike", 34, 254, 32, 32, 10));
             obstacles.add(new Traps("fire", 256, 58, 32, 32, 8));
@@ -252,7 +270,7 @@ public class LevelManager {
             interactables.add(new Lock(901, 165, lock13, gc, key13, "bronze"));
             
             break;
-        case 5:
+        case 4:
 
             obstacles.add(new Traps("spike", 99, 127, 32, 32, 6));
             obstacles.add(new Traps("spike", 99, 348, 32, 32, 6));
@@ -342,7 +360,7 @@ public class LevelManager {
             interactables.add(new Lock(965, 677, lock19, gc, key19, "gold"));
 
             break;
-        case 1:
+        case 5:
             // for (int i = 0; i < 20; i++){ obstacles.add(new Traps("fire", 192 + (i*32), 187, 32, 32, 6));}
             // for (int i = 0; i < 14; i++){obstacles.add(new Traps("fire", 160, 187 + (i*32), 32, 32, 6));}
             // for (int i = 0; i < 21; i++){obstacles.add(new Traps("fire", 192 + (i*32), 603, 32, 32, 6));}
@@ -353,15 +371,15 @@ public class LevelManager {
 
             gc.getPopUps().showPopUp("KingMessage");
             break;
-        case 2:
+        case 6:
 
             gc.getPopUps().showPopUp("Congrats");
             break;
-        case 3:
+        case 7:
 
             gc.getPopUps().showPopUp("Betrayed");
             break;
-        case 4:
+        case 8:
 
             gc.getPopUps().showPopUp("Win");
             break;

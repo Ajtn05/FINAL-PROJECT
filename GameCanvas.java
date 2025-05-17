@@ -80,23 +80,25 @@ public class GameCanvas extends JComponent implements KeyListener {
     public void addLevel(int level) {
         System.out.println("player killed, adding level: " + level);
         switch(level){
-            case 8 -> tileMap = "assets/maps/tileMap1.txt";
-            case 7 -> tileMap = "assets/maps/tileMap2.txt";
-            case 6 -> tileMap = "assets/maps/tileMap3.txt";
-            case 5 -> tileMap = "assets/maps/tileMap4.txt";
-            case 1 -> tileMap = "assets/maps/tileMap5.txt";
-            case 2 -> tileMap = "assets/maps/blankMap.txt";
-            case 3 -> tileMap = "assets/maps/blankMap.txt";
-            case 4 -> tileMap = "assets/maps/blankMap.txt";
+=======
+            // case 8 -> tileMap = "assets/maps/tileMap1.txt";
+            // case 7 -> tileMap = "assets/maps/tileMap2.txt";
+            // case 6 -> tileMap = "assets/maps/tileMap3.txt";
+            // case 5 -> tileMap = "assets/maps/tileMap4.txt";
+            // case 1 -> tileMap = "assets/maps/tileMap5.txt";
+            // case 2 -> tileMap = "assets/maps/blankMap.txt";
+            // case 3 -> tileMap = "assets/maps/blankMap.txt";
+            // case 4 -> tileMap = "assets/maps/blankMap.txt";
 
-            // case 1 -> tileMap = "assets/maps/tileMap1.txt";
-            // case 2 -> tileMap = "assets/maps/tileMap2.txt";
-            // case 3 -> tileMap = "assets/maps/tileMap3.txt";
-            // case 4 -> tileMap = "assets/maps/tileMap4.txt";
-            // case 5 -> tileMap = "assets/maps/tileMap5.txt";
-            // case 6 -> tileMap = "assets/maps/blankMap.txt";
-            // case 7 -> tileMap = "assets/maps/blankMap.txt";
-            // case 8 -> tileMap = "assets/maps/blankMap.txt";
+            case 1 -> tileMap = "assets/maps/tileMap1.txt";
+            case 2 -> tileMap = "assets/maps/tileMap2.txt";
+            case 3 -> tileMap = "assets/maps/tileMap3.txt";
+            case 4 -> tileMap = "assets/maps/tileMap4.txt";
+            case 5 -> tileMap = "assets/maps/tileMap5.txt";
+            case 6 -> tileMap = "assets/maps/blankMap.txt";
+            case 7 -> tileMap = "assets/maps/blankMap.txt";
+            case 8 -> tileMap = "assets/maps/blankMap.txt";
+
         }
         map = new Map(tileMap);
     }
