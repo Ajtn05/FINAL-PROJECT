@@ -106,7 +106,7 @@ public class Player extends Entities {
                 collision = true;
         }
 
-        if (x >= 1024-40 && y >= 768-80) {
+        if (x >= 1024-(32*2) && y >= (768-(32*2))) {
             gf.levelComplete();
             levelCompleted = true;
             // collision = true;
@@ -169,6 +169,7 @@ public class Player extends Entities {
 
     public void kill(){
         if (lives.getLives() == 1) {
+            System.out.println("bug here");
             keys.clear();
             lm.resetLevel();
             setDead();

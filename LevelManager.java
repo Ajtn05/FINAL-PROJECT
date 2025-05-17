@@ -73,6 +73,7 @@ public class LevelManager {
     public void setUpObstacles(){
         obstacles.clear();
         interactables.clear();
+        System.out.println("setting up obstacles: " + level);
         switch(level){
             case 1:
 
