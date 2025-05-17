@@ -21,19 +21,21 @@ public class Player extends Entities {
 
 
 
-    public Player (int x, int y, String character, LevelManager lm){
+    public Player (int x, int y, GameFrame gf, GameCanvas gc, String character, LevelManager lm){
         this.x = x;
         this.y = y; 
         this.initialX = x;
         this.initialY = y;
         this.character = character;
-        this.gf = lm.getGF(); 
-        this.gc = lm.getGC();
+        // this.gf = lm.getGF(); 
+        // this.gc = lm.getGC();
+        this.gc = gc;
+        this.gf = gf;
         this.lm = lm;
         lives = new Lives(this, 5);
         speed = 4;
         direction = "down";
-        PASSABLE_TILES = new ArrayList<>(Arrays.asList(22, 23, 24, 25, 26, 34));
+        PASSABLE_TILES = new ArrayList<>(Arrays.asList(22, 23, 24, 25, 26, 34, 35));
         keys = new ArrayList<>();
         getImages();
     }
@@ -152,14 +154,29 @@ public class Player extends Entities {
         if (object instanceof King king){
             king.setDead();
             System.out.println("bros dead");
+            lm.addLevel(3);
             //print pop up
         }
     }
 
     public void murder() {
-        if ((gf.getPlayer2().getX() <= this.getX()) && (gf.getPlayer2().getY() <= this.getY())) {
-            gf.getPlayer2().kill();
-        }
+        int p1X = this.getX();
+        int p1X2 = p1X + 24;
+        int p1Y = this.getY();
+        int p1Y2 = p1Y + 40;
+
+        int p2X = gf.getPlayer2().getX();
+        int p2X2 = p2X + 24;
+        int p2Y = gf.getPlayer2().getY();
+        int p2Y2 = p2X + 40;
+
+        // if (p1X < p2X2 && p1X2 > p2X &&
+
+        // ){
+        //         gf.getPlayer2().kill();
+        //         gf.getPlayer2().setBetrayed();
+        //         lm.addLevel(1);
+        // }
     }
 
     public void respawn(){
@@ -178,6 +195,10 @@ public class Player extends Entities {
             respawn();
             lives.takeLife();
         }
+    }
+
+    public void setBetrayed(){
+        lm.addLevel(2);
     }
 
     public void setDead() {dead = true;}
