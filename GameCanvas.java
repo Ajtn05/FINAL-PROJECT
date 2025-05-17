@@ -146,7 +146,7 @@ public class GameCanvas extends JComponent implements KeyListener {
             checkKing(player1);
             popUps.setFalse();
 
-            if (level == 1){
+            if (level == 5){
                 player1.murder();
             }
             

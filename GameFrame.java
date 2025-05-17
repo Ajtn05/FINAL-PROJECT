@@ -17,7 +17,7 @@ public class GameFrame extends JComponent {
     private WriteToServer wtsRunnable;
     private LevelManager lm;
     private String playerType;
-    public Boolean startTraps = false;
+    public Boolean p1startTraps = false, startTraps = false;
 
     private boolean left, right, up, down, hasKey, opensDoor = false, dead = false, p1levelComplete = false, p2levelComplete = false;
     private int x, y, keys, lives, level, x2, y2;
@@ -176,6 +176,7 @@ public class GameFrame extends JComponent {
     }
 
     public void gameReset() {
+        startTraps = false;
         setCoordinates();
         createPlayers();
         player2.setLives(5);
@@ -274,7 +275,7 @@ public class GameFrame extends JComponent {
                         if (player1.getUp()) booleans    |= 1 << 2;
                         if (player1.getDown()) booleans  |= 1 << 3;
                         if (player1.opensDoor()) booleans|= 1 << 4;
-                        if (startTraps) booleans         |= 1 << 5;
+                        if (p1startTraps) booleans         |= 1 << 5;
 
                         // // if (dead) booleans        |= 1 << 6;
                         if (p1levelComplete) booleans    |= 1 << 6;
@@ -364,7 +365,7 @@ public class GameFrame extends JComponent {
     private void createBinding(ActionMap am, InputMap im, String action, int key){
         am.put(action + "Action", new AbstractAction(){
             public void actionPerformed(ActionEvent ae){
-                startTraps = true;
+                startTraps();
                 switch (action){
                     case "up": player1.moveUp(true); break;
                     case "down": player1.moveDown(true); break;
@@ -404,7 +405,7 @@ public class GameFrame extends JComponent {
     }
 
     public void startTraps(){
-        this.startTraps = true;
+        this.p1startTraps = true;
     }
 
     public Player getPlayer1() {

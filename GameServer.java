@@ -12,7 +12,7 @@ public class GameServer {
                     p2left, p2right, p2up, p2down, p2hasKey, 
                     p1opensDoor = false, p2opensDoor = false,
                     p1dead = false, p2dead = false,
-                    p1startTraps = false, p2startTraps = false,
+                    p1startTraps = false, p2startTraps = false, startTraps = false,
                     p1levelComplete = false, p2levelComplete = false;
     private int p1x, p1y, p2x, p2y, p1keys, p2keys, p1lives, p2lives;
 
@@ -176,6 +176,7 @@ public class GameServer {
         public void run() {
             try {
                 while (true) { 
+                    if (p1startTraps || p2startTraps) {startTraps = true;}
                     if(playerID == 1) {
 
                         byte booleans = 0;
@@ -185,7 +186,7 @@ public class GameServer {
                         if (p2up) booleans    |= 1 << 2;
                         if (p2down) booleans  |= 1 << 3;
                         if (p2opensDoor) booleans |= 1 << 4;
-                        if (p2startTraps) booleans |= 1 << 5;
+                        if (startTraps) booleans |= 1 << 5;
                         // if (p2dead) booleans |= 1 << 6;
                         if (p2levelComplete) booleans |= 1 << 6;
 
@@ -206,7 +207,7 @@ public class GameServer {
                         if (p1up) booleans    |= 1 << 2;
                         if (p1down) booleans  |= 1 << 3;
                         if (p1opensDoor) booleans |= 1 << 4;
-                        if (p1startTraps) booleans |= 1 << 5;
+                        if (startTraps) booleans |= 1 << 5;
                         // if (p1dead) booleans |= 1 << 6;
                         if (p1levelComplete) booleans |= 1 << 6;
 
