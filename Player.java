@@ -140,6 +140,7 @@ public class Player extends Entities {
         if (object instanceof Lock lock) {
             for (KeyObject key : keys) {
                 if (lock.getLockType().equals(key.hasKeyType())) {
+                    lock.setKey(key);
                     keysCollected--;
                     opensDoor = true;
                     this.keyType = null;

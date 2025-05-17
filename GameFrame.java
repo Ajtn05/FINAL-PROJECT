@@ -142,7 +142,7 @@ public class GameFrame extends JComponent {
                 for (Obstacle obstacle : obstacleCopy) {
                     obstacle.checkCollision(player1, gc.getMap(), gc);
                     obstacle.checkCollision(player2, gc.getMap(), gc);
-                    if (obstacle instanceof Traps traps && startTraps){
+                    if (obstacle instanceof Traps traps && (p1startTraps || startTraps)){
                         traps.updateSpriteAnimation();
                     }
                     else {
