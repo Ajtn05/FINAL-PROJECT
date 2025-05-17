@@ -49,6 +49,7 @@ public class GameFrame extends JComponent {
     }
 
     public void setCoordinates() {
+        System.out.println("setting player coordinates: " + level);
         switch (level) {
             case 1: 
                 x = 41;
@@ -152,8 +153,11 @@ public class GameFrame extends JComponent {
     }
 
     public void levelComplete() {
-        if (player1.levelCompleted() && player2.levelCompleted()) {
+        System.out.println("player1: " + player1.levelCompleted() + " player2: " + player2.levelCompleted());
+        if (player1.levelCompleted() == true && player2.levelCompleted() == true) {
             lm.addLevel();
+            level = lm.getLevel();
+            setCoordinates();
             createPlayers();
         }
     }
