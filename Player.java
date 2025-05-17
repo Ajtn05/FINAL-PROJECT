@@ -188,7 +188,7 @@ public class Player extends Entities {
     }
 
     public void kill(){
-        if (lives.getLives() == 0) {
+        if (lives.getLives() == 1) {
             System.out.println("bug here");
             keys.clear();
             lm.resetLevel();
