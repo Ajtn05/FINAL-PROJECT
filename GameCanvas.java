@@ -146,6 +146,8 @@ public class GameCanvas extends JComponent implements KeyListener {
             popUps.setFalse();
             // player1.murder();
             // player2.murder();
+            System.out.println("player1 x: " + player1.getX() + " player1 y: " + player1.getY());
+            System.out.println("player2 x: " + player2.getX() + " player2 y: " + player2.getY());
         }
     }
 
