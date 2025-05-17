@@ -22,7 +22,6 @@ public class GameFrame extends JComponent {
     private boolean left, right, up, down, hasKey, opensDoor = false, dead = false, p1levelComplete = false, p2levelComplete = false;
     private int x, y, keys, lives, level, x2, y2;
 
-
     public GameFrame(GameCanvas gc, LevelManager lm, String playerType){
         this.playerType = playerType;
         frame = new JFrame();
@@ -51,49 +50,100 @@ public class GameFrame extends JComponent {
     public void setCoordinates() {
         System.out.println("setting player coordinates: " + level);
         switch (level) {
-            case 1: 
+
+            // case 1: 
+            //     x = 41;
+            //     y = 698;
+            //     x2 = 968;
+            //     y2 = 58;
+            //     break;
+            // case 2:
+            //     x = 1;
+            //     y = 62;
+            //     x2 = 740;
+            //     y2 = 58;
+            //     break;
+            // case 3:
+            //     x = 41;
+            //     y = 698;
+            //     x2 = 741;
+            //     y2 = 62;
+            //     break;
+            // case 4:
+            //     x = 1;
+            //     y = 62;
+            //     x2 = 776;
+            //     y2 = 62;
+            //     break;
+            // case 5:
+            //     x = 450;
+            //     y = 380;
+            //     x2 = 550;
+            //     y2 = 380;
+            //     break;
+            // case 6:
+            //     x = 450;
+            //     y = 380;
+            //     x2 = 550;
+            //     y2 = 380;
+            //     break;
+            // case 7:
+            //     x = 450;
+            //     y = 380;
+            //     x2 = 550;
+            //     y2 = 380;
+            //     break;
+            // case 8:
+            //     x = 450;
+            //     y = 380;
+            //     x2 = 550;
+            //     y2 = 380;
+            //     break;
+
+
+             case 8: 
                 x = 41;
                 y = 698;
                 x2 = 968;
                 y2 = 58;
                 break;
-            case 2:
+            case 7:
                 x = 1;
                 y = 62;
                 x2 = 740;
                 y2 = 58;
                 break;
-            case 3:
+            case 6:
                 x = 41;
                 y = 698;
                 x2 = 741;
                 y2 = 62;
                 break;
-            case 4:
+            case 5:
                 x = 1;
                 y = 62;
                 x2 = 776;
                 y2 = 62;
                 break;
-            case 5:
+            case 1:
                 x = 450;
                 y = 380;
                 x2 = 550;
                 y2 = 380;
                 break;
-            case 6:
+            case 2:
                 x = 450;
                 y = 380;
                 x2 = 550;
                 y2 = 380;
                 break;
-            case 7:
+            case 3:
                 x = 450;
                 y = 380;
                 x2 = 550;
                 y2 = 380;
                 break;
-            case 8:
+            case 4:
                 x = 450;
                 y = 380;
                 x2 = 550;
@@ -159,7 +209,7 @@ public class GameFrame extends JComponent {
 
                 player1.update(gc.getMap());
                 player2.update(gc.getMap());
-                gc.getPopUps().update();
+                // gc.getPopUps().update();
                 gc.repaint();
             }
         });
@@ -210,9 +260,11 @@ public class GameFrame extends JComponent {
                         down      = (booleans & (1 << 3)) != 0;
                         opensDoor = (booleans & (1 << 4)) != 0;
                         startTraps = (booleans & (1 << 5)) != 0;
+                 
                         // // dead = (booleans & (1 << 6)) != 0;
                         p2levelComplete =  (booleans & (1 << 6)) != 0;
     
+                        
 
                         player2.moveLeft(left);
                         player2.moveRight(right);
@@ -221,6 +273,7 @@ public class GameFrame extends JComponent {
                         player2.setLives(lives);
                         player2.setPosition(x, y);
                         player2.setDead();
+
                         // if (dead) {
                         //     player2.kill();
                         // }
@@ -273,6 +326,7 @@ public class GameFrame extends JComponent {
                         if (player1.getDown()) booleans  |= 1 << 3;
                         if (player1.opensDoor()) booleans|= 1 << 4;
                         if (startTraps) booleans         |= 1 << 5;
+
                         // // if (dead) booleans        |= 1 << 6;
                         if (p1levelComplete) booleans    |= 1 << 6;
 
@@ -280,6 +334,7 @@ public class GameFrame extends JComponent {
                         y = player1.getY();
                         keys = player1.keys.size();
                         lives = player1.getLives();
+
 
                         String message = booleans + "," + x + "," + y + "," + keys + "," + lives;
                         dataOut.writeUTF(message);
