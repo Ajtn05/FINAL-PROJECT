@@ -16,8 +16,8 @@ public class King extends Entities implements InteractableObjects {
 
      public void getImage(){
         try {
-           kingSprite = ImageIO.read(getClass().getResourceAsStream("assets/images/King_Sprite.png"));
-           king = kingSprite.getSubimage(6,9,367,467);
+           kingSprite = ImageIO.read(getClass().getResourceAsStream("assets/images/king_walk_down.png"));
+           king = kingSprite.getSubimage(354,16,16,32);
         } catch (IOException e){
             e.printStackTrace();
         }

@@ -6,14 +6,14 @@ import javax.imageio.ImageIO;
 
 public class Player extends Entities {
     public boolean up = false, down = false, left = false, right = false;
-    private static GameFrame gf;
+    private GameFrame gf;
     private GameCanvas gc;
     private LevelManager lm;
     private int keysCollected = 0;
-    private boolean hasKey = false, opensDoor = false;
+    private boolean hasKey = false, opensDoor = false, hasSword = false;
     private String keyType = null;
-    private static boolean levelCompleted = false;
-    private static ArrayList<Integer> PASSABLE_TILES;
+    private boolean levelCompleted = false;
+    private ArrayList<Integer> PASSABLE_TILES;
     public ArrayList<KeyObject> keys;
     public Lives lives;
     private boolean dead = false;
@@ -21,14 +21,14 @@ public class Player extends Entities {
 
 
 
-    public Player (int x, int y, GameFrame gf, GameCanvas gc, String character, LevelManager lm){
+    public Player (int x, int y, String character, LevelManager lm){
         this.x = x;
         this.y = y; 
         this.initialX = x;
         this.initialY = y;
         this.character = character;
-        this.gf = gf; 
-        this.gc = gc;
+        this.gf = lm.getGF(); 
+        this.gc = lm.getGC();
         this.lm = lm;
         lives = new Lives(this, 5);
         speed = 4;
@@ -76,7 +76,7 @@ public class Player extends Entities {
         }
     }
 
-    public static boolean checkCollision(int x, int y, int[][] mapNum){
+    public boolean checkCollision(int x, int y, int[][] mapNum){
         boolean collision = false;
         int leftEdge = (x + 2) / 32;
         int rightEdge = (x + 18) / 32;
@@ -119,7 +119,8 @@ public class Player extends Entities {
         // System.out.println("Top Edge: " + topEdge);
         // System.out.println("Bottom Edge: " + bottomEdge);
         return collision;
-    }    
+    }   
+
 
     public void interact(InteractableObjects object){
         
@@ -151,6 +152,13 @@ public class Player extends Entities {
         if (object instanceof King king){
             king.setDead();
             System.out.println("bros dead");
+            //print pop up
+        }
+    }
+
+    public void murder() {
+        if ((gf.getPlayer2().getX() <= this.getX()) && (gf.getPlayer2().getY() <= this.getY())) {
+            gf.getPlayer2().kill();
         }
     }
 
@@ -282,25 +290,42 @@ public class Player extends Entities {
         if (character.equals("girl")){
             if (spriteNum == 0){
                 switch (direction){
-                    case "up": image = girlUp1; break;
-                    case "down": image = girlDown1; break;
-                    case "left": image = girlLeft1; break;
-                    case "right": image = girlRight1; break;
+                    case "up" -> image = girlUp1;
+                    case "down" -> image = girlDown1;
+                    case "left" -> image = girlLeft1;
+                    case "right" -> image = girlRight1;
                 } 
             } else {
                 switch (direction){
-                    case "up": 
-                        if (spriteNum == 1){image = girlUp1;}
-                        if (spriteNum == 2){image = girlUp2;} break;
-                    case "down":
-                        if (spriteNum == 1){image = girlDown1;}
-                        if (spriteNum == 2) {image = girlDown2;} break;
-                    case "left":
-                        if (spriteNum == 1){image = girlLeft1;}
-                        if (spriteNum == 2) {image = girlLeft2;} break;  
-                    case "right":
-                        if (spriteNum == 1){image = girlRight1;}
-                        if (spriteNum == 2) {image = girlRight2;} break;
+                    case "up" -> { 
+                        if (spriteNum == 1) {image = girlUp1;}
+                        if (spriteNum == 2) {image = girlUp2; 
+                        }
+                    }
+                    case "down" -> { 
+                        if (spriteNum == 1){
+                            image = girlDown1; 
+                        }
+                        if (spriteNum == 2) {
+                            image = girlDown2; 
+                        }
+                    }
+                    case "left" -> {
+                        if (spriteNum == 1){
+                            image = girlLeft1; 
+                        }
+                        if (spriteNum == 2) {
+                            image = girlLeft2; 
+                        }
+                    }
+                    case "right" -> {
+                        if (spriteNum == 1){
+                            image = girlRight1; 
+                        }
+                        if (spriteNum == 2) {
+                            image = girlRight2; 
+                        }
+                    }
                 }
             }
         }
