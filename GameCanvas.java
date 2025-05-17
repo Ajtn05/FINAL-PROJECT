@@ -80,7 +80,6 @@ public class GameCanvas extends JComponent implements KeyListener {
     public void addLevel(int level) {
         System.out.println("player killed, adding level: " + level);
         switch(level){
-=======
             // case 8 -> tileMap = "assets/maps/tileMap1.txt";
             // case 7 -> tileMap = "assets/maps/tileMap2.txt";
             // case 6 -> tileMap = "assets/maps/tileMap3.txt";
