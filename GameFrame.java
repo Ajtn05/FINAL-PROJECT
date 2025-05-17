@@ -50,100 +50,49 @@ public class GameFrame extends JComponent {
     public void setCoordinates() {
         System.out.println("setting player coordinates: " + level);
         switch (level) {
-
-            // case 1: 
-            //     x = 41;
-            //     y = 698;
-            //     x2 = 968;
-            //     y2 = 58;
-            //     break;
-            // case 2:
-            //     x = 1;
-            //     y = 62;
-            //     x2 = 740;
-            //     y2 = 58;
-            //     break;
-            // case 3:
-            //     x = 41;
-            //     y = 698;
-            //     x2 = 741;
-            //     y2 = 62;
-            //     break;
-            // case 4:
-            //     x = 1;
-            //     y = 62;
-            //     x2 = 776;
-            //     y2 = 62;
-            //     break;
-            // case 5:
-            //     x = 450;
-            //     y = 380;
-            //     x2 = 550;
-            //     y2 = 380;
-            //     break;
-            // case 6:
-            //     x = 450;
-            //     y = 380;
-            //     x2 = 550;
-            //     y2 = 380;
-            //     break;
-            // case 7:
-            //     x = 450;
-            //     y = 380;
-            //     x2 = 550;
-            //     y2 = 380;
-            //     break;
-            // case 8:
-            //     x = 450;
-            //     y = 380;
-            //     x2 = 550;
-            //     y2 = 380;
-            //     break;
-
-
-             case 8: 
+             case 1: 
                 x = 41;
                 y = 698;
                 x2 = 968;
                 y2 = 58;
                 break;
-            case 7:
+            case 2:
                 x = 1;
                 y = 62;
                 x2 = 740;
                 y2 = 58;
                 break;
-            case 6:
+            case 3:
                 x = 41;
                 y = 698;
                 x2 = 741;
                 y2 = 62;
                 break;
-            case 5:
+            case 4:
                 x = 1;
                 y = 62;
                 x2 = 776;
                 y2 = 62;
                 break;
-            case 1:
+            case 5:
                 x = 450;
                 y = 380;
                 x2 = 550;
                 y2 = 380;
                 break;
-            case 2:
+            case 6:
                 x = 450;
                 y = 380;
                 x2 = 550;
                 y2 = 380;
                 break;
-            case 3:
+            case 7:
                 x = 450;
                 y = 380;
                 x2 = 550;
                 y2 = 380;
                 break;
-            case 4:
+            case 8:
                 x = 450;
                 y = 380;
                 x2 = 550;

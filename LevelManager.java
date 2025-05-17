@@ -82,20 +82,7 @@ public class LevelManager {
         interactables.clear();
         System.out.println("setting up obstacles: " + level);
         switch(level){
-
-         case 1:
-
-                obstacles.add(new Traps("spike", 352, 382, 32, 32, 10));
-                obstacles.add(new Traps("fire", 97, 314, 32, 32, 6));
-                obstacles.add(new Traps("fire", 672, 314, 32, 32, 7));
-                obstacles.add(new Traps("spike", 833, 606, 32, 32, 9));
-
-                MapItem PressurePlate = new MapItem(new int[][]{{27,9}, {28,9}, {1,17}}, new Integer[]{24, 24, 23});
-                obstacles.add(new PressurePlate(32,530,24,24, PressurePlate));
-                
-                KeyObject key = new KeyObject(228,354, "gold");
-                interactables.add(key);
-
+        case 1:
             obstacles.add(new Traps("spike", 352, 382, 32, 32, 10));
             obstacles.add(new Traps("fire", 97, 314, 32, 32, 6));
             obstacles.add(new Traps("fire", 672, 314, 32, 32, 7));
@@ -124,19 +111,14 @@ public class LevelManager {
 
             MapItem lock20 = new MapItem(new int[][]{{15, 16}}, new Integer[]{24});
             interactables.add(new Lock(484,518, lock20, gc, key20, "bronze"));
-            
-            gc.getPopUps().showPopUp("GamePlay");
-                
-                break;
-            case 2:
-
 
             MapItem PressurePlate15 = new MapItem(new int[][]{{26, 5}, {15, 4}}, new Integer[]{23, 24});
             obstacles.add(new PressurePlate(840, 158,24,24, PressurePlate15));
-
-            gc.getPopUps().showPopUp("GamePlay");
             
+            gc.getPopUps().showPopUp("GamePlay");
+                
             break;
+
         case 2:
 
             obstacles.add(new Traps("spike", 97, 414, 32, 32, 10));
