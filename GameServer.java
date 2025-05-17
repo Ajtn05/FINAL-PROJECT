@@ -132,6 +132,7 @@ public class GameServer {
                         p1down      = (booleans & (1 << 3)) != 0;
                         p1opensDoor = (booleans & (1 << 4)) != 0;
                         p1startTraps = (booleans & (1 << 5)) != 0;
+                        // p1dead = (booleans & (1 << 6)) != 0;
                     }
                     else {
                         String message = dataIn.readUTF();
@@ -149,6 +150,7 @@ public class GameServer {
                         p2down      = (booleans & (1 << 3)) != 0;
                         p2opensDoor = (booleans & (1 << 4)) != 0;
                         p2startTraps = (booleans & (1 << 5)) != 0;
+                        // p2dead = (booleans & (1 << 6)) != 0;
                     }
                 }
             } catch (IOException ex) {
@@ -181,6 +183,7 @@ public class GameServer {
                         if (p2down) booleans  |= 1 << 3;
                         if (p2opensDoor) booleans |= 1 << 4;
                         if (p2startTraps) booleans |= 1 << 5;
+                        if (p2dead) booleans |= 1 << 6;
 
                         int x = p2x;
                         int y = p2y;
@@ -200,6 +203,7 @@ public class GameServer {
                         if (p1down) booleans  |= 1 << 3;
                         if (p1opensDoor) booleans |= 1 << 4;
                         if (p1startTraps) booleans |= 1 << 5;
+                        // if (p1dead) booleans |= 1 << 6;
 
                         int x = p1x;
                         int y = p1y;

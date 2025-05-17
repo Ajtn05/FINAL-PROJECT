@@ -10,7 +10,7 @@ public class Player extends Entities {
     private GameCanvas gc;
     private LevelManager lm;
     private int keysCollected = 0;
-    private boolean hasKey = false, opensDoor = false;
+    private boolean hasKey = false, opensDoor = false, hasSword = false;
     private String keyType = null;
     private boolean levelCompleted = false;
     private ArrayList<Integer> PASSABLE_TILES;
@@ -21,14 +21,14 @@ public class Player extends Entities {
 
 
 
-    public Player (int x, int y, GameFrame gf, GameCanvas gc, String character, LevelManager lm){
+    public Player (int x, int y, String character, LevelManager lm){
         this.x = x;
         this.y = y; 
         this.initialX = x;
         this.initialY = y;
         this.character = character;
-        this.gf = gf; 
-        this.gc = gc;
+        this.gf = lm.getGF(); 
+        this.gc = lm.getGC();
         this.lm = lm;
         lives = new Lives(this, 5);
         speed = 4;
@@ -119,7 +119,8 @@ public class Player extends Entities {
         // System.out.println("Top Edge: " + topEdge);
         // System.out.println("Bottom Edge: " + bottomEdge);
         return collision;
-    }    
+    }   
+
 
     public void interact(InteractableObjects object){
         
@@ -151,6 +152,13 @@ public class Player extends Entities {
         if (object instanceof King king){
             king.setDead();
             System.out.println("bros dead");
+            //print pop up
+        }
+    }
+
+    public void murder() {
+        if ((gf.getPlayer2().getX() <= this.getX()) && (gf.getPlayer2().getY() <= this.getY())) {
+            gf.getPlayer2().kill();
         }
     }
 

@@ -19,7 +19,7 @@ public class GameFrame extends JComponent {
     private String playerType;
     public Boolean startTraps = false;
 
-    private boolean left, right, up, down, hasKey, opensDoor = false, dead;
+    private boolean left, right, up, down, hasKey, opensDoor = false, dead = false;
     private int x, y, keys, lives, level, x2, y2;
 
 
@@ -27,7 +27,8 @@ public class GameFrame extends JComponent {
         this.playerType = playerType;
         frame = new JFrame();
         this.gc = gc;
-        map = new Map("assets/maps/tileMap1.txt");
+        // map = new Map("assets/maps/tileMap1.txt");
+        map = gc.getMap();
         this.lm = lm;
     }
 
@@ -55,14 +56,14 @@ public class GameFrame extends JComponent {
                 x2 = 741;
                 y2 = 62;
                 break;
-            case 1:
+            case 5:
                 x = 1;
                 y = 62;
                 x2 = 776;
                 y2 = 62;
                 break;
         
-            case 5:
+            case 1:
                 x = 450;
                 y = 380;
                 x2 = 550;
@@ -92,8 +93,8 @@ public class GameFrame extends JComponent {
                 p1playerType = "girl";
                 p2playerType = "boy";
             }
-            player1 = new Player(x, y, this, gc, p1playerType, lm);
-            player2 = new Player(x2, y2, this, gc, p2playerType, lm);
+            player1 = new Player(x, y, p1playerType, lm);
+            player2 = new Player(x2, y2, p2playerType, lm);
             gc.setPlayer(player1, player2);
         }
 
@@ -107,8 +108,8 @@ public class GameFrame extends JComponent {
                 p2playerType = "girl";
                 p1playerType = "boy";
             }
-            player1 = new Player(x2, y2, this, gc, p2playerType, lm);
-            player2 = new Player(x, y, this, gc, p1playerType, lm);
+            player1 = new Player(x2, y2, p2playerType, lm);
+            player2 = new Player(x, y, p1playerType, lm);
             gc.setPlayer(player1, player2);
         }
     }
@@ -119,8 +120,8 @@ public class GameFrame extends JComponent {
             public void actionPerformed(ActionEvent ae){
                 ArrayList<Obstacle> obstacleCopy = new ArrayList<>(lm.getObstacles());
                 for (Obstacle obstacle : obstacleCopy) {
-                    obstacle.checkCollision(player1, gc.getMap(), gc);
-                    obstacle.checkCollision(player2, gc.getMap(), gc);
+                    obstacle.checkCollision(player1, map, gc);
+                    obstacle.checkCollision(player2, map, gc);
                     if (obstacle instanceof Traps traps && startTraps){
                         traps.updateSpriteAnimation();
                     }
@@ -132,8 +133,8 @@ public class GameFrame extends JComponent {
                     gc.checkLocks(player2); // here
                 }
 
-                player1.update(gc.getMap());
-                player2.update(gc.getMap());
+                player1.update(map);
+                player2.update(map);
                 gc.getPopUps().update();
                 gc.repaint();
             }
@@ -181,6 +182,7 @@ public class GameFrame extends JComponent {
                         down      = (booleans & (1 << 3)) != 0;
                         opensDoor = (booleans & (1 << 4)) != 0;
                         startTraps = (booleans & (1 << 5)) != 0;
+                        // dead = (booleans & (1 << 5)) != 0;
     
 
                         player2.moveLeft(left);
@@ -189,6 +191,9 @@ public class GameFrame extends JComponent {
                         player2.moveDown(down);
                         player2.setLives(lives);
                         player2.setPosition(x, y);
+                        // if (dead) {
+                        //     player2.kill();
+                        // }
 
                     }
                     try {
@@ -236,6 +241,7 @@ public class GameFrame extends JComponent {
                         if (player1.getDown()) booleans  |= 1 << 3;
                         if (player1.opensDoor()) booleans|= 1 << 4;
                         if (startTraps) booleans         |= 1 << 5;
+                        // if (dead) booleans        |= 1 << 6;
 
                         x = player1.getX();
                         y = player1.getY();
@@ -371,4 +377,13 @@ public class GameFrame extends JComponent {
     public void startTraps(){
         this.startTraps = true;
     }
+
+    public Player getPlayer1() {
+        return player1;
+    }
+
+    public Player getPlayer2() {
+        return player2;
+    }
 }
+
