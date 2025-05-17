@@ -171,6 +171,8 @@ public class Player extends Entities {
         int p2Y = gf.getPlayer2().getY();
         int p2Y2 = p2X + 40;
 
+        
+
         // if (p1X < p2X2 && p1X2 > p2X &&
 
         // ){

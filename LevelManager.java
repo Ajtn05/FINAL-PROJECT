@@ -75,7 +75,7 @@ public class LevelManager {
         interactables.clear();
         System.out.println("setting up obstacles: " + level);
         switch(level){
-            case 1:
+            case 2:
 
                 obstacles.add(new Traps("spike", 352, 382, 32, 32, 10));
                 obstacles.add(new Traps("fire", 97, 314, 32, 32, 6));
@@ -112,7 +112,7 @@ public class LevelManager {
                 gc.getPopUps().showPopUp("GamePlay");
                 
                 break;
-            case 2:
+            case 1:
 
                 obstacles.add(new Traps("spike", 97, 414, 32, 32, 10));
                 obstacles.add(new Traps("fire", 288, 634, 32, 32, 8));
@@ -144,7 +144,9 @@ public class LevelManager {
                 MapItem lock5 = new MapItem(new int[][]{{21, 6}}, new Integer[]{26});
                 interactables.add(new Lock(677, 200, lock5, gc, key5, "gold"));
 
-                MapItem PressurePlate4 = new MapItem(new int[][]{{23, 13}, {21, 18}}, new Integer[]{23, 26});
+                // 21 18
+
+                MapItem PressurePlate4 = new MapItem(new int[][]{{23, 13}, {14, 21}}, new Integer[]{23, 26});
                 obstacles.add(new PressurePlate(740,414,24,24, PressurePlate4));
 
                 KeyObject key6 = new KeyObject(580, 612, "bronze");
@@ -171,7 +173,9 @@ public class LevelManager {
                 MapItem lock21 = new MapItem(new int[][]{{16, 21}}, new Integer[]{25});
                 interactables.add(new Lock(516, 677, lock21, gc, key21, "gold"));
 
-                MapItem PressurePlate17 = new MapItem(new int[][]{{17, 7}, {14, 21}}, new Integer[]{23, 26});
+                // 14 21
+
+                MapItem PressurePlate17 = new MapItem(new int[][]{{17, 7}, {21, 18}}, new Integer[]{23, 26});
                 obstacles.add(new PressurePlate(553,222,24,24, PressurePlate17));
 
                 break;
