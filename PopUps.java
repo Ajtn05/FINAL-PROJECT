@@ -55,18 +55,18 @@ public class PopUps {
     }
 
     // public void update(GameCanvas gc, Player player1, Player player2){
-    public void update(){
-        if (showPopUp){
-            counter++;
-            if (counter >= duration){
-                showPopUp = false;
-            }
-        }
+    // public void update(){
+    //     if (showPopUp){
+    //         counter++;
+    //         if (counter >= duration){
+    //             showPopUp = false;
+    //         }
+    //     }
 
-        // if (gc.player1.getLives() == 0 || gc.player2.getLives() == 0){
-        //     showPopUp("Died");
-        // }
-    }
+    //     // if (gc.player1.getLives() == 0 || gc.player2.getLives() == 0){
+    //     //     showPopUp("Died");
+    //     // }
+    // }
 
     public void draw(Graphics2D g){
         if (showPopUp && type == "KingMessage"){

@@ -171,15 +171,14 @@ public class Player extends Entities {
         int p2Y = gf.getPlayer2().getY();
         int p2Y2 = p2X + 40;
 
-        
+        System.out.println("nope");
 
-        // if (p1X < p2X2 && p1X2 > p2X &&
-
-        // ){
-        //         gf.getPlayer2().kill();
-        //         gf.getPlayer2().setBetrayed();
-        //         lm.addLevel(1);
-        // }
+        if (p1X <= p2X2 && p1X2 >= p2X &&
+            p1Y <= p2Y2 && p1Y2 >= p2Y){
+                lm.addLevel(1);
+                gf.getPlayer2().setBetrayed();
+                System.out.println("breh");
+        }
     }
 
     public void respawn(){
@@ -201,7 +200,7 @@ public class Player extends Entities {
     }
 
     public void setBetrayed(){
-        lm.addLevel(2);
+        // lm.addLoseLevel(2);
     }
 
     public void setDead() {dead = true;}
