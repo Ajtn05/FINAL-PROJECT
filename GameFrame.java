@@ -75,7 +75,6 @@ public class GameFrame extends JComponent {
                 x2 = 776;
                 y2 = 62;
                 break;
-        
             case 5:
                 x = 450;
                 y = 380;
@@ -83,6 +82,18 @@ public class GameFrame extends JComponent {
                 y2 = 380;
                 break;
             case 6:
+                x = 450;
+                y = 380;
+                x2 = 550;
+                y2 = 380;
+                break;
+            case 7:
+                x = 450;
+                y = 380;
+                x2 = 550;
+                y2 = 380;
+                break;
+            case 8:
                 x = 450;
                 y = 380;
                 x2 = 550;
@@ -103,8 +114,8 @@ public class GameFrame extends JComponent {
                 p1playerType = "girl";
                 p2playerType = "boy";
             }
-            player1 = new Player(x, y, p1playerType, lm);
-            player2 = new Player(x2, y2, p2playerType, lm);
+            player1 = new Player(x, y, this, gc, p1playerType, lm);
+            player2 = new Player(x2, y2, this,  gc, p2playerType, lm);
             gc.setPlayer(player1, player2);
         }
 
@@ -118,8 +129,8 @@ public class GameFrame extends JComponent {
                 p2playerType = "girl";
                 p1playerType = "boy";
             }
-            player1 = new Player(x2, y2, p2playerType, lm);
-            player2 = new Player(x, y, p1playerType, lm);
+            player1 = new Player(x2, y2, this, gc, p2playerType, lm);
+            player2 = new Player(x, y, this, gc, p1playerType, lm);
             gc.setPlayer(player1, player2);
         }
     }
@@ -130,8 +141,8 @@ public class GameFrame extends JComponent {
             public void actionPerformed(ActionEvent ae){
                 ArrayList<Obstacle> obstacleCopy = new ArrayList<>(lm.getObstacles());
                 for (Obstacle obstacle : obstacleCopy) {
-                    obstacle.checkCollision(player1, map, gc);
-                    obstacle.checkCollision(player2, map, gc);
+                    obstacle.checkCollision(player1, gc.getMap(), gc);
+                    obstacle.checkCollision(player2, gc.getMap(), gc);
                     if (obstacle instanceof Traps traps && startTraps){
                         traps.updateSpriteAnimation();
                     }
@@ -143,9 +154,9 @@ public class GameFrame extends JComponent {
                     gc.checkLocks(player2); // here
                 }
 
-                player1.update(map);
-                player2.update(map);
-                gc.getPopUps().update(gc, player1, player2);
+                player1.update(gc.getMap());
+                player2.update(gc.getMap());
+                gc.getPopUps().update();
                 gc.repaint();
             }
         });
@@ -155,7 +166,7 @@ public class GameFrame extends JComponent {
     public void levelComplete() {
         System.out.println("player1: " + player1.levelCompleted() + " player2: " + player2.levelCompleted());
         if (player1.levelCompleted() == true && player2.levelCompleted() == true) {
-            lm.addLevel();
+            lm.addLevel(1);
             level = lm.getLevel();
             setCoordinates();
             createPlayers();

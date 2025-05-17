@@ -56,9 +56,9 @@ public class LevelManager {
             setUpObstacles();
         }
     }
-    
-    public void addLevel() {
-        level++;
+
+    public void addLevel(int n){
+        level += n;
         gc.addLevel(level);
         setUpObstacles();
     }
@@ -355,8 +355,8 @@ public class LevelManager {
                 gc.getPopUps().showPopUp("Betrayed");
                 break;
             case 8:
-            
-                gc.getPopUps().showPopUp("YouWin");
+
+                gc.getPopUps().showPopUp("Win");
                 break;
                 
         }   
