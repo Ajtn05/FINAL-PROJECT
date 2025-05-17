@@ -11,7 +11,7 @@ public class Map {
     int rows = 24;
 
     public Map(String level){
-        tiles = new Tiles[35];
+        tiles = new Tiles[36];
         tileNum = new int[columns][rows];
         this.level = level;
         getImages();
@@ -128,6 +128,9 @@ public class Map {
             
             tiles[34] = new Tiles();
             tiles[34].image = ImageIO.read(getClass().getResourceAsStream("assets/images/arena_floor.png"));    
+
+            tiles[35] = new Tiles();
+            tiles[35].image = ImageIO.read(getClass().getResourceAsStream("assets/images/portal.png"));    
 
 
         } catch (IOException e){

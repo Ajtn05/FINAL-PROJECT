@@ -86,12 +86,9 @@ public class Lock implements InteractableObjects{
     //GETTERS
     public BufferedImage getLockTypeImage(){
         switch (lockType) {
-            case "gold":
-                return goldPadlock;
-            case "silver":
-                return silverPadlock;
-            case "bronze":
-                return bronzePadlock;
+            case "gold": return goldPadlock;
+            case "silver": return silverPadlock;
+            case "bronze": return bronzePadlock;
         }
         return null;
     }
