@@ -30,12 +30,9 @@ public class KeyObject extends Entities implements InteractableObjects {
 
     public BufferedImage getKeyTypeImage(){
         switch (keyType) {
-            case "gold":
-                return goldKey;
-            case "silver":
-                return silverKey;
-            case "bronze":
-                return bronzeKey;
+            case "gold": return goldKey;
+            case "silver": return silverKey;
+            case "bronze": return bronzeKey;
         }
         return null;
     }

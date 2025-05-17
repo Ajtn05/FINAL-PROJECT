@@ -38,7 +38,7 @@ public class GameFrame extends JComponent {
         level = lm.getLevel();
 
         switch (level) {
-            case 4: 
+            case 5: 
                 x = 41;
                 y = 698;
                 x2 = 968;
@@ -56,13 +56,19 @@ public class GameFrame extends JComponent {
                 x2 = 741;
                 y2 = 62;
                 break;
-            case 5:
+            case 4:
                 x = 1;
                 y = 62;
                 x2 = 776;
                 y2 = 62;
                 break;
         
+            case 6:
+                x = 450;
+                y = 380;
+                x2 = 550;
+                y2 = 380;
+                break;
             case 1:
                 x = 450;
                 y = 380;
@@ -135,7 +141,7 @@ public class GameFrame extends JComponent {
 
                 player1.update(map);
                 player2.update(map);
-                gc.getPopUps().update();
+                gc.getPopUps().update(gc, player1, player2);
                 gc.repaint();
             }
         });
@@ -329,14 +335,10 @@ public class GameFrame extends JComponent {
             public void actionPerformed(ActionEvent ae){
                 startTraps = true;
                 switch (action){
-                    case "up": player1.moveUp(true);
-                    break;
-                    case "down": player1.moveDown(true);
-                    break;
-                    case "left": player1.moveLeft(true);
-                    break;
-                    case "right": player1.moveRight(true); 
-                    break;
+                    case "up": player1.moveUp(true); break;
+                    case "down": player1.moveDown(true); break;
+                    case "left": player1.moveLeft(true); break;
+                    case "right": player1.moveRight(true); break;
                 }
             }
         });
@@ -344,14 +346,10 @@ public class GameFrame extends JComponent {
         am.put(action + "ReleaseAction", new AbstractAction() {
             public void actionPerformed(ActionEvent ae){
                 switch (action){
-                    case "up": player1.moveUp(false);
-                    break;
-                    case "down": player1.moveDown(false);
-                    break;
-                    case "left": player1.moveLeft(false);
-                    break;
-                    case "right": player1.moveRight(false); 
-                    break;
+                    case "up": player1.moveUp(false); break;
+                    case "down": player1.moveDown(false); break;
+                    case "left": player1.moveLeft(false); break;
+                    case "right": player1.moveRight(false); break;
                 }
             }
         });

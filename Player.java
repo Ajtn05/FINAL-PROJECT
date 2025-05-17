@@ -264,53 +264,25 @@ public class Player extends Entities {
         if (character.equals("boy")){
             if (spriteNum == 0){
                 switch (direction){
-                    case "up":
-                        image = boyUp1;
-                        break;
-                    case "down":
-                        image = boyDown1; 
-                        break;
-                    case "left":
-                        image = boyLeft1; 
-                        break;
-                    case "right":
-                        image = boyRight1; 
-                        break;
+                    case "up": image = boyUp1; break;
+                    case "down": image = boyDown1; break;
+                    case "left": image = boyLeft1; break;
+                    case "right": image = boyRight1; break;
                 } 
             } else {
                 switch (direction){
                     case "up": 
-                        if (spriteNum == 1){
-                            image = boyUp1; 
-                    }
-                        if (spriteNum == 2) {
-                            image = boyUp2; 
-                        }
-                        break;
+                        if (spriteNum == 1){image = boyUp1;}
+                        if (spriteNum == 2) {image = boyUp2;} break;
                     case "down": 
-                        if (spriteNum == 1){
-                            image = boyDown1; 
-                        }
-                        if (spriteNum == 2) {
-                            image = boyDown2; 
-                        }
-                        break;
+                        if (spriteNum == 1){image = boyDown1;}
+                        if (spriteNum == 2) {image = boyDown2;} break;
                     case "left":
-                        if (spriteNum == 1){
-                            image = boyLeft1; 
-                        }
-                        if (spriteNum == 2) {
-                            image = boyLeft2; 
-                        }
-                        break;
-                    case "right":
-                        if (spriteNum == 1){
-                            image = boyRight1; 
-                        }
-                        if (spriteNum == 2) {
-                            image = boyRight2; 
-                        }
-                        break;
+                        if (spriteNum == 1){image = boyLeft1;}
+                        if (spriteNum == 2) {image = boyLeft2;} break;
+                    case "right": 
+                        if (spriteNum == 1){image = boyRight1;}
+                        if (spriteNum == 2) {image = boyRight2;} break;
                 }
             }
         }
