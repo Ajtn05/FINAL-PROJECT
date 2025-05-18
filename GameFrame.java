@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import javax.swing.*;
 
 public class GameFrame extends JComponent {
-    private JFrame frame;
+    public JFrame frame;
     private GameCanvas gc;
     private Player player1, player2;
     private Timer timer;
@@ -49,13 +49,13 @@ public class GameFrame extends JComponent {
 
     public void setCoordinates() {
         System.out.println("setting player coordinates: " + level);
-        switch (level) {
-             case 1: 
+        switch (level) {  
+            case 5: 
                 x = 41;
                 y = 698;
                 x2 = 968;
                 y2 = 58;
-                break;
+                break; 
             case 2:
                 x = 1;
                 y = 62;
@@ -74,25 +74,7 @@ public class GameFrame extends JComponent {
                 x2 = 776;
                 y2 = 62;
                 break;
-            case 5:
-                x = 450;
-                y = 380;
-                x2 = 550;
-                y2 = 380;
-                break;
-            case 6:
-                x = 450;
-                y = 380;
-                x2 = 550;
-                y2 = 380;
-                break;
-            case 7:
-                x = 450;
-                y = 380;
-                x2 = 550;
-                y2 = 380;
-                break;
-            case 8:
+            case 1:
                 x = 450;
                 y = 380;
                 x2 = 550;
