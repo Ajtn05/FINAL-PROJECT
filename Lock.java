@@ -27,13 +27,13 @@ public class Lock implements InteractableObjects{
     //     getImage();
     // }
 
-    public Lock(int x, int y, MapItem object, GameCanvas gc, KeyObject keyObject, String lockType){
+    public Lock(int x, int y, MapItem object, GameCanvas gc, String lockType){
         this.x = x;
         this.y = y;
         this.tileCoordinates = new ArrayList<>(Arrays.asList(object.getTileCoordinates()));
         this.newTileNums = new ArrayList<>(Arrays.asList(object.getNewTileNum()));
         this.gc = gc;
-        this.keyObject = keyObject;
+        // this.keyObject = keyObject;
         this.lockType = lockType;
         getImage();
     }
@@ -60,6 +60,10 @@ public class Lock implements InteractableObjects{
                 }
             } 
         }
+    }
+
+    public void setKey(KeyObject key) {
+        this.keyObject = key;
     }
 
     public void unlock(){

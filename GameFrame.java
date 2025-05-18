@@ -17,9 +17,9 @@ public class GameFrame extends JComponent {
     private WriteToServer wtsRunnable;
     private LevelManager lm;
     private String playerType;
-    public Boolean startTraps = false;
+    public Boolean p1startTraps = false, startTraps = false;
 
-    private boolean left, right, up, down, hasKey, opensDoor = false, dead = false, p1levelComplete = false, p2levelComplete = false;
+    private boolean left, right, up, down, hasKey, opensDoor = false, p1dead = false, p2dead = false, p1levelComplete = false, p2levelComplete = false;
     private int x, y, keys, lives, level, x2, y2;
 
     public GameFrame(GameCanvas gc, LevelManager lm, String playerType){
@@ -49,8 +49,8 @@ public class GameFrame extends JComponent {
 
     public void setCoordinates() {
         System.out.println("setting player coordinates: " + level);
-        switch (level) {  
-            case 5: 
+        switch (level) {
+             case 5: 
                 x = 41;
                 y = 698;
                 x2 = 968;
@@ -114,6 +114,7 @@ public class GameFrame extends JComponent {
             player2 = new Player(x, y, this, gc, p1playerType, lm);
             gc.setPlayer(player1, player2);
         }
+
     }
 
     public void startGameTimer(){
@@ -124,7 +125,7 @@ public class GameFrame extends JComponent {
                 for (Obstacle obstacle : obstacleCopy) {
                     obstacle.checkCollision(player1, gc.getMap(), gc);
                     obstacle.checkCollision(player2, gc.getMap(), gc);
-                    if (obstacle instanceof Traps traps && startTraps){
+                    if (obstacle instanceof Traps traps && (startTraps)){
                         traps.updateSpriteAnimation();
                     }
                     else {
@@ -148,8 +149,8 @@ public class GameFrame extends JComponent {
     }
 
     public void levelComplete() {
-        System.out.println("player1: " + player1.levelCompleted() + " player2: " + player2.levelCompleted());
-        if (player1.levelCompleted() == true && p2levelComplete) {
+        if (getPlayer1().getLevelCompleted() == true && getPlayer2().getLevelCompleted()) {
+            System.out.println("both are true");
             lm.addLevel(1);
             level = lm.getLevel();
             setCoordinates();
@@ -158,6 +159,7 @@ public class GameFrame extends JComponent {
     }
 
     public void gameReset() {
+        startTraps = false;
         setCoordinates();
         createPlayers();
         player2.setLives(5);
@@ -192,8 +194,9 @@ public class GameFrame extends JComponent {
                         opensDoor = (booleans & (1 << 4)) != 0;
                         startTraps = (booleans & (1 << 5)) != 0;
                  
-                        // // dead = (booleans & (1 << 6)) != 0;
-                        p2levelComplete =  (booleans & (1 << 6)) != 0;
+                        p1dead = (booleans & (1 << 6)) != 0;
+                        p2dead = (booleans & (1 << 7)) != 0;
+                        p2levelComplete =  (booleans & (1 << 8)) != 0;
     
                         
 
@@ -203,11 +206,8 @@ public class GameFrame extends JComponent {
                         player2.moveDown(down);
                         player2.setLives(lives);
                         player2.setPosition(x, y);
-                        player2.setDead();
-
-                        // if (dead) {
-                        //     player2.kill();
-                        // }
+                        if (startTraps) {startTraps();}
+                        // player2.setDead();
 
                     }
                     try {
@@ -250,16 +250,16 @@ public class GameFrame extends JComponent {
                         byte booleans = 0;
                         //i love bitwise OR
                         p1levelComplete = player1.getLevelCompleted();
-                        // if (player1.getLives() == 0) {dead = true;}
                         if (player1.getLeft()) booleans  |= 1 << 0;
                         if (player1.getRight()) booleans |= 1 << 1;
                         if (player1.getUp()) booleans    |= 1 << 2;
                         if (player1.getDown()) booleans  |= 1 << 3;
                         if (player1.opensDoor()) booleans|= 1 << 4;
-                        if (startTraps) booleans         |= 1 << 5;
+                        if (p1startTraps) booleans         |= 1 << 5;
 
-                        // // if (dead) booleans        |= 1 << 6;
-                        if (p1levelComplete) booleans    |= 1 << 6;
+                        if (player1.getDead()) booleans        |= 1 << 6;
+                        if (p2dead) booleans        |= 1 << 7;
+                        if (p1levelComplete) booleans    |= 1 << 8;
 
                         x = player1.getX();
                         y = player1.getY();
@@ -346,7 +346,7 @@ public class GameFrame extends JComponent {
     private void createBinding(ActionMap am, InputMap im, String action, int key){
         am.put(action + "Action", new AbstractAction(){
             public void actionPerformed(ActionEvent ae){
-                startTraps = true;
+                startTraps();
                 switch (action){
                     case "up": player1.moveUp(true); break;
                     case "down": player1.moveDown(true); break;
@@ -386,7 +386,7 @@ public class GameFrame extends JComponent {
     }
 
     public void startTraps(){
-        this.startTraps = true;
+        this.p1startTraps = true;
     }
 
     public Player getPlayer1() {
@@ -395,6 +395,14 @@ public class GameFrame extends JComponent {
 
     public Player getPlayer2() {
         return player2;
+    }
+
+    public boolean getP1Dead() {
+        return p1dead;
+    }
+
+    public boolean getP2Dead() {
+        return p2dead;
     }
 }
 

@@ -104,15 +104,14 @@ public class Player extends Entities {
             }
         }
         
-        if (x < 0 || x > 1024 || y < 0 || y > 768) {
+        if (x < 0 || x >= 1020 || y < 0 || y >= 764) {
                 collision = true;
         }
 
-        if ((x >= (1024-(32*2))) && (y >= (768-(32*2)))) {
-            System.out.println("x: " + x + " y: " + y);
+        if ((x >= (1020-(32*2))-2) && (y >= (764-(32*2))-2)) {
             gf.levelComplete();
-            levelCompleted = true;
-            // collision = true;
+            this.levelCompleted = true;
+            collision = true;
         }
     
         // System.out.println("x: " + x);
@@ -140,6 +139,7 @@ public class Player extends Entities {
         if (object instanceof Lock lock) {
             for (KeyObject key : keys) {
                 if (lock.getLockType().equals(key.hasKeyType())) {
+                    lock.setKey(key);
                     keysCollected--;
                     opensDoor = true;
                     this.keyType = null;
@@ -190,18 +190,37 @@ public class Player extends Entities {
 
     public void kill(){
         if (lives.getLives() == 1) {
-            System.out.println("bug here");
-            keys.clear();
-            lm.resetLevel();
             setDead();
+            checkKill();
         }
         else {
             respawn();
             lives.takeLife();
         }
     }
-    
+
+    public void checkKill() {
+        if (this.equals(gf.getPlayer2())) {
+            if (lm.getGF().getP1Dead()) {
+                lm.resetLevel();
+                System.out.println("bug here1");
+            }
+        }  
+        else if (this.equals(gf.getPlayer1())) {
+            if (lm.getGF().getP2Dead()) {
+                lm.resetLevel();
+                System.out.println("bug here2");
+            }
+        }  
+        else {
+            dead = false;
+            lives.addLife();
+        }
+    }
+
     public void setDead() {dead = true;}
+
+    public boolean getDead() {return dead;}
 
     public boolean hasKeyType(String type){
         for (KeyObject key : keys) {
@@ -227,10 +246,6 @@ public class Player extends Entities {
 
     public boolean opensDoor(){
         return opensDoor;
-    }
-
-    public boolean levelCompleted(){
-        return levelCompleted;
     }
 
     public void update(Map map){
