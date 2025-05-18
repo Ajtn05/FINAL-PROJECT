@@ -50,7 +50,7 @@ public class GameFrame extends JComponent {
     public void setCoordinates() {
         System.out.println("setting player coordinates: " + level);
         switch (level) {
-             case 5: 
+             case 1: 
                 x = 41;
                 y = 698;
                 x2 = 968;
@@ -74,7 +74,7 @@ public class GameFrame extends JComponent {
                 x2 = 776;
                 y2 = 62;
                 break;
-            case 1:
+            case 5:
                 x = 450;
                 y = 380;
                 x2 = 550;
@@ -136,7 +136,7 @@ public class GameFrame extends JComponent {
     }
 
     public void startGameTimer(){
-        timer = new Timer(16, new ActionListener() {
+        timer = new Timer(12, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae){
                 ArrayList<Obstacle> obstacleCopy = new ArrayList<>(lm.getObstacles());
@@ -145,9 +145,6 @@ public class GameFrame extends JComponent {
                     obstacle.checkCollision(player2, gc.getMap(), gc);
                     if (obstacle instanceof Traps traps && (startTraps)){
                         traps.updateSpriteAnimation();
-                    }
-                    else {
-                        
                     }
                 } 
                 if (keys > 0) {
@@ -167,16 +164,21 @@ public class GameFrame extends JComponent {
     }
 
     public void levelComplete() {
-        if (getPlayer1().getLevelCompleted() == true && getPlayer2().getLevelCompleted()) {
+        // System.out.println("player1.getLevelCompleted(: )" + p1levelComplete);
+        // System.out.println("p2levelComplete: " + p2levelComplete);
+        if (gc.getComplete() == true) {
             System.out.println("both are true");
             lm.addLevel(1);
             level = lm.getLevel();
             setCoordinates();
             createPlayers();
+            p1startTraps = false;
+            startTraps = false;
         }
     }
 
     public void gameReset() {
+        p1startTraps = false;
         startTraps = false;
         setCoordinates();
         createPlayers();
@@ -216,7 +218,7 @@ public class GameFrame extends JComponent {
                         p2dead = (booleans & (1 << 7)) != 0;
                         p2levelComplete =  (booleans & (1 << 8)) != 0;
     
-                        
+                    
 
                         player2.moveLeft(left);
                         player2.moveRight(right);
@@ -267,7 +269,7 @@ public class GameFrame extends JComponent {
                     if(player1 != null) {
                         byte booleans = 0;
                         //i love bitwise OR
-                        p1levelComplete = player1.getLevelCompleted();
+                        p1levelComplete = (player1.getLevelCompleted() && player1.getLevelCompleted());
                         if (player1.getLeft()) booleans  |= 1 << 0;
                         if (player1.getRight()) booleans |= 1 << 1;
                         if (player1.getUp()) booleans    |= 1 << 2;

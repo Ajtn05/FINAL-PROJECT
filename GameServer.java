@@ -13,7 +13,7 @@ public class GameServer {
                     p1opensDoor = false, p2opensDoor = false,
                     p1dead = false, p2dead = false,
                     p1startTraps = false, p2startTraps = false, startTraps = false,
-                    p1levelComplete = false, p2levelComplete = false;
+                    p1levelComplete = false, p2levelComplete = false, levelComplete = false;
     private int p1x, p1y, p2x, p2y, p1keys, p2keys, p1lives, p2lives;
 
     public GameServer() {
@@ -179,6 +179,7 @@ public class GameServer {
             try {
                 while (true) { 
                     if (p1startTraps || p2startTraps) {startTraps = true;}
+                    if (p1levelComplete && p2levelComplete) {levelComplete = true;}
                     if(playerID == 1) {
 
                         byte booleans = 0;
@@ -213,7 +214,7 @@ public class GameServer {
                         if (startTraps) booleans |= 1 << 5;
                         if (p2dead) booleans |= 1 << 6;
                         if (p1dead) booleans |= 1 << 7;
-                        if (p1levelComplete) booleans |= 1 << 7;
+                        if (p1levelComplete) booleans |= 1 << 8;
 
                         int x = p1x;
                         int y = p1y;
@@ -225,7 +226,7 @@ public class GameServer {
                         dataOut.flush();
                     }
                     try {
-                        Thread.sleep(10);
+                        Thread.sleep(5);
                     } catch (InterruptedException e) {
                         System.out.println("InterruptedException at WTC run");
                     }

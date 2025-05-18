@@ -89,11 +89,11 @@ public class GameCanvas extends JComponent implements KeyListener {
             // case 3 -> tileMap = "assets/maps/blankMap.txt";
             // case 4 -> tileMap = "assets/maps/blankMap.txt";
 
-            case 5 -> tileMap = "assets/maps/tileMap1.txt";
+            case 1 -> tileMap = "assets/maps/tileMap1.txt";
             case 2 -> tileMap = "assets/maps/tileMap2.txt";
             case 3 -> tileMap = "assets/maps/tileMap3.txt";
             case 4 -> tileMap = "assets/maps/tileMap4.txt";
-            case 1 -> tileMap = "assets/maps/tileMap5.txt";
+            case 5 -> tileMap = "assets/maps/tileMap5.txt";
             case 6 -> tileMap = "assets/maps/blankMap.txt";
             case 7 -> tileMap = "assets/maps/blankMap.txt";
             case 8 -> tileMap = "assets/maps/blankMap.txt";
@@ -113,7 +113,7 @@ public class GameCanvas extends JComponent implements KeyListener {
         for (InteractableObjects interactable : interactablesCopy) {
             if (interactable instanceof KeyObject keyObject) {
                 if (keyObject.getOwner() != null && keyObject.getOwner().equals(player1)) {
-                    keyObject.checkDraw(g2d, player1, keyObject.getLocation());
+                    keyObject.checkDraw(g2d, player1);
                 }
             }
             interactable.draw(g2d);
@@ -145,13 +145,12 @@ public class GameCanvas extends JComponent implements KeyListener {
             checkLocks(player1);
             checkKing(player1);
             popUps.setFalse();
+            System.out.println(player1.getLevelCompleted());
+            System.out.println(player2.getLevelCompleted());
 
             if (level == 5){
                 player1.murder();
             }
-            
-            System.out.println("player1 x: " + player1.getX() + " player1 y: " + player1.getY());
-            System.out.println("player2 x: " + player2.getX() + " player2 y: " + player2.getY());
         }
     }
 
@@ -162,5 +161,12 @@ public class GameCanvas extends JComponent implements KeyListener {
 
     public PopUps getPopUps(){
         return popUps;
+    }
+
+    public boolean getComplete() {
+        if (player1.getLevelCompleted() == true && player2.getLevelCompleted() == true) {
+            return true;
+        }
+        return false;
     }
 }

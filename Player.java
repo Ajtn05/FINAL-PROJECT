@@ -33,7 +33,7 @@ public class Player extends Entities {
         this.gf = gf;
         this.lm = lm;
         lives = new Lives(this, 5);
-        speed = 4;
+        speed = 3;
         direction = "down";
         PASSABLE_TILES = new ArrayList<>(Arrays.asList(22, 23, 24, 25, 26, 34, 35));
         keys = new ArrayList<>();
@@ -97,6 +97,10 @@ public class Player extends Entities {
                 mapNum[rightEdge][bottomEdge],
             };
             for (int tile : checkTiles){
+                if (tile == 35) {
+                    levelCompleted = true;
+                    gf.levelComplete();
+                }
                 if (!PASSABLE_TILES.contains(tile)){
                     collision = true;
                     break;
@@ -108,11 +112,14 @@ public class Player extends Entities {
                 collision = true;
         }
 
-        if ((x >= (1020-(32*2))-2) && (y >= (764-(32*2))-2)) {
-            gf.levelComplete();
-            this.levelCompleted = true;
-            collision = true;
-        }
+        // if (this.x  >= (1020-(32*2))-2 &&
+        // (gf.getPlayer2().getX() >= (1020-(32*2))-2) &&
+        // (this.y >= (764-(32*2))-2) && 
+        // (gf.getPlayer2().getY() >= (764-(32*2))-2)) {
+        //     gf.levelComplete();
+        //     this.levelCompleted = true;
+        //     collision = true;
+        // }
     
         // System.out.println("x: " + x);
         // System.out.println("y: " + y);
@@ -442,6 +449,10 @@ public class Player extends Entities {
 
     public void setLives(int num) {
         lives.setLives(num);
+    }
+
+    public void setLevelNotComplete() {
+        levelCompleted = false;
     }
 
     public int getLives() {
