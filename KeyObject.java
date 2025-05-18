@@ -89,20 +89,20 @@ public class KeyObject extends Entities implements InteractableObjects {
         }
     }
 
-    public void checkDraw(Graphics2D g, Player player, int location) {
+    public void checkDraw(Graphics2D g, Player player) {
         for(KeyObject key : player.getKeys()) {
             if (this.equals(key) && !unclaimed) {
-                g.drawImage(getKeyTypeImage(), getLocation(), 3, 24, 24, null);
+                g.drawImage(getKeyTypeImage(), 20*keyOrder, 3, 24, 24, null);
             }
         }
     }
 
-    public int getLocation() {
-        int location;
-        if (keyOrder == 1) {location = 10;}
-        else {location = 10*keyOrder;}
-        return location;
-    }
+    // public int getLocation() {
+    //     int location;
+    //     if (keyOrder == 1) {location = 10;}
+    //     else {location = 10*keyOrder;}
+    //     return location;
+    // }
 
     @Override
     public int getX(){
