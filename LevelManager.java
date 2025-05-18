@@ -353,19 +353,6 @@ public class LevelManager {
 
             gc.getPopUps().showPopUp("KingMessage");
             break;
-        case 6:
-
-            gc.getPopUps().showPopUp("Congrats");
-            break;
-        case 7:
-
-            gc.getPopUps().showPopUp("Betrayed");
-            break;
-        case 8:
-
-            gc.getPopUps().showPopUp("Win");
-            break;
-                
         }   
     }
 

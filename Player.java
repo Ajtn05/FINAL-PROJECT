@@ -18,7 +18,7 @@ public class Player extends Entities {
     public Lives lives;
     private boolean dead = false;
     private int initialX, initialY;
-
+    private EndingFrame ef;
 
 
     public Player (int x, int y, GameFrame gf, GameCanvas gc, String character, LevelManager lm){
@@ -155,8 +155,9 @@ public class Player extends Entities {
         if (object instanceof King king){
             king.setDead();
             System.out.println("bros dead");
-            lm.addLevel(3);
-            //print pop up
+            ef = new EndingFrame("win");
+            ef.setUpEndGUI();
+            gf.frame.dispose();
         }
     }
 
@@ -171,12 +172,13 @@ public class Player extends Entities {
         int p2Y = gf.getPlayer2().getY();
         int p2Y2 = p2X + 40;
 
-        System.out.println("nope");
+        // System.out.println("nope");
 
         if (p1X <= p2X2 && p1X2 >= p2X &&
             p1Y <= p2Y2 && p1Y2 >= p2Y){
-                lm.addLevel(1);
-                gf.getPlayer2().setBetrayed();
+                ef = new EndingFrame("betrayed");
+                ef.setUpEndGUI();
+                gf.frame.dispose();
                 System.out.println("breh");
         }
     }
@@ -214,10 +216,6 @@ public class Player extends Entities {
             dead = false;
             lives.addLife();
         }
-    }
-
-    public void setBetrayed(){
-        // lm.addLoseLevel(2);
     }
 
     public void setDead() {dead = true;}
