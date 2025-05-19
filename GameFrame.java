@@ -19,7 +19,8 @@ public class GameFrame extends JComponent {
     private String playerType;
     public Boolean p1startTraps = false, startTraps = false;
 
-    private boolean left, right, up, down, hasKey, opensDoor = false, p1dead = false, p2dead = false, p1levelComplete = false, p2levelComplete = false;
+    private boolean left, right, up, down, hasKey, opensDoor = false, p1dead = false, p2dead = false, p1levelComplete = false, p2levelComplete = false,
+                    p1loss = false, p2loss = false, p1win = false, p2win = false;
     private int x, y, keys, lives, level, x2, y2;
 
     public GameFrame(GameCanvas gc, LevelManager lm, String playerType){
@@ -48,9 +49,8 @@ public class GameFrame extends JComponent {
     }
 
     public void setCoordinates() {
-        System.out.println("setting player coordinates: " + level);
         switch (level) {
-             case 1: 
+             case 5: 
                 x = 41;
                 y = 698;
                 x2 = 968;
@@ -74,7 +74,7 @@ public class GameFrame extends JComponent {
                 x2 = 776;
                 y2 = 62;
                 break;
-            case 5:
+            case 1:
                 x = 450;
                 y = 380;
                 x2 = 550;
@@ -135,6 +135,14 @@ public class GameFrame extends JComponent {
                 if (opensDoor) {
                     gc.checkLocks(player2); // here
                 }
+                if (p2loss) {  
+                    timer.stop();
+                    end("betrayed");
+                }
+                if (p2win) {  
+                    timer.stop();
+                    end("win");
+                }
 
                 player1.update(gc.getMap());
                 player2.update(gc.getMap());
@@ -146,10 +154,7 @@ public class GameFrame extends JComponent {
     }
 
     public void levelComplete() {
-        // System.out.println("player1.getLevelCompleted(: )" + p1levelComplete);
-        // System.out.println("p2levelComplete: " + p2levelComplete);
         if (gc.getComplete() == true) {
-            System.out.println("both are true");
             lm.addLevel(1);
             level = lm.getLevel();
             setCoordinates();
@@ -165,6 +170,38 @@ public class GameFrame extends JComponent {
         setCoordinates();
         createPlayers();
         player2.setLives(5);
+    }
+
+    public void setLoss() {
+        int p1X = player1.getX();
+        int p1X2 = p1X + 24;
+        int p1Y = player1.getY();
+        int p1Y2 = p1Y + 40;
+
+        int p2X = player2.getX();
+        int p2X2 = p2X + 24;
+        int p2Y = player2.getY();
+        int p2Y2 = p2X + 40;
+
+        if (p1X <= p2X2 && p1X2 >= p2X &&
+            p1Y <= p2Y2 && p1Y2 >= p2Y){
+                p1loss = true;
+                end("betrayed");
+        }
+    }
+
+    public void setWin() {
+        p1win = true;
+        end("win");
+    }
+    
+
+    public void end(String type) {
+        EndingFrame ef;
+        if (type.equals("betrayed")) {ef = new EndingFrame("betrayed");}
+        else {ef = new EndingFrame("win");}
+        ef.setUpEndGUI();
+        frame.dispose();
     }
   
     //SERVER COMMUNICATION
@@ -184,10 +221,11 @@ public class GameFrame extends JComponent {
                         String[] packets = message.split(",");
 
                         byte booleans = Byte.parseByte(packets[0]);
-                        x = Integer.parseInt(packets[1]);
-                        y = Integer.parseInt(packets[2]);
-                        keys = Integer.parseInt(packets[3]);
-                        lives = Integer.parseInt(packets[4]);
+                        byte booleans2 = Byte.parseByte(packets[1]);
+                        x = Integer.parseInt(packets[2]);
+                        y = Integer.parseInt(packets[3]);
+                        keys = Integer.parseInt(packets[4]);
+                        lives = Integer.parseInt(packets[5]);
 
                         left      = (booleans & (1 << 0)) != 0;
                         right     = (booleans & (1 << 1)) != 0;
@@ -195,10 +233,12 @@ public class GameFrame extends JComponent {
                         down      = (booleans & (1 << 3)) != 0;
                         opensDoor = (booleans & (1 << 4)) != 0;
                         startTraps = (booleans & (1 << 5)) != 0;
-                 
                         p1dead = (booleans & (1 << 6)) != 0;
                         p2dead = (booleans & (1 << 7)) != 0;
-                        p2levelComplete =  (booleans & (1 << 8)) != 0;
+                        
+                        p2levelComplete =  (booleans2 & (1 << 0)) != 0;
+                        p2loss =  (booleans2 & (1 << 1)) != 0;
+                        p2win =  (booleans2 & (1 << 2)) != 0;
     
                     
 
@@ -209,7 +249,6 @@ public class GameFrame extends JComponent {
                         player2.setLives(lives);
                         player2.setPosition(x, y);
                         if (startTraps) {startTraps();}
-                        // player2.setDead();
 
                     }
                     try {
@@ -257,11 +296,16 @@ public class GameFrame extends JComponent {
                         if (player1.getUp()) booleans    |= 1 << 2;
                         if (player1.getDown()) booleans  |= 1 << 3;
                         if (player1.opensDoor()) booleans|= 1 << 4;
-                        if (p1startTraps) booleans         |= 1 << 5;
+                        if (p1startTraps) booleans       |= 1 << 5;
 
-                        if (player1.getDead()) booleans        |= 1 << 6;
-                        if (p2dead) booleans        |= 1 << 7;
-                        if (p1levelComplete) booleans    |= 1 << 8;
+                        if (player1.getDead()) booleans  |= 1 << 6;
+                        if (p2dead) booleans             |= 1 << 7;
+
+                        byte booleans2 = 0;
+                        if (p1levelComplete) booleans2    |= 1 << 0;
+                        if (p1loss) booleans2             |= 1 << 1;
+                        if (p1win) booleans2             |= 1 << 2;
+                        
 
                         x = player1.getX();
                         y = player1.getY();
@@ -269,7 +313,7 @@ public class GameFrame extends JComponent {
                         lives = player1.getLives();
 
 
-                        String message = booleans + "," + x + "," + y + "," + keys + "," + lives;
+                        String message = booleans + "," + booleans2 + "," + x + "," + y + "," + keys + "," + lives;
                         dataOut.writeUTF(message);
                         dataOut.flush();
                     }

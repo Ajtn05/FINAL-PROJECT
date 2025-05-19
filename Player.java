@@ -112,21 +112,6 @@ public class Player extends Entities {
                 collision = true;
         }
 
-        // if (this.x  >= (1020-(32*2))-2 &&
-        // (gf.getPlayer2().getX() >= (1020-(32*2))-2) &&
-        // (this.y >= (764-(32*2))-2) && 
-        // (gf.getPlayer2().getY() >= (764-(32*2))-2)) {
-        //     gf.levelComplete();
-        //     this.levelCompleted = true;
-        //     collision = true;
-        // }
-    
-        // System.out.println("x: " + x);
-        // System.out.println("y: " + y);
-        // System.out.println("Left Edge: " + leftEdge);
-        // System.out.println("Right Edge: " + rightEdge);
-        // System.out.println("Top Edge: " + topEdge);
-        // System.out.println("Bottom Edge: " + bottomEdge);
         return collision;
     }   
 
@@ -161,33 +146,17 @@ public class Player extends Entities {
 
         if (object instanceof King king){
             king.setDead();
-            System.out.println("bros dead");
-            ef = new EndingFrame("win");
-            ef.setUpEndGUI();
-            gf.frame.dispose();
+            gf.setWin();
+            // System.out.println("bros dead");
+            // ef = new EndingFrame("win");
+            // ef.setUpEndGUI();
+            // gf.frame.dispose();
         }
     }
 
-    public void murder() {
-        int p1X = this.getX();
-        int p1X2 = p1X + 24;
-        int p1Y = this.getY();
-        int p1Y2 = p1Y + 40;
 
-        int p2X = gf.getPlayer2().getX();
-        int p2X2 = p2X + 24;
-        int p2Y = gf.getPlayer2().getY();
-        int p2Y2 = p2X + 40;
-
-        // System.out.println("nope");
-
-        if (p1X <= p2X2 && p1X2 >= p2X &&
-            p1Y <= p2Y2 && p1Y2 >= p2Y){
-                ef = new EndingFrame("betrayed");
-                ef.setUpEndGUI();
-                gf.frame.dispose();
-                System.out.println("breh");
-        }
+    public GameFrame getGF() {
+        return gf;
     }
 
     public void respawn(){
@@ -292,11 +261,10 @@ public class Player extends Entities {
     
     private void updateSpriteAnimation(boolean moving){
         spriteCounter++;
-        if (moving){
-            if (spriteCounter > 10){
+        if (moving)
+             if (spriteCounter > 10){
                 spriteNum = (spriteNum == 1) ? 2 : 1;
                 spriteCounter = 0;
-            }
         } else {
             spriteNum = 0;
         }

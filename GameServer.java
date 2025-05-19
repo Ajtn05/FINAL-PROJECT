@@ -13,7 +13,8 @@ public class GameServer {
                     p1opensDoor = false, p2opensDoor = false,
                     p1dead = false, p2dead = false,
                     p1startTraps = false, p2startTraps = false, startTraps = false,
-                    p1levelComplete = false, p2levelComplete = false, levelComplete = false;
+                    p1levelComplete = false, p2levelComplete = false, levelComplete = false,
+                    p1loss = false, p2loss = false, p1win = false, p2win = false;
     private int p1x, p1y, p2x, p2y, p1keys, p2keys, p1lives, p2lives;
 
     public GameServer() {
@@ -122,10 +123,11 @@ public class GameServer {
                         String[] packets = message.split(",");
 
                         byte booleans = Byte.parseByte(packets[0]);
-                        p1x = Integer.parseInt(packets[1]);
-                        p1y = Integer.parseInt(packets[2]);
-                        p1keys = Integer.parseInt(packets[3]);
-                        p1lives = Integer.parseInt(packets[4]);
+                        byte booleans2 = Byte.parseByte(packets[1]);
+                        p1x = Integer.parseInt(packets[2]);
+                        p1y = Integer.parseInt(packets[3]);
+                        p1keys = Integer.parseInt(packets[4]);
+                        p1lives = Integer.parseInt(packets[5]);
 
                         p1left      = (booleans & (1)) != 0;
                         p1right     = (booleans & (1 << 1)) != 0;
@@ -135,17 +137,22 @@ public class GameServer {
                         p1startTraps = (booleans & (1 << 5)) != 0;
                         p1dead = (booleans & (1 << 6)) != 0;
                         p2dead = (booleans & (1 << 7)) != 0;
-                        p1levelComplete = (booleans & (1 << 8)) != 0;
+
+
+                        p1levelComplete = (booleans2 & (1 << 0)) != 0;
+                        p1loss = (booleans2 & (1 << 1)) != 0;
+                        p1win = (booleans2 & (1 << 2)) != 0;
                     }
                     else {
                         String message = dataIn.readUTF();
                         String[] packets = message.split(",");
 
                         byte booleans = Byte.parseByte(packets[0]);
-                        p2x = Integer.parseInt(packets[1]);
-                        p2y = Integer.parseInt(packets[2]);
-                        p2keys = Integer.parseInt(packets[3]);
-                        p2lives = Integer.parseInt(packets[4]);
+                        byte booleans2 = Byte.parseByte(packets[1]);
+                        p2x = Integer.parseInt(packets[2]);
+                        p2y = Integer.parseInt(packets[3]);
+                        p2keys = Integer.parseInt(packets[4]);
+                        p2lives = Integer.parseInt(packets[5]);
 
                         p2left      = (booleans & (1)) != 0;
                         p2right     = (booleans & (1 << 1)) != 0;
@@ -155,7 +162,10 @@ public class GameServer {
                         p2startTraps = (booleans & (1 << 5)) != 0;
                         p1dead = (booleans & (1 << 6)) != 0;
                         p2dead = (booleans & (1 << 7)) != 0;
-                        p2levelComplete = (booleans & (1 << 8)) != 0;
+
+                        p2levelComplete = (booleans2 & (1 << 0)) != 0;
+                        p2loss = (booleans2 & (1 << 1)) != 0;
+                        p2win = (booleans2 & (1 << 2)) != 0;
                     }
                 }
             } catch (IOException ex) {
@@ -183,6 +193,7 @@ public class GameServer {
                     if(playerID == 1) {
 
                         byte booleans = 0;
+                        byte booleans2 = 0;
                         //i love bitwise OR
                         if (p2left) booleans  |= 1;
                         if (p2right) booleans |= 1 << 1;
@@ -192,19 +203,23 @@ public class GameServer {
                         if (startTraps) booleans |= 1 << 5;
                         if (p1dead) booleans |= 1 << 6;
                         if (p2dead) booleans |= 1 << 7;
-                        if (p2levelComplete) booleans |= 1 << 8;
+
+                        if (p2levelComplete) booleans2 |= 1 << 0;
+                        if (p2loss) booleans2 |= 1 << 1;
+                        if (p2win) booleans2 |= 1 << 2;
 
                         int x = p2x;
                         int y = p2y;
                         int keys = p2keys;
                         int lives = p2lives;
 
-                        String message = booleans + "," + x + "," + y + "," + keys + "," + lives;
+                        String message = booleans + "," + booleans2 + "," + x + "," + y + "," + keys + "," + lives;
                         dataOut.writeUTF(message);
                         dataOut.flush();
                     }
                     else {
                         byte booleans = 0;
+                        byte booleans2 = 0;
                         //i love bitwise OR
                         if (p1left) booleans  |= 1;
                         if (p1right) booleans |= 1 << 1;
@@ -214,17 +229,20 @@ public class GameServer {
                         if (startTraps) booleans |= 1 << 5;
                         if (p2dead) booleans |= 1 << 6;
                         if (p1dead) booleans |= 1 << 7;
-                        if (p1levelComplete) booleans |= 1 << 8;
+
+                        if (p1levelComplete) booleans2 |= 1 << 0;
+                        if (p1loss) booleans2 |= 1 << 1;
+                        if (p1win) booleans2 |= 1 << 2;
 
                         int x = p1x;
                         int y = p1y;
                         int keys = p1keys;
                         int lives = p1lives;
 
-                        String message = booleans + "," + x + "," + y + "," + keys + "," + lives;
-                        dataOut.writeUTF(message);
+                        String message = booleans + "," + booleans2 + "," + x + "," + y + "," + keys + "," + lives;
                         dataOut.flush();
                     }
+        
                     try {
                         Thread.sleep(5);
                     } catch (InterruptedException e) {
