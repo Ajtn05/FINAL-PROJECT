@@ -106,7 +106,6 @@ public class MenuFrame extends JComponent implements MouseMotionListener, MouseL
 
     public void connect() {
         LevelManager lm = new LevelManager(host, port, playerType, 1, this);
-        System.out.println("yes");
         lm.start();
     }
 
