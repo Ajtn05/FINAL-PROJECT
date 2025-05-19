@@ -50,7 +50,7 @@ public class GameFrame extends JComponent {
 
     public void setCoordinates() {
         switch (level) {
-             case 5: 
+             case 1: 
                 x = 41;
                 y = 698;
                 x2 = 968;
@@ -74,7 +74,7 @@ public class GameFrame extends JComponent {
                 x2 = 776;
                 y2 = 62;
                 break;
-            case 1:
+            case 5:
                 x = 450;
                 y = 380;
                 x2 = 550;
@@ -125,7 +125,7 @@ public class GameFrame extends JComponent {
                 for (Obstacle obstacle : obstacleCopy) {
                     obstacle.checkCollision(player1, gc.getMap(), gc);
                     obstacle.checkCollision(player2, gc.getMap(), gc);
-                    if (obstacle instanceof Traps traps && (startTraps)){
+                    if (obstacle instanceof Traps traps && (p1startTraps)){
                         traps.updateSpriteAnimation();
                     }
                 } 
@@ -142,6 +142,9 @@ public class GameFrame extends JComponent {
                 if (p2win) {  
                     timer.stop();
                     end("win");
+                }
+                if (startTraps) {
+                    p1startTraps = true;
                 }
 
                 player1.update(gc.getMap());
@@ -248,7 +251,7 @@ public class GameFrame extends JComponent {
                         player2.moveDown(down);
                         player2.setLives(lives);
                         player2.setPosition(x, y);
-                        if (startTraps) {startTraps();}
+                        // if (startTraps) {p1startTraps = true;}
 
                     }
                     try {

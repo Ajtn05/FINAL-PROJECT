@@ -118,6 +118,7 @@ public class GameServer {
         public void run() {
             try {
                 while (true) { 
+                    if(p1startTraps|| p2startTraps) {startTraps = true;}
                     if(playerID == 1) {
                         String message = dataIn.readUTF();
                         String[] packets = message.split(",");
