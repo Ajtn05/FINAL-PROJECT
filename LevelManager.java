@@ -82,7 +82,7 @@ public class LevelManager {
         obstacles.clear();
         interactables.clear();
         switch(level){
-        case 5:
+        case 1:
             obstacles.add(new Traps("spike", 352, 382, 32, 32, 10));
             obstacles.add(new Traps("fire", 97, 314, 32, 32, 6));
             obstacles.add(new Traps("fire", 672, 314, 32, 32, 7));
@@ -342,7 +342,7 @@ public class LevelManager {
             interactables.add(new Lock(965, 677, lock19, gc, "gold"));
 
             break;
-        case 1:
+        case 5:
             // for (int i = 0; i < 20; i++){ obstacles.add(new Traps("fire", 192 + (i*32), 187, 32, 32, 6));}
             // for (int i = 0; i < 14; i++){obstacles.add(new Traps("fire", 160, 187 + (i*32), 32, 32, 6));}
             // for (int i = 0; i < 21; i++){obstacles.add(new Traps("fire", 192 + (i*32), 603, 32, 32, 6));}
