@@ -3,14 +3,8 @@ import java.awt.image.*;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 
-public class Traps implements Obstacle {
-    public BufferedImage spikes, spike1, spike2, spike3, spike4, spike5, spike6,
-                         fire, fire1, fire2, fire3, fire4, fire5, fire6, fire7, fire8, fire9;
-    private int x, y, width, height;
+public class Traps extends Entities implements Obstacle {
     private String ID;
-    private int spriteCounter = 0;
-    private int spriteNum = 1;
-    private int speed;
     private String trap;
 
     public Traps(String trap, int x, int y, int w, int h, int speed){

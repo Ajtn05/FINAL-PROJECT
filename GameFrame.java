@@ -27,7 +27,6 @@ public class GameFrame extends JComponent {
         this.playerType = playerType;
         frame = new JFrame();
         this.gc = gc;
-        // map = new Map("assets/maps/tileMap1.txt");
         map = gc.getMap();
         this.lm = lm;
     }
@@ -133,7 +132,7 @@ public class GameFrame extends JComponent {
                     gc.checkKeys(player2);
                 }
                 if (opensDoor) {
-                    gc.checkLocks(player2); // here
+                    gc.checkLocks(player2);
                 }
                 if (p2loss) {  
                     timer.stop();
@@ -149,7 +148,6 @@ public class GameFrame extends JComponent {
 
                 player1.update(gc.getMap());
                 player2.update(gc.getMap());
-                // gc.getPopUps().update();
                 gc.repaint();
             }
         });
@@ -292,7 +290,6 @@ public class GameFrame extends JComponent {
                 while (true) { 
                     if(player1 != null) {
                         byte booleans = 0;
-                        //i love bitwise OR
                         p1levelComplete = (player1.getLevelCompleted() && player1.getLevelCompleted());
                         if (player1.getLeft()) booleans  |= 1 << 0;
                         if (player1.getRight()) booleans |= 1 << 1;

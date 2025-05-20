@@ -1,3 +1,26 @@
+/** 
+    This is the Map class, which loads the images and reads the tile map to 
+    construct the layout of the map. Each tile image is assigned to a number and 
+    the class has a method to reads the tile types from a text file 
+    and associated them with the corresponding images.
+
+    @author Janelle Angela C. Lopez (242682)
+    @author Aldrin Joseph T. Nellas (243215)
+	@version April 1, 2025
+	
+	I have not discussed the Java language code in my program 
+	with anyone other than my instructor or the teaching assistants 
+	assigned to this course.
+
+	I have not used Java language code obtained from another student, 
+	or any other unauthorized source, either modified or unmodified.
+
+	If any Java language code or documentation used in my program 
+	was obtained from another source, such as a textbook or website, 
+	that has been clearly noted with a proper citation in the comments 
+	of my program.
+**/
+
 import java.awt.*;
 import java.awt.image.*;
 import java.io.*;
@@ -21,6 +44,11 @@ public class Map {
     public int[][] getTileNum(){
         return tileNum;
     }
+
+    /**
+        Loads the tile sprites from the assets folder. 
+        Each index in the tiles array corresponds to a specific tile image.
+    **/
 
     public void getImages(){
         try {
@@ -138,6 +166,11 @@ public class Map {
         }
     }
 
+    /**
+        Reads the map layout from a text file and fills tileNum 2D array with the
+        numbers from the file that correspond to the images.
+    **/
+
     public void loadMap(){
         try {
             InputStream is = getClass().getResourceAsStream(level);
@@ -166,6 +199,11 @@ public class Map {
         }
     }
 
+    /**
+        Loops through the grid and draws the corresponding tile image at the correct
+        column and row position based on where they are 
+    **/
+
     public void draw(Graphics2D g){
         int col = 0;
         int row = 0;
@@ -189,6 +227,10 @@ public class Map {
             }
         }
     }
+
+    /**
+        Initializes a buffered image for the tiles class.
+    **/
 
     class Tiles {
         public BufferedImage image;

@@ -27,8 +27,6 @@ public class Player extends Entities {
         this.initialX = x;
         this.initialY = y;
         this.character = character;
-        // this.gf = lm.getGF(); 
-        // this.gc = lm.getGC();
         this.gc = gc;
         this.gf = gf;
         this.lm = lm;
@@ -45,7 +43,6 @@ public class Player extends Entities {
             int width = 16;
             int height = 32;
 
-            // boy
             boyUp = ImageIO.read(getClass().getResourceAsStream("assets/images/walk_up.png"));
             boyUp1 = boyUp.getSubimage(17, 19, width, height);
             boyUp2 = boyUp.getSubimage(257, 19, width, height);
@@ -59,7 +56,6 @@ public class Player extends Entities {
             boyRight1 = boyRight.getSubimage(18, 19, width, height);
             boyRight2 = boyRight.getSubimage(65, 19, width, height);            
 
-            // girl
             girlUp = ImageIO.read(getClass().getResourceAsStream("assets/images/girl_walk_up.png"));
             girlUp1 = girlUp.getSubimage(18, 21, width, height);
             girlUp2 = girlUp.getSubimage(162, 21, width, height);
@@ -85,26 +81,20 @@ public class Player extends Entities {
         int topEdge = (y + 15) / 32;
         int bottomEdge = (y + 32) / 32;
 
-        if (leftEdge >= 0 && leftEdge < mapNum.length &&
-            rightEdge >= 0 && rightEdge < mapNum.length &&
-            topEdge >= 0 && topEdge < mapNum.length &&
-            bottomEdge >= 0 && bottomEdge < mapNum.length ){
-
-            int[] checkTiles = {
-                mapNum[leftEdge][topEdge],
-                mapNum[rightEdge][topEdge], 
-                mapNum[leftEdge][bottomEdge], 
-                mapNum[rightEdge][bottomEdge],
-            };
-            for (int tile : checkTiles){
-                if (tile == 35) {
-                    levelCompleted = true;
-                    gf.levelComplete();
-                }
-                if (!PASSABLE_TILES.contains(tile)){
-                    collision = true;
-                    break;
-                }
+        int[] checkTiles = {
+            mapNum[leftEdge][topEdge],
+            mapNum[rightEdge][topEdge], 
+            mapNum[leftEdge][bottomEdge], 
+            mapNum[rightEdge][bottomEdge],
+        };
+        for (int tile : checkTiles){
+            if (tile == 35) {
+                levelCompleted = true;
+                gf.levelComplete();
+            }
+            if (!PASSABLE_TILES.contains(tile)){
+                collision = true;
+                break;
             }
         }
         
@@ -153,10 +143,6 @@ public class Player extends Entities {
         if (object instanceof King king){
             king.setDead();
             gf.setWin();
-            // System.out.println("bros dead");
-            // ef = new EndingFrame("win");
-            // ef.setUpEndGUI();
-            // gf.frame.dispose();
         }
     }
 
@@ -267,10 +253,11 @@ public class Player extends Entities {
     
     private void updateSpriteAnimation(boolean moving){
         spriteCounter++;
-        if (moving)
+        if (moving){
              if (spriteCounter > 10){
                 spriteNum = (spriteNum == 1) ? 2 : 1;
                 spriteCounter = 0;
+             }
         } else {
             spriteNum = 0;
         }
@@ -317,8 +304,7 @@ public class Player extends Entities {
                 switch (direction){
                     case "up" -> { 
                         if (spriteNum == 1) {image = girlUp1;}
-                        if (spriteNum == 2) {image = girlUp2; 
-                        }
+                        if (spriteNum == 2) {image = girlUp2;}
                     }
                     case "down" -> { 
                         if (spriteNum == 1){
