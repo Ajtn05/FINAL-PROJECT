@@ -1,3 +1,25 @@
+/** 
+    This is the Player class, which handles collision logic, movement update logic, and 
+    the logic for interacting with different objects. It also has methods for loading
+    the different sprite images and kill methods.
+
+    @author Janelle Angela C. Lopez (242682)
+    @author Aldrin Joseph T. Nellas (243215)
+	@version April 1, 2025
+	
+	I have not discussed the Java language code in my program 
+	with anyone other than my instructor or the teaching assistants 
+	assigned to this course.
+
+	I have not used Java language code obtained from another student, 
+	or any other unauthorized source, either modified or unmodified.
+
+	If any Java language code or documentation used in my program 
+	was obtained from another source, such as a textbook or website, 
+	that has been clearly noted with a proper citation in the comments 
+	of my program.
+**/
+
 import java.awt.*;
 import java.awt.image.*;
 import java.io.IOException;
@@ -11,7 +33,6 @@ public class Player extends Entities {
     private LevelManager lm;
     private int keysCollected = 0;
     private boolean hasKey = false, opensDoor = false, hasSword = false;
-    // private String keyType = null;
     private boolean levelCompleted = false;
     private ArrayList<Integer> PASSABLE_TILES;
     public ArrayList<KeyObject> keys;
@@ -336,7 +357,7 @@ public class Player extends Entities {
         
         g.drawImage(image, x, y, 24, 40, null);
     }
-  
+
     public void setPosition(int x, int y) {
         this.x = x;
         this.y = y;
