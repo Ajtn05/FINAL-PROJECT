@@ -11,7 +11,7 @@ public class Player extends Entities {
     private LevelManager lm;
     private int keysCollected = 0;
     private boolean hasKey = false, opensDoor = false, hasSword = false;
-    private String keyType = null;
+    // private String keyType = null;
     private boolean levelCompleted = false;
     private ArrayList<Integer> PASSABLE_TILES;
     public ArrayList<KeyObject> keys;
@@ -33,7 +33,7 @@ public class Player extends Entities {
         lives = new Lives(this, 5);
         speed = 3;
         direction = "down";
-        PASSABLE_TILES = new ArrayList<>(Arrays.asList(22, 23, 24, 25, 26, 34, 35));
+        PASSABLE_TILES = new ArrayList<>(Arrays.asList(22, 23, 24, 25, 26, 34));
         keys = new ArrayList<>();
         getImages();
     }
@@ -90,7 +90,6 @@ public class Player extends Entities {
         for (int tile : checkTiles){
             if (tile == 35) {
                 levelCompleted = true;
-                collision = true;
                 gf.levelComplete();
             }
             if (!PASSABLE_TILES.contains(tile)){
@@ -114,7 +113,7 @@ public class Player extends Entities {
             keysCollected++;
             key.claim();
             key.setKeyOrder(keysCollected);
-            this.keyType = keyObject.hasKeyType();
+            // this.keyType = keyObject.hasKeyType();
             keys.add((KeyObject) object);
             key.setOwner(this);
         }
@@ -124,7 +123,6 @@ public class Player extends Entities {
             for (KeyObject key : keys) {
                 if (i == 1) {
                     key.decrementKeyOrder();
-                    opensDoor = false;
                     i = 0;
                 }
                 if (lock.getLockType().equals(key.hasKeyType())) {
@@ -132,7 +130,7 @@ public class Player extends Entities {
                     lock.setKey(key);
                     keysCollected--;
                     opensDoor = true;
-                    this.keyType = null;
+                    // this.keyType = null;
                     keys.remove(key);
                     break;
                 }
@@ -213,6 +211,10 @@ public class Player extends Entities {
 
     public boolean opensDoor(){
         return opensDoor;
+    }
+
+    public void stopDoor() {
+        opensDoor = false;
     }
 
     public void update(Map map){
