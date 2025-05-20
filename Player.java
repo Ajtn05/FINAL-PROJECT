@@ -119,16 +119,22 @@ public class Player extends Entities {
         }
 
         if (object instanceof Lock lock) {
+            int i = 0;
             for (KeyObject key : keys) {
+                if (i == 1) {
+                    key.decrementKeyOrder();
+                    i = 0;
+                }
                 if (lock.getLockType().equals(key.hasKeyType())) {
-                    // lock.setKey(key);
+                    i = 1;
+                    lock.setKey(key);
                     keysCollected--;
                     opensDoor = true;
                     this.keyType = null;
                     keys.remove(key);
-                    for (KeyObject key2 : keys) {
-                        key2.decrementKeyOrder();
-                    }
+                    // for (KeyObject key2 : keys) {
+                    //     key2.decrementKeyOrder();
+                    // }
                     break;
                 }
             }

@@ -49,13 +49,13 @@ public class GameFrame extends JComponent {
 
     public void setCoordinates() {
         switch (level) {
-             case 2: 
+            case 1: 
                 x = 41;
                 y = 698;
                 x2 = 968;
                 y2 = 58;
                 break; 
-            case 1:
+            case 2:
                 x = 1;
                 y = 62;
                 x2 = 740;
