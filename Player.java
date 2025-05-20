@@ -33,7 +33,7 @@ public class Player extends Entities {
         lives = new Lives(this, 5);
         speed = 3;
         direction = "down";
-        PASSABLE_TILES = new ArrayList<>(Arrays.asList(22, 23, 24, 25, 26, 34, 35));
+        PASSABLE_TILES = new ArrayList<>(Arrays.asList(22, 23, 24, 25, 26, 34));
         keys = new ArrayList<>();
         getImages();
     }
@@ -87,10 +87,10 @@ public class Player extends Entities {
             mapNum[leftEdge][bottomEdge], 
             mapNum[rightEdge][bottomEdge],
         };
+
         for (int tile : checkTiles){
             if (tile == 35) {
                 levelCompleted = true;
-                collision = true;
                 gf.levelComplete();
             }
             if (!PASSABLE_TILES.contains(tile)){

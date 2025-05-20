@@ -224,13 +224,4 @@ public class KeyObject extends Entities implements InteractableObjects {
     public int getY(){
         return y;
     }
-
-    /**
-        Returns ID of the key.
-    **/
-
-    @Override
-    public String getID() {
-        return ID;
-    }
 }

@@ -1,3 +1,25 @@
+/** 
+    This is the Level Manager, which is responsible for initializing the game based
+    on the current level. It manages switching from the main game menu to the loading 
+    the game itself. It sets up the map, player, obstacles, and interactable objects.
+
+    @author Janelle Angela C. Lopez (242682)
+    @author Aldrin Joseph T. Nellas (243215)
+	@version April 1, 2025
+	
+	I have not discussed the Java language code in my program 
+	with anyone other than my instructor or the teaching assistants 
+	assigned to this course.
+
+	I have not used Java language code obtained from another student, 
+	or any other unauthorized source, either modified or unmodified.
+
+	If any Java language code or documentation used in my program 
+	was obtained from another source, such as a textbook or website, 
+	that has been clearly noted with a proper citation in the comments 
+	of my program.
+**/
+
 import java.util.*;
 
 public class LevelManager {
@@ -11,6 +33,15 @@ public class LevelManager {
     private ArrayList<Obstacle> obstacles;
     private ArrayList<InteractableObjects> interactables;
 
+    /**
+        Constructs a Level Manager instance initializes the  
+        @param host               host input typed by the player
+        @param port               port input typed by the player
+        @param playertype         playerType selected by the player
+        @param level              game level number to load
+        @param mf                 menu frame to revert to if connection fails
+    **/
+
     public LevelManager(String host, int port, String playerType, int level, MenuFrame mf) {
         this.host = host;
         this.port = port;
@@ -21,13 +52,11 @@ public class LevelManager {
         interactables = new ArrayList<>();
     }
 
-    public ArrayList<Obstacle> getObstacles(){
-        return obstacles;
-    }
-
-    public void setObstacles(ArrayList<Obstacle> newObstacles) {
-        obstacles = newObstacles;
-    }
+    /**
+        Starts the game by initializing the GameCanvas and the GameFrame.
+        Connects to the server and sets up the game. If the connection fails,
+        it returns to the menu.
+    **/
 
     public void start() {
         gc = new GameCanvas(level, obstacles, interactables);
@@ -56,19 +85,11 @@ public class LevelManager {
         }
     }
 
-    public void addLevel(int n){
-        level += n;
-        gc.addLevel(level);
-        gc.player1.setLevelNotComplete();
-        gc.player2.setLevelNotComplete();
-        setUpObstacles();
-    }
-
-    public void resetLevel() {
-        gc.addLevel(level);
-        gf.gameReset();
-        setUpObstacles();
-    }
+    /**
+        Sets up the obstacles and interactable objects for each level. This
+        includes traps, keys, locks, pressureplates, and the king at the last
+        level.
+    **/
 
     public void setUpObstacles(){
         obstacles.clear();
@@ -335,10 +356,13 @@ public class LevelManager {
 
             break;
         case 5:
-            // for (int i = 0; i < 20; i++){ obstacles.add(new Traps("fire", 192 + (i*32), 187, 32, 32, 6));}
-            // for (int i = 0; i < 14; i++){obstacles.add(new Traps("fire", 160, 187 + (i*32), 32, 32, 6));}
-            // for (int i = 0; i < 21; i++){obstacles.add(new Traps("fire", 192 + (i*32), 603, 32, 32, 6));}
-            // for (int i = 0; i < 14; i++){obstacles.add(new Traps("fire", 832, 187 + (i*32), 32, 32, 6));}
+            obstacles.add(new Traps("fire", 416, 187, 32, 32, 6));
+            obstacles.add(new Traps("fire", 448, 187, 32, 32, 6));
+            obstacles.add(new Traps("fire", 480, 187, 32, 32, 6));
+            obstacles.add(new Traps("fire", 512, 187, 32, 32, 6));
+            obstacles.add(new Traps("fire", 544, 187, 32, 32, 6));
+            obstacles.add(new Traps("fire", 576, 187, 32, 32, 6));
+
 
             King king = new King(564, 130, 32, 48);
             interactables.add(king);
@@ -348,15 +372,36 @@ public class LevelManager {
         }   
     }
 
-    //GETTERS
-    public InteractableObjects getInteractableObjects(String name) {
-        for (InteractableObjects interactable : interactables) {
-            if (interactable.getID().equals(name)) {
-                return interactable;
-            }
-        }
-        return null;
+    /**
+        Increments level by a specified amount and resets, calls the player's 
+        setLevelNotComplete method (sets the boolean to false), and
+        sets up the obstacles for the next level.
+    **/
+
+    public void addLevel(int n){
+        level += n;
+        gc.addLevel(level);
+        gc.player1.setLevelNotComplete();
+        gc.player2.setLevelNotComplete();
+        setUpObstacles();
     }
+
+    /**
+        Resets the current level to its starting state. Only 
+        gets called when a player dies.
+    **/
+
+    public void resetLevel() {
+        gc.addLevel(level);
+        gf.gameReset();
+        setUpObstacles();
+    }
+
+    // GETTER METHODS
+
+    public ArrayList<Obstacle> getObstacles(){return obstacles;}
+
+    public void setObstacles(ArrayList<Obstacle> newObstacles) {obstacles = newObstacles;}
 
     public GameCanvas getGC() {return gc;}
 

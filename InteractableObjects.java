@@ -29,5 +29,4 @@ public interface InteractableObjects {
     boolean isInteracted();
     int getX();
     int getY();
-    String getID();
 }
