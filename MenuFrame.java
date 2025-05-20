@@ -1,5 +1,9 @@
 /** 
-    This is the MenuFrame class 
+    This is the MenuFrame class, which extends JComponent and implements
+    MouseMotionListener and MouseListener to detect mouse interaction with the screen.
+    It creates the main menu GUI for the Game and allows the user to input a host 
+    address, port number, and select a player. It also handles starting the game by 
+    connecting to a server. 
 
     @author Janelle Angela C. Lopez (242682)
     @author Aldrin Joseph T. Nellas (243215)
@@ -38,6 +42,13 @@ public class MenuFrame extends JComponent implements MouseMotionListener, MouseL
     private boolean isHoveringHost = false, isHoveringPort = false, isHoveringGirl = false, 
                     isHoveringBoy = false, isHoveringPlay = false, isBoySelected = false, isGirlSelected = false;
 
+
+    /**
+        Constucts a new MenuFrame and initializes the textfields for getting inputs, 
+        the event listeners, and the bounding boxes that are used as a basis for 
+        mouse interaction. 
+    **/
+
     public MenuFrame(){
         hoverBoxHost = new Rectangle(449,280, 277,51);
         hoverBoxPort = new Rectangle(447,357, 279,52);
@@ -69,6 +80,11 @@ public class MenuFrame extends JComponent implements MouseMotionListener, MouseL
         addMouseMotionListener(this);
         addMouseListener(this);
     }
+    
+    /**
+        Sets up the GUI for the starting screen. Initializes the game's properties, 
+        sets its size, and makes it visible.
+    **/
 
     public void setUpGUI(){
         frame = new JFrame("Maze Game");
@@ -85,7 +101,11 @@ public class MenuFrame extends JComponent implements MouseMotionListener, MouseL
         frame.setVisible(true);
     }
 
-     public void getImages(){
+    /**
+        Loads the starting screen images from the assets folder. 
+    **/
+
+    public void getImages(){
         try {
             staticMenu = ImageIO.read(getClass().getResourceAsStream("assets/images/staticMenu.png"));
             hovered_girl = ImageIO.read(getClass().getResourceAsStream("assets/images/hovered_girl.png"));
@@ -96,6 +116,11 @@ public class MenuFrame extends JComponent implements MouseMotionListener, MouseL
             e.printStackTrace();
         }
     }
+
+    /**
+       Paints a specific image depending on which bounding box is detecting the
+       mouse cursor.
+    **/
 
     public void paintComponent(Graphics g){
         super.paintComponent(g);
@@ -120,14 +145,29 @@ public class MenuFrame extends JComponent implements MouseMotionListener, MouseL
         }
     }
 
+    /**
+       Disposes the frame.
+    **/
+
     public void end() {
         frame.dispose();
     }
+
+    /**
+       Called when the player presses play and creates a new level manager
+       using the information they type in and startes the game.
+    **/
 
     public void connect() {
         LevelManager lm = new LevelManager(host, port, playerType, 1, this);
         lm.start();
     }
+
+    /**
+        Called when the mouse is moved over the different bounding boxes.
+        Updates the each boolean accordingly based on whether the cursor
+        is detected within the rectangle's area.
+    **/
 
     @Override
     public void mouseMoved(MouseEvent e) {
@@ -138,6 +178,11 @@ public class MenuFrame extends JComponent implements MouseMotionListener, MouseL
         isHoveringPlay = hoverBoxPlay.contains(e.getPoint());
         repaint();
     }
+
+    /**
+       Called when the player presses the areas with a bounding box.
+       The current frame will be disposed and the main menu will be set up.
+    **/
 
     @Override
     public void mousePressed(MouseEvent e) {

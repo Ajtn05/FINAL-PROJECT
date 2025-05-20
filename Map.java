@@ -34,7 +34,7 @@ public class Map {
     int rows = 24;
 
     public Map(String level){
-        tiles = new Tiles[36];
+        tiles = new Tiles[46];
         tileNum = new int[columns][rows];
         this.level = level;
         getImages();
@@ -159,6 +159,36 @@ public class Map {
 
             tiles[35] = new Tiles();
             tiles[35].image = ImageIO.read(getClass().getResourceAsStream("assets/images/portal.png"));    
+
+            tiles[36] = new Tiles();
+            tiles[36].image = ImageIO.read(getClass().getResourceAsStream("assets/images/arena_wall_TL.png"));    
+
+            tiles[37] = new Tiles();
+            tiles[37].image = ImageIO.read(getClass().getResourceAsStream("assets/images/arena_wall_TR.png"));    
+
+            tiles[38] = new Tiles();
+            tiles[38].image = ImageIO.read(getClass().getResourceAsStream("assets/images/arena_wall_BL.png"));    
+
+            tiles[39] = new Tiles();
+            tiles[39].image = ImageIO.read(getClass().getResourceAsStream("assets/images/arena_wall_BR.png"));    
+
+            tiles[40] = new Tiles();
+            tiles[40].image = ImageIO.read(getClass().getResourceAsStream("assets/images/arena_wall_L.png"));    
+
+            tiles[41] = new Tiles();
+            tiles[41].image = ImageIO.read(getClass().getResourceAsStream("assets/images/arena_wall_R.png"));    
+
+            tiles[42] = new Tiles();
+            tiles[42].image = ImageIO.read(getClass().getResourceAsStream("assets/images/arena_wall_U.png"));    
+
+            tiles[43] = new Tiles();
+            tiles[43].image = ImageIO.read(getClass().getResourceAsStream("assets/images/arena_wall_D.png"));    
+
+            tiles[44] = new Tiles();
+            tiles[44].image = ImageIO.read(getClass().getResourceAsStream("assets/images/arena_wall_9.png"));    
+
+            tiles[45] = new Tiles();
+            tiles[45].image = ImageIO.read(getClass().getResourceAsStream("assets/images/arena_wall_10.png"));    
 
 
         } catch (IOException e){

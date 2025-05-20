@@ -94,15 +94,6 @@ public class King extends Entities implements InteractableObjects {
     }
 
     /**
-        Returns ID of the king.
-    **/
-
-    @Override
-    public String getID() {
-       return ID;
-    }
-
-    /**
         Updates the dead when king has been killed.
         @return dead = true.
     **/

@@ -106,9 +106,4 @@ public class Lock implements InteractableObjects{
     public boolean getLocked() {
         return locked;
     }
-
-    @Override
-    public String getID() {
-        return ID;
-    }
 }

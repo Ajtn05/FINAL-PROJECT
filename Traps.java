@@ -1,11 +1,45 @@
+/** 
+    This is the Traps class, which handles where the traps are drawn on the Map. 
+    It has methods for loading different trap sprites, updating the sprite animation,
+    checking collisions with the traps, and drawing them. When a player comes in 
+    contact with a trap, they die and go back to the starting point.
+
+    @author Janelle Angela C. Lopez (242682)
+    @author Aldrin Joseph T. Nellas (243215)
+	@version April 1, 2025
+	
+	I have not discussed the Java language code in my program 
+	with anyone other than my instructor or the teaching assistants 
+	assigned to this course.
+
+	I have not used Java language code obtained from another student, 
+	or any other unauthorized source, either modified or unmodified.
+
+	If any Java language code or documentation used in my program 
+	was obtained from another source, such as a textbook or website, 
+	that has been clearly noted with a proper citation in the comments 
+	of my program.
+**/
+
 import java.awt.*;
 import java.awt.image.*;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 
 public class Traps extends Entities implements Obstacle {
-    private String ID;
     private String trap;
+
+    /**
+        Constucts the trap object's type depending on type passed and its bounding 
+        box at the given x and y coordinates and size. It also passes an integer 
+        to determine how fast the sprites will change.
+        @param type         string trap type
+        @param x            x coordinate of the bounding box
+        @param y            y coordinate of the bounding box
+        @param w            width of the bounding box
+        @param h            height of the bounding box
+        @param speed        int to determine speed of traps
+    **/
 
     public Traps(String trap, int x, int y, int w, int h, int speed){
         this.trap = trap;
@@ -16,6 +50,10 @@ public class Traps extends Entities implements Obstacle {
         this.speed = speed;
         getImages();
     }
+
+    /**
+        Loads the trap sprites from the assets folder. 
+    **/
 
     public void getImages(){
         int imageW = 32;
@@ -46,6 +84,14 @@ public class Traps extends Entities implements Obstacle {
             e.printStackTrace();
         }
     }
+
+
+    /**
+        Returns the type of trap to be drawn depending on the what
+        type of trapped is passed when its constructed. It returns 
+        different sprites depending on the sprite counter.
+        @return Buffered Image of the trap sprites.
+    **/
 
     public BufferedImage getSpikeTypeImage(){
         if (trap.equals("spike")){
@@ -87,12 +133,13 @@ public class Traps extends Entities implements Obstacle {
     }
 
 
-    @Override
-    public void checkCollision(Player player, Map map, GameCanvas gc){
-        checkCollisionForPlayer(player, map);
-    }
+    /**
+        Checks for collisions between the player and the trap. When the player
+        collides with a specific sprite image, it kills them.
+    **/
 
-    public void checkCollisionForPlayer(Player player, Map map){
+    @Override
+    public void checkCollision(Player player, Map map){
         int pX = player.getX();
         int pY = player.getY();
 
@@ -115,10 +162,13 @@ public class Traps extends Entities implements Obstacle {
         }
     }
 
-    @Override
-    public String getID() {
-        return ID;
-    }
+    /**
+        This method gets called in the game loop and each time its called, 
+        the spritecounter increases. Once the sprite counter reaches the speed
+        it, a different sprite image gets loaded and resets the counter to zero.
+        The speed determines how many frames to wait before the next trap sprite gets
+        drawn.
+    **/
 
     public void updateSpriteAnimation(){
         spriteCounter++;
