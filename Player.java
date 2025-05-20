@@ -90,6 +90,7 @@ public class Player extends Entities {
         for (int tile : checkTiles){
             if (tile == 35) {
                 levelCompleted = true;
+                collision = true;
                 gf.levelComplete();
             }
             if (!PASSABLE_TILES.contains(tile)){
@@ -132,9 +133,6 @@ public class Player extends Entities {
                     opensDoor = true;
                     this.keyType = null;
                     keys.remove(key);
-                    // for (KeyObject key2 : keys) {
-                    //     key2.decrementKeyOrder();
-                    // }
                     break;
                 }
             }
