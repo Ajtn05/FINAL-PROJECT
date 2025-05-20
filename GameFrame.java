@@ -1,5 +1,6 @@
 /** 
-    This is the GameFrame class, 
+    This is the GameFrame class, which is the main controller for setting up and running the game. 
+    It handles GUI setup, player creation, game loop, and interactions between players and obstacles.
 
     @author Janelle Angela C. Lopez (242682)
     @author Aldrin Joseph T. Nellas (243215)
@@ -43,6 +44,14 @@ public class GameFrame extends JComponent {
                     p1loss = false, p2loss = false, p1win = false, p2win = false;
     private int x, y, keys, lives, level, x2, y2;
 
+
+    /**
+        Constructs a GameFrame with the GameCanvas, level manager, and player type passed into it.
+        @param gc               the GameCanvas
+        @param lm               the LevelManager
+        @param playerType       the playerType
+    **/
+
     public GameFrame(GameCanvas gc, LevelManager lm, String playerType){
         this.playerType = playerType;
         frame = new JFrame();
@@ -51,11 +60,14 @@ public class GameFrame extends JComponent {
         this.lm = lm;
     }
 
+    /**
+        Sets up the GUI for the game and adds the GameCanvas into it.
+        Sets the frame's properties, sets its size, and makes it visible.
+    **/
+ 
     public void setUpGUI(){
         gc.setPreferredSize(new Dimension(1024, 768));
-
         level = lm.getLevel();
-
         setCoordinates();
         createPlayers();
         frame.add(gc);
@@ -66,6 +78,10 @@ public class GameFrame extends JComponent {
         frame.setVisible(true);
         gc.requestFocusInWindow();
     }
+
+    /**
+        Sets the player's starting coordinates for each level.
+    **/
 
     public void setCoordinates() {
         switch (level) {
@@ -102,6 +118,12 @@ public class GameFrame extends JComponent {
         }
     }
 
+    /**
+        Initializes the players based on the player id and sets them in GameCanvas.
+        In each client, the players are assigned as player one while the other client
+        is assigned as player two.
+    **/
+
     public void createPlayers() {
         String p1playerType = null, p2playerType = null;
         if (playerID == 1) {
@@ -135,6 +157,12 @@ public class GameFrame extends JComponent {
         }
 
     }
+    
+    /**
+        The main game loop. Checks collisions for all obstacles, triggers the 
+        checkKeys and checkLocks methods. It also detects if a player has died 
+        and updates players' positions based on the collision logic in player.
+    **/
 
     public void startGameTimer(){
         timer = new Timer(12, new ActionListener() {
@@ -177,6 +205,10 @@ public class GameFrame extends JComponent {
         });
         timer.start();
     }
+    
+    /**
+        Allows the player's to proceed to the next level. 
+    **/
 
     public void levelComplete() {
         if (gc.getComplete() == true) {
@@ -189,6 +221,10 @@ public class GameFrame extends JComponent {
         }
     }
 
+    /**
+        Resets the game to initial states and restores lives.
+    **/
+
     public void gameReset() {
         p1startTraps = false;
         startTraps = false;
@@ -196,6 +232,11 @@ public class GameFrame extends JComponent {
         createPlayers();
         player2.setLives(5);
     }
+
+    /**
+        Checks for collisions between players to determine if one of them
+        has killed the other. Displays the lose ending screen.
+    **/
 
     public void setLoss() {
         int p1X = player1.getX();
@@ -214,6 +255,10 @@ public class GameFrame extends JComponent {
                 end("betrayed");
         }
     }
+
+    /**
+        Sets the win to true and displays the win ending screen.
+    **/
 
     public void setWin() {
         p1win = true;
@@ -411,9 +456,7 @@ public class GameFrame extends JComponent {
         }
     }  
 
-
-
-    //KEYPRESS
+    //KEYBINDINGS FOR PLAYER
     private void createBinding(ActionMap am, InputMap im, String action, int key){
         am.put(action + "Action", new AbstractAction(){
             public void actionPerformed(ActionEvent ae){
@@ -452,6 +495,7 @@ public class GameFrame extends JComponent {
         createBinding(am, im, "right", KeyEvent.VK_D);
     }
 
+    //GETTER METHODS
     public int getOtherLives() {
         return player2.getLives();
     }
