@@ -134,9 +134,6 @@ public class Player extends Entities {
                     opensDoor = true;
                     this.keyType = null;
                     keys.remove(key);
-                    // for (KeyObject key2 : keys) {
-                    //     key2.decrementKeyOrder();
-                    // }
                     break;
                 }
             }
