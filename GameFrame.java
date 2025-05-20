@@ -19,7 +19,7 @@ public class GameFrame extends JComponent {
     private String playerType;
     public Boolean p1startTraps = false, startTraps = false;
 
-    private boolean left, right, up, down, hasKey, opensDoor = false, p1dead = false, p2dead = false, p1levelComplete = false, p2levelComplete = false,
+    private boolean left, right, up, down, hasKey, opensDoor = false, p2opensDoor = false, p1dead = false, p2dead = false, p1levelComplete = false, p2levelComplete = false,
                     p1loss = false, p2loss = false, p1win = false, p2win = false;
     private int x, y, keys, lives, level, x2, y2;
 
@@ -131,8 +131,12 @@ public class GameFrame extends JComponent {
                 if (keys > 0) {
                     gc.checkKeys(player2);
                 }
-                if (opensDoor) {
+                if (p2opensDoor) {
                     gc.checkLocks(player2);
+                    p2opensDoor = false;
+                    opensDoor = false;
+                    player2.stopDoor();
+                    player1.stopDoor();
                 }
                 if (p2loss) {  
                     timer.stop();
@@ -232,7 +236,7 @@ public class GameFrame extends JComponent {
                         right     = (booleans & (1 << 1)) != 0;
                         up        = (booleans & (1 << 2)) != 0;
                         down      = (booleans & (1 << 3)) != 0;
-                        opensDoor = (booleans & (1 << 4)) != 0;
+                        p2opensDoor = (booleans & (1 << 4)) != 0;
                         startTraps = (booleans & (1 << 5)) != 0;
                         p1dead = (booleans & (1 << 6)) != 0;
                         p2dead = (booleans & (1 << 7)) != 0;
@@ -291,11 +295,12 @@ public class GameFrame extends JComponent {
                     if(player1 != null) {
                         byte booleans = 0;
                         p1levelComplete = (player1.getLevelCompleted() && player1.getLevelCompleted());
+                        opensDoor = player1.opensDoor();
                         if (player1.getLeft()) booleans  |= 1 << 0;
                         if (player1.getRight()) booleans |= 1 << 1;
                         if (player1.getUp()) booleans    |= 1 << 2;
                         if (player1.getDown()) booleans  |= 1 << 3;
-                        if (player1.opensDoor()) booleans|= 1 << 4;
+                        if (opensDoor) booleans|= 1 << 4;
                         if (p1startTraps) booleans       |= 1 << 5;
 
                         if (player1.getDead()) booleans  |= 1 << 6;

@@ -133,7 +133,7 @@ public class GameServer {
                         p1right     = (booleans & (1 << 1)) != 0;
                         p1up        = (booleans & (1 << 2)) != 0;
                         p1down      = (booleans & (1 << 3)) != 0;
-                        p1opensDoor = (booleans & (1 << 4)) != 0;
+                        p2opensDoor = (booleans & (1 << 4)) != 0;
                         p1startTraps = (booleans & (1 << 5)) != 0;
                         p1dead = (booleans & (1 << 6)) != 0;
                         p2dead = (booleans & (1 << 7)) != 0;
@@ -158,7 +158,7 @@ public class GameServer {
                         p2right     = (booleans & (1 << 1)) != 0;
                         p2up        = (booleans & (1 << 2)) != 0;
                         p2down      = (booleans & (1 << 3)) != 0;
-                        p2opensDoor = (booleans & (1 << 4)) != 0;
+                        p1opensDoor = (booleans & (1 << 4)) != 0;
                         p2startTraps = (booleans & (1 << 5)) != 0;
                         p1dead = (booleans & (1 << 6)) != 0;
                         p2dead = (booleans & (1 << 7)) != 0;
@@ -198,7 +198,7 @@ public class GameServer {
                         if (p2right) booleans |= 1 << 1;
                         if (p2up) booleans    |= 1 << 2;
                         if (p2down) booleans  |= 1 << 3;
-                        if (p2opensDoor) booleans |= 1 << 4;
+                        if (p1opensDoor) booleans |= 1 << 4;
                         if (startTraps) booleans |= 1 << 5;
                         if (p1dead) booleans |= 1 << 6;
                         if (p2dead) booleans |= 1 << 7;
@@ -223,7 +223,7 @@ public class GameServer {
                         if (p1right) booleans |= 1 << 1;
                         if (p1up) booleans    |= 1 << 2;
                         if (p1down) booleans  |= 1 << 3;
-                        if (p1opensDoor) booleans |= 1 << 4;
+                        if (p2opensDoor) booleans |= 1 << 4;
                         if (startTraps) booleans |= 1 << 5;
                         if (p2dead) booleans |= 1 << 6;
                         if (p1dead) booleans |= 1 << 7;
