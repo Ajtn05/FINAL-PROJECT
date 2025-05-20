@@ -50,7 +50,7 @@ public class GameFrame extends JComponent {
 
     public void setCoordinates() {
         switch (level) {
-             case 1: 
+            case 1: 
                 x = 41;
                 y = 698;
                 x2 = 968;

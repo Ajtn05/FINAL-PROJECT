@@ -92,7 +92,7 @@ public class KeyObject extends Entities implements InteractableObjects {
     public void checkDraw(Graphics2D g, Player player) {
         for(KeyObject key : player.getKeys()) {
             if (this.equals(key) && !unclaimed) {
-                g.drawImage(getKeyTypeImage(), 20*keyOrder, 3, 24, 24, null);
+                g.drawImage(getKeyTypeImage(), 10*keyOrder, 3, 24, 24, null);
             }
         }
     }
