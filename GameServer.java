@@ -18,7 +18,6 @@ public class GameServer {
     private int p1x, p1y, p2x, p2y, p1keys, p2keys, p1lives, p2lives;
 
     public GameServer() {
-        //values are hardcoded for now
         p1left = false;
         p1right = false;
         p1up = false;
@@ -195,7 +194,6 @@ public class GameServer {
 
                         byte booleans = 0;
                         byte booleans2 = 0;
-                        //i love bitwise OR
                         if (p2left) booleans  |= 1;
                         if (p2right) booleans |= 1 << 1;
                         if (p2up) booleans    |= 1 << 2;
@@ -221,7 +219,6 @@ public class GameServer {
                     else {
                         byte booleans = 0;
                         byte booleans2 = 0;
-                        //i love bitwise OR
                         if (p1left) booleans  |= 1;
                         if (p1right) booleans |= 1 << 1;
                         if (p1up) booleans    |= 1 << 2;
