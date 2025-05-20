@@ -113,7 +113,6 @@ public class Player extends Entities {
             keysCollected++;
             key.claim();
             key.setKeyOrder(keysCollected);
-            // this.keyType = keyObject.hasKeyType();
             keys.add((KeyObject) object);
             key.setOwner(this);
         }
@@ -130,7 +129,6 @@ public class Player extends Entities {
                     lock.setKey(key);
                     keysCollected--;
                     opensDoor = true;
-                    // this.keyType = null;
                     keys.remove(key);
                     break;
                 }
