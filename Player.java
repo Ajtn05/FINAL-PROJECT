@@ -90,6 +90,7 @@ public class Player extends Entities {
         for (int tile : checkTiles){
             if (tile == 35) {
                 levelCompleted = true;
+                collision = true;
                 gf.levelComplete();
             }
             if (!PASSABLE_TILES.contains(tile)){
@@ -123,6 +124,7 @@ public class Player extends Entities {
             for (KeyObject key : keys) {
                 if (i == 1) {
                     key.decrementKeyOrder();
+                    opensDoor = false;
                     i = 0;
                 }
                 if (lock.getLockType().equals(key.hasKeyType())) {
