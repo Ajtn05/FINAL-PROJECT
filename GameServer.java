@@ -238,6 +238,7 @@ public class GameServer {
                         int lives = p1lives;
 
                         String message = booleans + "," + booleans2 + "," + x + "," + y + "," + keys + "," + lives;
+                        dataOut.writeUTF(message);
                         dataOut.flush();
                     }
         

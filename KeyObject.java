@@ -31,7 +31,7 @@ public class KeyObject extends Entities implements InteractableObjects {
     private boolean unclaimed = true;
     private boolean used = false;
     private String keyType;
-    private int keyOrder = 1;
+    private int keyOrder = 0;
     private Player owner = null;
 
     /**
