@@ -87,6 +87,7 @@ public class Player extends Entities {
             mapNum[leftEdge][bottomEdge], 
             mapNum[rightEdge][bottomEdge],
         };
+
         for (int tile : checkTiles){
             if (tile == 35) {
                 levelCompleted = true;
