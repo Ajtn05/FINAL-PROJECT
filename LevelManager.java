@@ -44,17 +44,6 @@ public class LevelManager {
         }
     }
 
-    //DELETE AFTER
-    public void testStart() {
-        gc = new GameCanvas(level, obstacles, interactables);
-        gf = new GameFrame(gc, this, playerType);
-        if (gf.testConnectToServer(host, port, playerType, mf)) {
-            gf.setUpGUI();
-            gf.startGameTimer();
-            gf.addKeyBindings();
-            setUpObstacles();
-        }
-    }
 
     public void addLevel(int n){
         level += n;

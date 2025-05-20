@@ -363,37 +363,6 @@ public class GameFrame extends JComponent {
         }
     }  
 
-    public boolean testConnectToServer(String host, int port, String playerType, MenuFrame mf) {
-        try {
-            socket = new Socket(host, port);
-            DataInputStream in = new DataInputStream(socket.getInputStream());
-            DataOutputStream out = new DataOutputStream(socket.getOutputStream());
-            playerID = in.readInt();
-            System.out.println("You are player#" + playerID);
-            out.writeUTF(playerType);
-            String check = in.readUTF();
-            if (check.equals("continue")) {
-                mf.end();
-                if (playerID == 1) {
-                    System.out.println("Waiting for Player #2 to connect");
-                }
-                rfsRunnable = new ReadFromServer(in);
-                wtsRunnable = new WriteToServer(out);
-                rfsRunnable.waitForStartMsg();
-                return true;
-            }
-            else {
-                return false;
-            }
-        } catch (IOException ex) {
-            System.out.println("IOExeption from connectToServer");
-            return false;
-        }
-    }  
-
-
-
-    //KEYPRESS
     private void createBinding(ActionMap am, InputMap im, String action, int key){
         am.put(action + "Action", new AbstractAction(){
             public void actionPerformed(ActionEvent ae){
