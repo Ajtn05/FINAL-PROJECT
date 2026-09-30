@@ -130,14 +130,63 @@ public class GameCanvas extends JComponent implements KeyListener {
     **/
 
     public void addLevel(int level) {
+        this.level = level;
         switch(level){
-            case 1 -> tileMap = "assets/maps/tileMap1.txt";
+            case 1 -> tileMap = "assets/maps/tilemap1.txt";
             case 4 -> tileMap = "assets/maps/tileMap2.txt";
             case 5 -> tileMap = "assets/maps/tileMap3.txt";
             case 2 -> tileMap = "assets/maps/tileMap4.txt";
             case 3 -> tileMap = "assets/maps/tileMap5.txt";
         }
         map = new Map(tileMap);
+    }
+
+    public long getClaimedKeysMask() {
+        long mask = 0;
+        int index = 0;
+        synchronized (interactables) {
+            for (InteractableObjects interactable : interactables) {
+                if (interactable instanceof KeyObject key) {
+                    if (key.isInteracted()) mask |= 1L << index;
+                    index++;
+                }
+            }
+        }
+        return mask;
+    }
+
+    public void applyClaimedKeysMask(long mask) {
+        int index = 0;
+        for (InteractableObjects interactable : interactables) {
+            if (interactable instanceof KeyObject key) {
+                if ((mask & (1L << index)) != 0) key.claim();
+                index++;
+            }
+        }
+    }
+
+    public long getUnlockedLocksMask() {
+        long mask = 0;
+        int index = 0;
+        synchronized (interactables) {
+            for (InteractableObjects interactable : interactables) {
+                if (interactable instanceof Lock lock) {
+                    if (lock.isInteracted()) mask |= 1L << index;
+                    index++;
+                }
+            }
+        }
+        return mask;
+    }
+
+    public void applyUnlockedLocksMask(long mask) {
+        int index = 0;
+        for (InteractableObjects interactable : interactables) {
+            if (interactable instanceof Lock lock) {
+                if ((mask & (1L << index)) != 0) lock.unlockRemotely();
+                index++;
+            }
+        }
     }
 
     /**

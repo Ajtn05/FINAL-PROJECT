@@ -28,7 +28,7 @@ import javax.imageio.ImageIO;
 
 public class KeyObject extends Entities implements InteractableObjects {
     private String ID;
-    private boolean unclaimed = true;
+    private volatile boolean unclaimed = true;
     private boolean used = false;
     private String keyType;
     private int keyOrder = 0;

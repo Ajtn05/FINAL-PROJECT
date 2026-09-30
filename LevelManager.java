@@ -21,6 +21,7 @@
 **/
 
 import java.util.*;
+import javax.swing.SwingUtilities;
 
 public class LevelManager {
     private String host, playerType;
@@ -61,15 +62,17 @@ public class LevelManager {
     public void start() {
         gc = new GameCanvas(level, obstacles, interactables);
         gf = new GameFrame(gc, this, playerType);
-        if (gf.connectToServer(host, port, playerType, mf)) {
-            gf.setUpGUI();
-            gf.startGameTimer();
-            gf.addKeyBindings();
-            setUpObstacles();
+        if (gf.connectToServer(host, port, playerType)) {
+            SwingUtilities.invokeLater(() -> {
+                mf.end();
+                gf.setUpGUI();
+                gf.addKeyBindings();
+                setUpObstacles();
+                gf.startGameTimer();
+            });
         }
         else {
-            mf.frame.dispose();
-            mf.setUpGUI();
+            SwingUtilities.invokeLater(() -> mf.connectionFailed());
         }
     }
 
@@ -81,6 +84,12 @@ public class LevelManager {
     **/
 
     public void setUpObstacles(){
+        synchronized (interactables) {
+            populateObstacles();
+        }
+    }
+
+    private void populateObstacles() {
         obstacles.clear();
         interactables.clear();
         switch(level){
@@ -358,7 +367,7 @@ public class LevelManager {
 
             gc.getPopUps().showPopUp("KingMessage");
             break;
-        }   
+        }
     }
 
     /**

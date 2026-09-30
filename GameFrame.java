@@ -40,9 +40,15 @@ public class GameFrame extends JComponent {
     private String playerType;
     public Boolean p1startTraps = false, startTraps = false;
 
-    private boolean left, right, up, down, hasKey, opensDoor = false, p2opensDoor = false, p1dead = false, p2dead = false, p1levelComplete = false, p2levelComplete = false,
+    private volatile boolean left, right, up, down, opensDoor = false, p1dead = false, p2dead = false, p1levelComplete = false, p2levelComplete = false,
                     p1loss = false, p2loss = false, p1win = false, p2win = false;
-    private int x, y, keys, lives, level, x2, y2;
+    private int x, y, level, x2, y2;
+    private volatile int remoteX, remoteY, remoteLives;
+    private volatile boolean remotePositionReceived;
+    private volatile int remoteLevel;
+    private volatile int remoteGeneration;
+    private volatile long remoteClaimedKeys, remoteUnlockedLocks;
+    private volatile int mapGeneration;
 
 
     /**
@@ -168,24 +174,29 @@ public class GameFrame extends JComponent {
         timer = new Timer(12, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae){
+                boolean sameMap = remotePositionReceived && remoteLevel == level
+                        && remoteGeneration == mapGeneration;
+                if (sameMap) {
+                    player2.setPosition(remoteX, remoteY);
+                    player2.setLives(remoteLives);
+                    player2.moveLeft(left);
+                    player2.moveRight(right);
+                    player2.moveUp(up);
+                    player2.moveDown(down);
+                    player2.setLevelCompleted(p2levelComplete);
+                    gc.applyClaimedKeysMask(remoteClaimedKeys);
+                    gc.applyUnlockedLocksMask(remoteUnlockedLocks);
+                }
                 ArrayList<Obstacle> obstacleCopy = new ArrayList<>(lm.getObstacles());
                 for (Obstacle obstacle : obstacleCopy) {
                     obstacle.checkCollision(player1, gc.getMap());
-                    obstacle.checkCollision(player2, gc.getMap());
+                    if (obstacle instanceof PressurePlate) {
+                        obstacle.checkCollision(player2, gc.getMap());
+                    }
                     if (obstacle instanceof Traps traps && (p1startTraps)){
                         traps.updateSpriteAnimation();
                     }
                 } 
-                if (keys > 0) {
-                    gc.checkKeys(player2);
-                }
-                if (p2opensDoor) {
-                    gc.checkLocks(player2);
-                    p2opensDoor = false;
-                    opensDoor = false;
-                    player2.stopDoor();
-                    player1.stopDoor();
-                }
                 if (p2loss) {  
                     timer.stop();
                     end("betrayed");
@@ -199,7 +210,8 @@ public class GameFrame extends JComponent {
                 }
 
                 player1.update(gc.getMap());
-                player2.update(gc.getMap());
+                if (sameMap && gc.getComplete()) levelComplete();
+                player2.updateRemote();
                 gc.repaint();
             }
         });
@@ -216,6 +228,7 @@ public class GameFrame extends JComponent {
             level = lm.getLevel();
             setCoordinates();
             createPlayers();
+            mapGeneration++;
             p1startTraps = false;
             startTraps = false;
         }
@@ -230,6 +243,7 @@ public class GameFrame extends JComponent {
         startTraps = false;
         setCoordinates();
         createPlayers();
+        mapGeneration++;
         player2.setLives(5);
     }
 
@@ -247,7 +261,7 @@ public class GameFrame extends JComponent {
         int p2X = player2.getX();
         int p2X2 = p2X + 24;
         int p2Y = player2.getY();
-        int p2Y2 = p2X + 40;
+        int p2Y2 = p2Y + 40;
 
         if (p1X <= p2X2 && p1X2 >= p2X &&
             p1Y <= p2Y2 && p1Y2 >= p2Y){
@@ -267,6 +281,13 @@ public class GameFrame extends JComponent {
     
 
     public void end(String type) {
+        if (timer != null) timer.stop();
+        if (wtsRunnable != null && player1 != null) {
+            try { wtsRunnable.sendState(); } catch (IOException ignored) {}
+        }
+        if (socket != null) {
+            try { socket.close(); } catch (IOException ignored) {}
+        }
         EndingFrame ef;
         if (type.equals("betrayed")) {ef = new EndingFrame("betrayed");}
         else {ef = new EndingFrame("win");}
@@ -292,16 +313,18 @@ public class GameFrame extends JComponent {
 
                         byte booleans = Byte.parseByte(packets[0]);
                         byte booleans2 = Byte.parseByte(packets[1]);
-                        x = Integer.parseInt(packets[2]);
-                        y = Integer.parseInt(packets[3]);
-                        keys = Integer.parseInt(packets[4]);
-                        lives = Integer.parseInt(packets[5]);
+                        remoteX = Integer.parseInt(packets[2]);
+                        remoteY = Integer.parseInt(packets[3]);
+                        remoteLives = Integer.parseInt(packets[5]);
+                        remoteLevel = Integer.parseInt(packets[6]);
+                        remoteClaimedKeys = Long.parseLong(packets[7]);
+                        remoteUnlockedLocks = Long.parseLong(packets[8]);
+                        remoteGeneration = Integer.parseInt(packets[9]);
 
                         left      = (booleans & (1 << 0)) != 0;
                         right     = (booleans & (1 << 1)) != 0;
                         up        = (booleans & (1 << 2)) != 0;
                         down      = (booleans & (1 << 3)) != 0;
-                        p2opensDoor = (booleans & (1 << 4)) != 0;
                         startTraps = (booleans & (1 << 5)) != 0;
                         p1dead = (booleans & (1 << 6)) != 0;
                         p2dead = (booleans & (1 << 7)) != 0;
@@ -312,13 +335,7 @@ public class GameFrame extends JComponent {
     
                     
 
-                        player2.moveLeft(left);
-                        player2.moveRight(right);
-                        player2.moveUp(up);
-                        player2.moveDown(down);
-                        player2.setLives(lives);
-                        player2.setPosition(x, y);
-                        // if (startTraps) {p1startTraps = true;}
+                        remotePositionReceived = true;
 
                     }
                     try {
@@ -332,17 +349,13 @@ public class GameFrame extends JComponent {
             }
         }
         
-        public void waitForStartMsg(){
-            try {
-                String startMsg = dataIn.readUTF();
-                System.out.println("Message from server: " + startMsg);
-                Thread readThread = new Thread(rfsRunnable);
-                Thread writeThread = new Thread(wtsRunnable);
-                readThread.start();
-                writeThread.start();
-            } catch (IOException e) {
-                System.out.println("IOException from waitForStartMsg()");
-            }
+        public void waitForStartMsg() throws IOException {
+            String startMsg = dataIn.readUTF();
+            System.out.println("Message from server: " + startMsg);
+            Thread readThread = new Thread(rfsRunnable);
+            Thread writeThread = new Thread(wtsRunnable);
+            readThread.start();
+            writeThread.start();
         }
     }
 
@@ -358,34 +371,7 @@ public class GameFrame extends JComponent {
             try {
                 while (true) { 
                     if(player1 != null) {
-                        byte booleans = 0;
-                        p1levelComplete = (player1.getLevelCompleted() && player1.getLevelCompleted());
-                        opensDoor = player1.opensDoor();
-                        if (player1.getLeft()) booleans  |= 1 << 0;
-                        if (player1.getRight()) booleans |= 1 << 1;
-                        if (player1.getUp()) booleans    |= 1 << 2;
-                        if (player1.getDown()) booleans  |= 1 << 3;
-                        if (opensDoor) booleans|= 1 << 4;
-                        if (p1startTraps) booleans       |= 1 << 5;
-
-                        if (player1.getDead()) booleans  |= 1 << 6;
-                        if (p2dead) booleans             |= 1 << 7;
-
-                        byte booleans2 = 0;
-                        if (p1levelComplete) booleans2    |= 1 << 0;
-                        if (p1loss) booleans2             |= 1 << 1;
-                        if (p1win) booleans2             |= 1 << 2;
-                        
-
-                        x = player1.getX();
-                        y = player1.getY();
-                        keys = player1.keys.size();
-                        lives = player1.getLives();
-
-
-                        String message = booleans + "," + booleans2 + "," + x + "," + y + "," + keys + "," + lives;
-                        dataOut.writeUTF(message);
-                        dataOut.flush();
+                        sendState();
                     }
                     try {
                         Thread.sleep(1);
@@ -397,9 +383,34 @@ public class GameFrame extends JComponent {
                 System.out.println("IOException from WTS run()");
             }
         }
+
+        public synchronized void sendState() throws IOException {
+            byte booleans = 0;
+            p1levelComplete = player1.getLevelCompleted();
+            opensDoor = player1.opensDoor();
+            if (player1.getLeft()) booleans  |= 1 << 0;
+            if (player1.getRight()) booleans |= 1 << 1;
+            if (player1.getUp()) booleans    |= 1 << 2;
+            if (player1.getDown()) booleans  |= 1 << 3;
+            if (opensDoor) booleans          |= 1 << 4;
+            if (p1startTraps) booleans       |= 1 << 5;
+            if (player1.getDead()) booleans  |= 1 << 6;
+            if (p2dead) booleans             |= 1 << 7;
+
+            byte booleans2 = 0;
+            if (p1levelComplete) booleans2 |= 1 << 0;
+            if (p1loss) booleans2          |= 1 << 1;
+            if (p1win) booleans2           |= 1 << 2;
+
+            String message = booleans + "," + booleans2 + "," + player1.getX() + "," + player1.getY()
+                    + "," + player1.keys.size() + "," + player1.getLives() + "," + level
+                    + "," + gc.getClaimedKeysMask() + "," + gc.getUnlockedLocksMask() + "," + mapGeneration;
+            dataOut.writeUTF(message);
+            dataOut.flush();
+        }
     }
 
-    public boolean connectToServer(String host, int port, String playerType, MenuFrame mf) {
+    public boolean connectToServer(String host, int port, String playerType) {
         try {
             socket = new Socket(host, port);
             DataInputStream in = new DataInputStream(socket.getInputStream());
@@ -409,7 +420,6 @@ public class GameFrame extends JComponent {
             out.writeUTF(playerType);
             String check = in.readUTF();
             if (check.equals("continue")) {
-                mf.end();
                 if (playerID == 1) {
                     System.out.println("Waiting for Player #2 to connect");
                 }
@@ -419,11 +429,14 @@ public class GameFrame extends JComponent {
                 return true;
             }
             else {
-                frame.dispose();
+                socket.close();
                 return false;
             }
         } catch (IOException ex) {
             System.out.println("IOExeption from connectToServer");
+            if (socket != null) {
+                try { socket.close(); } catch (IOException ignored) {}
+            }
             return false;
         }
     }  
@@ -493,4 +506,3 @@ public class GameFrame extends JComponent {
         return p2dead;
     }
 }
-

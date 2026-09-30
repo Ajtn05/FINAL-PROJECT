@@ -40,7 +40,8 @@ public class MenuFrame extends JComponent implements MouseMotionListener, MouseL
     private Rectangle hoverBoxHost, hoverBoxPort, hoverBoxG, hoverBoxB, hoverBoxPlay;
     private JTextField hostInput, portInput;
     private boolean isHoveringHost = false, isHoveringPort = false, isHoveringGirl = false, 
-                    isHoveringBoy = false, isHoveringPlay = false, isBoySelected = false, isGirlSelected = false;
+                    isHoveringBoy = false, isHoveringPlay = false, isBoySelected = false, isGirlSelected = false,
+                    connecting = false;
 
 
     /**
@@ -159,8 +160,14 @@ public class MenuFrame extends JComponent implements MouseMotionListener, MouseL
     **/
 
     public void connect() {
+        connecting = true;
         LevelManager lm = new LevelManager(host, port, playerType, 1, this);
-        lm.start();
+        new Thread(lm::start, "game-connect").start();
+    }
+
+    public void connectionFailed() {
+        connecting = false;
+        JOptionPane.showMessageDialog(frame, "Could not join the game. Check the server and character selection.");
     }
 
     /**
@@ -187,38 +194,46 @@ public class MenuFrame extends JComponent implements MouseMotionListener, MouseL
     @Override
     public void mousePressed(MouseEvent e) {
 
-        if (isHoveringHost){
+        if (hoverBoxHost.contains(e.getPoint())){
             hostInput.setBounds(447,280, 282,52);
             hostInput.setVisible(true);
             hostInput.requestFocusInWindow();
         }
 
-        if (isHoveringPort){
+        if (hoverBoxPort.contains(e.getPoint())){
             portInput.setBounds(447,357, 282,52);
             portInput.setVisible(true);
             portInput.requestFocusInWindow();
         }
 
-        if (isHoveringBoy){
+        if (hoverBoxB.contains(e.getPoint())){
             playerType = "boy";
             isBoySelected = true;
+            isGirlSelected = false;
         }
 
-        if (isHoveringGirl){
+        if (hoverBoxG.contains(e.getPoint())){
             playerType = "girl";
             isGirlSelected = true;
+            isBoySelected = false;
         } 
 
-        if (isHoveringPlay){
-            host = hostInput.getText();
-            port = Integer.parseInt(portInput.getText());
-
-            if (host != null && port > 0 && playerType != null){
-                connect();
-            } else {
-                System.out.println("fill out fields");
+        if (hoverBoxPlay.contains(e.getPoint()) && !connecting){
+            host = hostInput.getText().trim();
+            try {
+                port = Integer.parseInt(portInput.getText().trim());
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(frame, "Enter a valid port number.");
+                return;
             }
+
+            if (host.isEmpty() || port < 1 || port > 65535 || playerType == null){
+                JOptionPane.showMessageDialog(frame, "Enter a host, a port from 1 to 65535, and select a character.");
+                return;
+            }
+            connect();
         }
+        repaint();
     }
     @Override
     public void mouseReleased(MouseEvent e) {}

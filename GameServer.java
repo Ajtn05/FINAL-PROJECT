@@ -28,14 +28,17 @@ public class GameServer {
     private ReadFromClient p1ReadRunnable, p2ReadRunnable;
     private WriteToClient p1WriteRunnable, p2WriteRunnable;
 
-    private Boolean p1left, p1right, p1up , p1down, p1hasKey,
+    private volatile boolean p1left, p1right, p1up , p1down, p1hasKey,
                     p2left, p2right, p2up, p2down, p2hasKey, 
                     p1opensDoor = false, p2opensDoor = false,
                     p1dead = false, p2dead = false,
                     p1startTraps = false, p2startTraps = false, startTraps = false,
                     p1levelComplete = false, p2levelComplete = false, levelComplete = false,
                     p1loss = false, p2loss = false, p1win = false, p2win = false;
-    private int p1x, p1y, p2x, p2y, p1keys, p2keys, p1lives, p2lives;
+    private volatile int p1x, p1y, p2x, p2y, p1keys, p2keys, p1lives, p2lives;
+    private volatile int p1level, p2level;
+    private volatile int p1generation, p2generation;
+    private volatile long p1claimedKeys, p2claimedKeys, p1unlockedLocks, p2unlockedLocks;
 
     public GameServer() {
         p1left = false;
@@ -54,7 +57,7 @@ public class GameServer {
         try {
             this.serverSocket = new ServerSocket(9999);
         } catch (IOException ex) {
-            System.out.println("game server container");
+            throw new IllegalStateException("Could not start game server on port 9999", ex);
         }
     }
 
@@ -71,6 +74,12 @@ public class GameServer {
                 out.writeInt(numPlayers);
 
                 String test = in.readUTF();
+                if (!"boy".equals(test) && !"girl".equals(test)) {
+                    out.writeUTF("end");
+                    numPlayers--;
+                    s.close();
+                    continue;
+                }
                 if (test.equals("boy")) {
                     boy++;
                 }
@@ -148,6 +157,10 @@ public class GameServer {
                         p1y = Integer.parseInt(packets[3]);
                         p1keys = Integer.parseInt(packets[4]);
                         p1lives = Integer.parseInt(packets[5]);
+                        p1level = Integer.parseInt(packets[6]);
+                        p1claimedKeys = Long.parseLong(packets[7]);
+                        p1unlockedLocks = Long.parseLong(packets[8]);
+                        p1generation = Integer.parseInt(packets[9]);
 
                         p1left      = (booleans & (1)) != 0;
                         p1right     = (booleans & (1 << 1)) != 0;
@@ -156,7 +169,6 @@ public class GameServer {
                         p2opensDoor = (booleans & (1 << 4)) != 0;
                         p1startTraps = (booleans & (1 << 5)) != 0;
                         p1dead = (booleans & (1 << 6)) != 0;
-                        p2dead = (booleans & (1 << 7)) != 0;
 
 
                         p1levelComplete = (booleans2 & (1 << 0)) != 0;
@@ -173,6 +185,10 @@ public class GameServer {
                         p2y = Integer.parseInt(packets[3]);
                         p2keys = Integer.parseInt(packets[4]);
                         p2lives = Integer.parseInt(packets[5]);
+                        p2level = Integer.parseInt(packets[6]);
+                        p2claimedKeys = Long.parseLong(packets[7]);
+                        p2unlockedLocks = Long.parseLong(packets[8]);
+                        p2generation = Integer.parseInt(packets[9]);
 
                         p2left      = (booleans & (1)) != 0;
                         p2right     = (booleans & (1 << 1)) != 0;
@@ -180,8 +196,7 @@ public class GameServer {
                         p2down      = (booleans & (1 << 3)) != 0;
                         p1opensDoor = (booleans & (1 << 4)) != 0;
                         p2startTraps = (booleans & (1 << 5)) != 0;
-                        p1dead = (booleans & (1 << 6)) != 0;
-                        p2dead = (booleans & (1 << 7)) != 0;
+                        p2dead = (booleans & (1 << 6)) != 0;
 
                         p2levelComplete = (booleans2 & (1 << 0)) != 0;
                         p2loss = (booleans2 & (1 << 1)) != 0;
@@ -232,7 +247,8 @@ public class GameServer {
                         int keys = p2keys;
                         int lives = p2lives;
 
-                        String message = booleans + "," + booleans2 + "," + x + "," + y + "," + keys + "," + lives;
+                        String message = booleans + "," + booleans2 + "," + x + "," + y + "," + keys + "," + lives
+                                + "," + p2level + "," + p2claimedKeys + "," + p2unlockedLocks + "," + p2generation;
                         dataOut.writeUTF(message);
                         dataOut.flush();
                     }
@@ -257,7 +273,8 @@ public class GameServer {
                         int keys = p1keys;
                         int lives = p1lives;
 
-                        String message = booleans + "," + booleans2 + "," + x + "," + y + "," + keys + "," + lives;
+                        String message = booleans + "," + booleans2 + "," + x + "," + y + "," + keys + "," + lives
+                                + "," + p1level + "," + p1claimedKeys + "," + p1unlockedLocks + "," + p1generation;
                         dataOut.writeUTF(message);
                         dataOut.flush();
                     }
@@ -288,4 +305,3 @@ public class GameServer {
         gs.acceptConnections(); 
     }
 }
- 

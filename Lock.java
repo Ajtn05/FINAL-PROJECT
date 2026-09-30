@@ -29,7 +29,7 @@ public class Lock implements InteractableObjects{
     private int x, y;
     private String ID;
     private BufferedImage goldPadlock, silverPadlock, bronzePadlock;
-    private boolean locked = true;
+    private volatile boolean locked = true;
     private ArrayList<int[]> tileCoordinates;
     private ArrayList<Integer> newTileNums;
     private GameCanvas gc;
@@ -78,6 +78,13 @@ public class Lock implements InteractableObjects{
         locked = false;
         changeTile(gc.getMap());
         keyObject.setUsed();
+    }
+
+    public void unlockRemotely() {
+        if (locked) {
+            locked = false;
+            changeTile(gc.getMap());
+        }
     }
 
     public void changeTile(Map map){

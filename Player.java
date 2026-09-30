@@ -77,16 +77,16 @@ public class Player extends Entities {
             boyRight1 = boyRight.getSubimage(18, 19, width, height);
             boyRight2 = boyRight.getSubimage(65, 19, width, height);            
 
-            girlUp = ImageIO.read(getClass().getResourceAsStream("assets/images/girl_walk_up.png"));
+            girlUp = ImageIO.read(getClass().getResourceAsStream("assets/images/girl_walk_Up.png"));
             girlUp1 = girlUp.getSubimage(18, 21, width, height);
             girlUp2 = girlUp.getSubimage(162, 21, width, height);
-            girlDown = ImageIO.read(getClass().getResourceAsStream("assets/images/girl_walk_down.png"));
+            girlDown = ImageIO.read(getClass().getResourceAsStream("assets/images/girl_walk_Down.png"));
             girlDown1 = girlDown.getSubimage(66, 20, width, height);
             girlDown2 = girlDown.getSubimage(258, 21, width, height);
-            girlLeft = ImageIO.read(getClass().getResourceAsStream("assets/images/girl_walk_left_down.png"));
+            girlLeft = ImageIO.read(getClass().getResourceAsStream("assets/images/girl_walk_Left_Down.png"));
             girlLeft1 = girlLeft.getSubimage(18, 18, width, height);
             girlLeft2 = girlLeft.getSubimage(66, 18, width, height);
-            girlRight = ImageIO.read(getClass().getResourceAsStream("assets/images/girl_walk_right_down.png"));
+            girlRight = ImageIO.read(getClass().getResourceAsStream("assets/images/girl_walk_Right_Down.png"));
             girlRight1 = girlRight.getSubimage(16, 18, width, height);
             girlRight2 = girlRight.getSubimage(64, 19, width, height);            
 
@@ -97,6 +97,10 @@ public class Player extends Entities {
 
     public boolean checkCollision(int x, int y, int[][] mapNum){
         boolean collision = false;
+        if (x < 0 || x + 24 > mapNum.length * 32 ||
+            y < 0 || y + 40 > mapNum[0].length * 32) {
+            return true;
+        }
         int leftEdge = (x + 2) / 32;
         int rightEdge = (x + 18) / 32;
         int topEdge = (y + 15) / 32;
@@ -120,10 +124,6 @@ public class Player extends Entities {
             }
         }
         
-        if (x < 0 || x >= 1020 || y < 0 || y >= 764) {
-                collision = true;
-        }
-
         return collision;
     }   
 
@@ -140,18 +140,16 @@ public class Player extends Entities {
         }
 
         if (object instanceof Lock lock) {
-            int i = 0;
-            for (KeyObject key : keys) {
-                if (i == 1) {
-                    key.decrementKeyOrder();
-                    i = 0;
-                }
+            for (int i = 0; i < keys.size(); i++) {
+                KeyObject key = keys.get(i);
                 if (lock.getLockType().equals(key.hasKeyType())) {
-                    i = 1;
                     lock.setKey(key);
                     keysCollected--;
                     opensDoor = true;
-                    keys.remove(key);
+                    keys.remove(i);
+                    for (int j = i; j < keys.size(); j++) {
+                        keys.get(j).decrementKeyOrder();
+                    }
                     break;
                 }
             }
@@ -270,6 +268,14 @@ public class Player extends Entities {
         }
 
         updateSpriteAnimation(moving);
+    }
+
+    public void updateRemote() {
+        if (up) direction = "up";
+        if (down) direction = "down";
+        if (left) direction = "left";
+        if (right) direction = "right";
+        updateSpriteAnimation(up || down || left || right);
     }
     
     private void updateSpriteAnimation(boolean moving){
@@ -432,6 +438,10 @@ public class Player extends Entities {
 
     public void setLevelNotComplete() {
         levelCompleted = false;
+    }
+
+    public void setLevelCompleted(boolean completed) {
+        levelCompleted = completed;
     }
 
     public int getLives() {
