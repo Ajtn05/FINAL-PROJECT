@@ -91,25 +91,25 @@ public class GameFrame extends JComponent {
                 x2 = 968;
                 y2 = 58;
                 break; 
-            case 2:
+            case 4:
                 x = 1;
                 y = 62;
                 x2 = 740;
                 y2 = 58;
                 break;
-            case 3:
+            case 5:
                 x = 41;
                 y = 698;
                 x2 = 741;
                 y2 = 62;
                 break;
-            case 4:
+            case 2:
                 x = 1;
                 y = 62;
                 x2 = 776;
                 y2 = 62;
                 break;
-            case 5:
+            case 3:
                 x = 450;
                 y = 380;
                 x2 = 550;

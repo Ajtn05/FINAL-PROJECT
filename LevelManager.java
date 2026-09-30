@@ -121,7 +121,7 @@ public class LevelManager {
                 
             break;
 
-        case 2:
+        case 4:
 
             obstacles.add(new Traps("spike", 97, 414, 32, 32, 10));
             obstacles.add(new Traps("fire", 288, 634, 32, 32, 8));
@@ -184,7 +184,7 @@ public class LevelManager {
             obstacles.add(new PressurePlate(553,222,24,24, PressurePlate17));
 
             break;
-        case 3:
+        case 5:
 
             obstacles.add(new Traps("spike", 34, 254, 32, 32, 10));
             obstacles.add(new Traps("fire", 256, 58, 32, 32, 8));
@@ -254,7 +254,7 @@ public class LevelManager {
             interactables.add(new Lock(901, 165, lock13, gc, "bronze"));
             
             break;
-        case 4:
+        case 2:
 
             obstacles.add(new Traps("spike", 99, 127, 32, 32, 6));
             obstacles.add(new Traps("spike", 99, 348, 32, 32, 6));
@@ -344,7 +344,7 @@ public class LevelManager {
             interactables.add(new Lock(965, 677, lock19, gc, "gold"));
 
             break;
-        case 5:
+        case 3:
             obstacles.add(new Traps("fire", 416, 187, 32, 32, 6));
             obstacles.add(new Traps("fire", 448, 187, 32, 32, 6));
             obstacles.add(new Traps("fire", 480, 187, 32, 32, 6));
