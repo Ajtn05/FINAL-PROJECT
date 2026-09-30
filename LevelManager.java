@@ -385,13 +385,14 @@ public class LevelManager {
     }
 
     /**
-        Resets the current level to its starting state. Only 
-        gets called when a player dies.
+        Restarts both clients at the level and generation selected by the server
+        when either player runs out of lives.
     **/
 
-    public void resetLevel() {
+    public void resetLevel(int targetLevel, int targetGeneration) {
+        level = targetLevel;
         gc.addLevel(level);
-        gf.gameReset();
+        gf.gameReset(targetLevel, targetGeneration);
         setUpObstacles();
     }
 

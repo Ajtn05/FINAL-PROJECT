@@ -38,7 +38,7 @@ public class GameFrame extends JComponent {
     private WriteToServer wtsRunnable;
     private LevelManager lm;
     private String playerType;
-    public Boolean p1startTraps = false, startTraps = false;
+    public volatile boolean p1startTraps = false, startTraps = false;
 
     private volatile boolean left, right, up, down, opensDoor = false, p1dead = false, p2dead = false, p1levelComplete = false, p2levelComplete = false,
                     p1loss = false, p2loss = false, p1win = false, p2win = false;
@@ -49,6 +49,8 @@ public class GameFrame extends JComponent {
     private volatile int remoteGeneration;
     private volatile long remoteClaimedKeys, remoteUnlockedLocks;
     private volatile int mapGeneration;
+    private volatile int acknowledgedResetEpoch, remoteResetEpoch;
+    private volatile int remoteResetLevel, remoteResetGeneration;
 
 
     /**
@@ -174,6 +176,16 @@ public class GameFrame extends JComponent {
         timer = new Timer(12, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae){
+                if (remoteResetEpoch > acknowledgedResetEpoch) {
+                    int epoch = remoteResetEpoch;
+                    // Keep the reset and its acknowledgment in one outgoing state packet.
+                    synchronized (wtsRunnable) {
+                        lm.resetLevel(remoteResetLevel, remoteResetGeneration);
+                        acknowledgedResetEpoch = epoch;
+                    }
+                    gc.repaint();
+                    return;
+                }
                 boolean sameMap = remotePositionReceived && remoteLevel == level
                         && remoteGeneration == mapGeneration;
                 if (sameMap) {
@@ -197,20 +209,22 @@ public class GameFrame extends JComponent {
                         traps.updateSpriteAnimation();
                     }
                 } 
-                if (p2loss) {  
+                if (sameMap && p2loss) {
                     timer.stop();
                     end("betrayed");
+                    return;
                 }
-                if (p2win) {  
+                if (sameMap && p2win) {
                     timer.stop();
                     end("win");
+                    return;
                 }
-                if (startTraps) {
+                if (sameMap && startTraps) {
                     p1startTraps = true;
                 }
 
                 player1.update(gc.getMap());
-                if (sameMap && gc.getComplete()) levelComplete();
+                if (sameMap && !player1.isDead() && gc.getComplete()) levelComplete();
                 player2.updateRemote();
                 gc.repaint();
             }
@@ -238,13 +252,18 @@ public class GameFrame extends JComponent {
         Resets the game to initial states and restores lives.
     **/
 
-    public void gameReset() {
+    public void gameReset(int targetLevel, int targetGeneration) {
+        level = targetLevel;
         p1startTraps = false;
         startTraps = false;
+        p1dead = false;
+        p2dead = false;
+        p2levelComplete = false;
+        p1loss = p2loss = p1win = p2win = false;
+        remotePositionReceived = false;
         setCoordinates();
         createPlayers();
-        mapGeneration++;
-        player2.setLives(5);
+        mapGeneration = targetGeneration;
     }
 
     /**
@@ -320,6 +339,10 @@ public class GameFrame extends JComponent {
                         remoteClaimedKeys = Long.parseLong(packets[7]);
                         remoteUnlockedLocks = Long.parseLong(packets[8]);
                         remoteGeneration = Integer.parseInt(packets[9]);
+                        int resetEpoch = Integer.parseInt(packets[10]);
+                        remoteResetLevel = Integer.parseInt(packets[11]);
+                        remoteResetGeneration = Integer.parseInt(packets[12]);
+                        remoteResetEpoch = resetEpoch;
 
                         left      = (booleans & (1 << 0)) != 0;
                         right     = (booleans & (1 << 1)) != 0;
@@ -404,7 +427,8 @@ public class GameFrame extends JComponent {
 
             String message = booleans + "," + booleans2 + "," + player1.getX() + "," + player1.getY()
                     + "," + player1.keys.size() + "," + player1.getLives() + "," + level
-                    + "," + gc.getClaimedKeysMask() + "," + gc.getUnlockedLocksMask() + "," + mapGeneration;
+                    + "," + gc.getClaimedKeysMask() + "," + gc.getUnlockedLocksMask() + "," + mapGeneration
+                    + "," + acknowledgedResetEpoch;
             dataOut.writeUTF(message);
             dataOut.flush();
         }

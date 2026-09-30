@@ -172,32 +172,13 @@ public class Player extends Entities {
     }
 
     public void kill(){
-        if (lives.getLives() == 1) {
-            setDead();
-            checkKill();
-        }
-        else {
+        if (dead) return;
+        lives.takeLife();
+        if (lives.getLives() == 0) {
+            dead = true;
+            up = down = left = right = false;
+        } else {
             respawn();
-            lives.takeLife();
-        }
-    }
-
-    public void checkKill() {
-        if (this.equals(gf.getPlayer2())) {
-            if (lm.getGF().getP1Dead()) {
-                lm.resetLevel();
-                System.out.println("bug here1");
-            }
-        }  
-        else if (this.equals(gf.getPlayer1())) {
-            if (lm.getGF().getP2Dead()) {
-                lm.resetLevel();
-                System.out.println("bug here2");
-            }
-        }  
-        else {
-            dead = false;
-            lives.addLife();
         }
     }
 
@@ -236,6 +217,7 @@ public class Player extends Entities {
     }
 
     public void update(Map map){
+        if (dead) return;
         int potentialX = x;
         int potentialY = y;
         boolean moving = false;

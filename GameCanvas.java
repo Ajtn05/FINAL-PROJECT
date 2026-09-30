@@ -231,7 +231,7 @@ public class GameCanvas extends JComponent implements KeyListener {
    
     @Override
     public void keyReleased(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_E){
+        if (e.getKeyCode() == KeyEvent.VK_E && !player1.isDead()){
             checkKeys(player1);   
             checkLocks(player1);
             checkKing(player1);

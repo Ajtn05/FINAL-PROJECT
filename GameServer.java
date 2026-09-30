@@ -39,6 +39,23 @@ public class GameServer {
     private volatile int p1level, p2level;
     private volatile int p1generation, p2generation;
     private volatile long p1claimedKeys, p2claimedKeys, p1unlockedLocks, p2unlockedLocks;
+    private volatile int p1resetAck, p2resetAck, resetEpoch, resetLevel = 1, resetGeneration;
+    private volatile boolean p1stateReceived, p2stateReceived;
+
+    // Wait for both clients to apply a reset before accepting another death event.
+    private synchronized void scheduleResetIfNeeded() {
+        if (!p1stateReceived || !p2stateReceived ||
+                p1resetAck != resetEpoch || p2resetAck != resetEpoch ||
+                (p1lives > 0 && p2lives > 0)) {
+            return;
+        }
+        resetLevel = p1lives <= 0 ? p1level : p2level;
+        resetGeneration = Math.max(p1generation, p2generation) + 1;
+        p1startTraps = false;
+        p2startTraps = false;
+        startTraps = false;
+        resetEpoch++;
+    }
 
     public GameServer() {
         p1left = false;
@@ -146,7 +163,7 @@ public class GameServer {
         public void run() {
             try {
                 while (true) { 
-                    if(p1startTraps|| p2startTraps) {startTraps = true;}
+                    startTraps = p1startTraps || p2startTraps;
                     if(playerID == 1) {
                         String message = dataIn.readUTF();
                         String[] packets = message.split(",");
@@ -161,19 +178,21 @@ public class GameServer {
                         p1claimedKeys = Long.parseLong(packets[7]);
                         p1unlockedLocks = Long.parseLong(packets[8]);
                         p1generation = Integer.parseInt(packets[9]);
+                        p1resetAck = Integer.parseInt(packets[10]);
 
                         p1left      = (booleans & (1)) != 0;
                         p1right     = (booleans & (1 << 1)) != 0;
                         p1up        = (booleans & (1 << 2)) != 0;
                         p1down      = (booleans & (1 << 3)) != 0;
                         p2opensDoor = (booleans & (1 << 4)) != 0;
-                        p1startTraps = (booleans & (1 << 5)) != 0;
+                        p1startTraps = (booleans & (1 << 5)) != 0 && p1resetAck == resetEpoch;
                         p1dead = (booleans & (1 << 6)) != 0;
 
 
                         p1levelComplete = (booleans2 & (1 << 0)) != 0;
                         p1loss = (booleans2 & (1 << 1)) != 0;
                         p1win = (booleans2 & (1 << 2)) != 0;
+                        p1stateReceived = true;
                     }
                     else {
                         String message = dataIn.readUTF();
@@ -189,19 +208,22 @@ public class GameServer {
                         p2claimedKeys = Long.parseLong(packets[7]);
                         p2unlockedLocks = Long.parseLong(packets[8]);
                         p2generation = Integer.parseInt(packets[9]);
+                        p2resetAck = Integer.parseInt(packets[10]);
 
                         p2left      = (booleans & (1)) != 0;
                         p2right     = (booleans & (1 << 1)) != 0;
                         p2up        = (booleans & (1 << 2)) != 0;
                         p2down      = (booleans & (1 << 3)) != 0;
                         p1opensDoor = (booleans & (1 << 4)) != 0;
-                        p2startTraps = (booleans & (1 << 5)) != 0;
+                        p2startTraps = (booleans & (1 << 5)) != 0 && p2resetAck == resetEpoch;
                         p2dead = (booleans & (1 << 6)) != 0;
 
                         p2levelComplete = (booleans2 & (1 << 0)) != 0;
                         p2loss = (booleans2 & (1 << 1)) != 0;
                         p2win = (booleans2 & (1 << 2)) != 0;
+                        p2stateReceived = true;
                     }
+                    scheduleResetIfNeeded();
                 }
             } catch (IOException ex) {
                 System.out.println("IOException from RFC run()");
@@ -223,7 +245,7 @@ public class GameServer {
         public void run() {
             try {
                 while (true) { 
-                    if (p1startTraps || p2startTraps) {startTraps = true;}
+                    startTraps = p1startTraps || p2startTraps;
                     if (p1levelComplete && p2levelComplete) {levelComplete = true;}
                     if(playerID == 1) {
 
@@ -247,8 +269,10 @@ public class GameServer {
                         int keys = p2keys;
                         int lives = p2lives;
 
+                        int epoch = resetEpoch;
                         String message = booleans + "," + booleans2 + "," + x + "," + y + "," + keys + "," + lives
-                                + "," + p2level + "," + p2claimedKeys + "," + p2unlockedLocks + "," + p2generation;
+                                + "," + p2level + "," + p2claimedKeys + "," + p2unlockedLocks + "," + p2generation
+                                + "," + epoch + "," + resetLevel + "," + resetGeneration;
                         dataOut.writeUTF(message);
                         dataOut.flush();
                     }
@@ -273,8 +297,10 @@ public class GameServer {
                         int keys = p1keys;
                         int lives = p1lives;
 
+                        int epoch = resetEpoch;
                         String message = booleans + "," + booleans2 + "," + x + "," + y + "," + keys + "," + lives
-                                + "," + p1level + "," + p1claimedKeys + "," + p1unlockedLocks + "," + p1generation;
+                                + "," + p1level + "," + p1claimedKeys + "," + p1unlockedLocks + "," + p1generation
+                                + "," + epoch + "," + resetLevel + "," + resetGeneration;
                         dataOut.writeUTF(message);
                         dataOut.flush();
                     }
